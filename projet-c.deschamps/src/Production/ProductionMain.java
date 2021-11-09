@@ -40,9 +40,6 @@ public class ProductionMain {
         // Test affichage console d'une production
         P1.displayPuissProd(prodPeriodique);
         P1.displaylistPI();
-        // Au besoin, celui de la production constante :
-        // P2.displayPuissProd(prodConstante);
-        // P2.displaylistPI();
 
         // Test intégration sur plus d'une journée (affichage message)
         System.out.println(P1.integrer(2000, prodPeriodique));

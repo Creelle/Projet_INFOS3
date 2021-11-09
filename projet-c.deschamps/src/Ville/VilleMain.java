@@ -29,13 +29,10 @@ public class VilleMain {
         Plot plot = new Plot();
         for (int i = 0; i < cons.length; i++) {
             plot.addPoint(0, i, cons[i], true);
-        }
-        for (int i = 0; i < prod.length; i++) {
             plot.addPoint(1, i, prod[i], true);
-        }
-        for (int i = 0; i < prod.length; i++) {
             plot.addPoint(2, i, prod[i] - cons[i], true);
         }
+        
         plot.addLegend(0, "Consommation");
         plot.addLegend(1, "Production");
         plot.addLegend(2, "Surplus de production");
@@ -51,6 +48,7 @@ public class VilleMain {
          * Affichage de la consommation moyenne (0), de la production moyenne (1) et du
          * différentiel (2) sur l'année
          */
+
         Plot plot1 = new Plot();
         for (int j = 1; j < 366; j++) {
             double[] prod1 = P.generer(j);

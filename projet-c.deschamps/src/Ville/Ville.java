@@ -10,6 +10,8 @@ public class Ville {
     private Production prodVille; // Production de la Ville
     private Consommation consVille; // Consommation de la Ville
 
+    
+
     /**
      * Constructeur primaire
      */
