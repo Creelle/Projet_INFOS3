@@ -1,11 +1,12 @@
 package Network;
-
-
+import City.City;
+import Consumption.Consumption;
+import Production.Production;
 public class Link {
     
     //Attributs
     private double linkLength; //Nombre de villes dans le Réseau (en km)
-    private double transportedPower; //Puissance transportée par le lien au départ (W)
+    private double[] transportedPower; //Puissance transportée par le lien au départ (W)
     private double lineicLoss; //Perte linéique de puissance (W/km)
     private int start; //Départ du lien
     private int end; //Fin du lien
@@ -14,14 +15,14 @@ public class Link {
 
     public Link(){
         linkLength = 1.0;
-        transportedPower = 100;
+        transportedPower = new double[1440];
         lineicLoss = 1.0;
         start = 1;
         end = 2;
     }
 
     //Constructeur explicite
-    public Link(double length, double transportedPower, int start, int end){
+    public Link(double length, double[] transportedPower, int start, int end){
         this.linkLength = length;
         this.transportedPower = transportedPower;
         this.start = start;
@@ -39,11 +40,11 @@ public class Link {
         this.linkLength = linkLength;
     }
 
-    public double getTransportedPower() {
+    public double[] getTransportedPower() {
         return this.transportedPower;
     }
 
-    public void setTransportedPower(double transportedPower) {
+    public void setTransportedPower(double[] transportedPower) {
         this.transportedPower = transportedPower;
     }
 
@@ -73,7 +74,30 @@ public class Link {
 
     //Méthodes
 
-    public void inject(){
-        
+    /**
+     * Méthode injectant le surplus de production d'une autre ville dans une certaine ville
+     * 
+     * @param city //Ville considérée
+     * @param j //jour considéré
+     */
+    public void inject(City city, int j){
+        Production P = city.getCityProd();
+        double[] prod = P.generate(j);
+        for(int k = 0; k<1440; k++){
+            prod[k]+= transportedPower[k]-lineicLoss*linkLength;
+        }
     }
+
+    public double[] takeSurplus(City city, int j){
+        double[] powerToTransport = new double[1440];
+        Production P = city.getCityProd();
+        double[] prod = P.generate(j);
+        Consumption C = city.getCityCons();
+        double[] cons = C.generate(j);
+        for(int k = 0; k<1440; k++){
+            powerToTransport[k] = prod[k] - cons[k];
+        }
+        return powerToTransport;
+    }
+
 }

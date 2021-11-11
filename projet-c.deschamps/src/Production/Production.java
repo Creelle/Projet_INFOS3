@@ -27,6 +27,20 @@ public class Production implements Energy {
      * 
      * @param listInj
      */
+    public Production(ArrayList<InjectionPoint> listInj) {
+        this.listInj = listInj;
+        deltaT = 1;
+        this.nbHouses = 1000;
+    }
+
+    /**
+     * Constructeur explicite tel que le pas de temps deltaT reste inchangé égal à 1
+     * min. Ce constructeur ne sert que pour les tests unitaires sur
+     * les unités de production
+     * 
+     * @param listInj
+     * @param nbHouses
+     */
     public Production(ArrayList<InjectionPoint> listInj, int nbHouses) {
         this.listInj = listInj;
         deltaT = 1;

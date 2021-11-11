@@ -39,7 +39,7 @@ public class City {
      * @param y0
      * @param n0
      */
-    public City(int nbHouses,boolean producer, double x0, double y0, int n0) {
+    public City(int nbHouses, boolean producer, double x0, double y0, int n0) {
         this.nbHouses = nbHouses;
         if(producer==true){
             cityProd = new Production(nbHouses);
