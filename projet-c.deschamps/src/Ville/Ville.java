@@ -1,6 +1,6 @@
 package Ville;
 
-import Consommation.Consommation;
+import Consumption.Consumption;
 import Production.Production;
 
 public class Ville {
@@ -8,9 +8,10 @@ public class Ville {
     // Attributs
     private int nbFoyers; // Nombre d'habitations
     private Production prodVille; // Production de la Ville
-    private Consommation consVille; // Consommation de la Ville
-
-    
+    private Consumption consVille; // Consommation de la Ville
+    /*private double x; //Coordonnées x de la ville
+    private double y; //Coordonées y de la ville
+    private int number; //Numéro (étiquette) de la Ville   */ 
 
     /**
      * Constructeur primaire
@@ -18,7 +19,7 @@ public class Ville {
     public Ville() {
         nbFoyers = 1000;
         prodVille = new Production();
-        consVille = new Consommation();
+        consVille = new Consumption();
     }
 
     /**
@@ -29,7 +30,7 @@ public class Ville {
     public Ville(int nbFoyers) {
         this.nbFoyers = nbFoyers;
         prodVille = new Production(nbFoyers);
-        consVille = new Consommation(nbFoyers);
+        consVille = new Consumption(nbFoyers);
     }
 
     // Setters and Getters
@@ -50,11 +51,11 @@ public class Ville {
         this.prodVille = prodVille;
     }
 
-    public Consommation getConsVille() {
+    public Consumption getConsVille() {
         return this.consVille;
     }
 
-    public void setConsVille(Consommation consVille) {
+    public void setConsVille(Consumption consVille) {
         this.consVille = consVille;
     }
 
@@ -68,7 +69,7 @@ public class Ville {
         System.out.println("Production :");
         prodVille.displaylistPI();
         System.out.println("Consommation");
-        consVille.displaylistPL();
+        consVille.displaylistDP();
     }
 
     /**

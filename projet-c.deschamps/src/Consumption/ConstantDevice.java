@@ -1,24 +1,24 @@
-package Consommation;
+package Consumption;
 
-public class AppareilConstant extends Appareil {
+public class ConstantDevice extends Device {
 
     /**
      * Constructeur avec initialisation des attributs de la classe Point de
      * Livraison
      * 
      * @param name
-     * @param puissProd
+     * @param powCons
      * @param nameFonc
      */
-    public AppareilConstant(String name, double puissCons, String nameFonc) {
-        super(name, puissCons, false, nameFonc); // flag = false car Production constante du point
+    public ConstantDevice(String name, double powCons, String nameFonc) {
+        super(name, powCons, false, nameFonc); // flag = false car Production constante du point
     }
 
     // méthode toString
     @Override
     public String toString() {
-        return "{" + "name : " + getName() + ", Périodique : " + getFlag() + ", " + "Puissance : " + getPuissCons()
-                + ", nameFonc : " + getNameFonc() + "}";
+        return "{" + "Name : " + getName() + ", Periodic : " + getFlag() + ", " + "Power : " + getPowCons()
+                + ", NameFonc : " + getNameFonc() + "}";
     }
 
     /**
@@ -45,7 +45,7 @@ public class AppareilConstant extends Appareil {
             f = 1;
         }
         for (int i = 0; i < cons.length; i++) {
-            cons[i] = cons[i] + getPuissCons() * f;
+            cons[i] = cons[i] + getPowCons() * f;
         }
         return cons;
     }

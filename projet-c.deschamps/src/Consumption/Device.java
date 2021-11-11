@@ -1,19 +1,19 @@
-package Consommation;
+package Consumption;
 
-abstract public class Appareil {
+abstract public class Device {
 
     // Attributs
     private String name; // nom du point d'injection
-    private double puissCons; // puissance nominale consommée en W
+    private double powCons; // puissance nominale consommée en W
     private boolean flag; // booléen représentant le caractère constant ou non
     private String nameFonc; // nom de la fonction de forme annuelle
 
     /**
      * Constructeur primaire
      */
-    public Appareil() {
+    public Device() {
         name = "Livraison";
-        puissCons = 100;
+        powCons = 100;
         flag = false;
         nameFonc = "const";
     }
@@ -22,13 +22,13 @@ abstract public class Appareil {
      * Constructeur explicite
      * 
      * @param name
-     * @param puissCons
+     * @param powCons
      * @param flag
      * @param nameFonc
      */
-    public Appareil(String name, double puissCons, boolean flag, String nameFonc) {
+    public Device(String name, double powCons, boolean flag, String nameFonc) {
         this.name = name;
-        this.puissCons = puissCons;
+        this.powCons = powCons;
         this.flag = flag;
         this.nameFonc = nameFonc;
     }
@@ -46,12 +46,12 @@ abstract public class Appareil {
         return this.flag;
     }
 
-    public double getPuissCons() {
-        return this.puissCons;
+    public double getPowCons() {
+        return this.powCons;
     }
 
-    public void setPuissCons(double puissCons) {
-        this.puissCons = puissCons;
+    public void setPowCons(double powCons) {
+        this.powCons = powCons;
     }
 
     public String getNameFonc() {

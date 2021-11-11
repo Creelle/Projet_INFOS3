@@ -1,60 +1,60 @@
-package Consommation;
+package Consumption;
 
 import java.util.ArrayList;
 import javax.swing.JFrame;
 
 import ptolemy.plot.Plot;
 
-public class ConsommationMain {
+public class ConsumptionMain {
     public static void main(String[] args) {
 
         // Création des appareils et listes associées
-        Appareil app1 = new AppareilPeriodique("Climatisation", 2000, "ete", 300, 300, 720, 1020);
-        Appareil app2 = new AppareilConstant("Radiateur", 500, "hiver");
-        ArrayList<Appareil> listApp1 = new ArrayList<Appareil>();
-        listApp1.add(app1);
-        ArrayList<Appareil> listApp2 = new ArrayList<Appareil>();
-        listApp2.add(app2);
+        Device dev1 = new PeriodicDevice("Climatisation", 2000, "ete", 300, 300, 720, 1020);
+        Device dev2 = new ConstantDevice("Radiateur", 500, "hiver");
+        ArrayList<Device> listDevice1 = new ArrayList<Device>();
+        listDevice1.add(dev1);
+        ArrayList<Device> listDevice2 = new ArrayList<Device>();
+        listDevice2.add(dev2);
 
         // Création des Points de Livraison et listes associées
-        PointLivraison PL1 = new PointLivraison("Foyer1", 1, listApp1);
-        PointLivraison PL2 = new PointLivraison("Foyer2", 1, listApp2);
-        ArrayList<PointLivraison> listOfLivr1 = new ArrayList<PointLivraison>();
-        listOfLivr1.add(PL1);
-        ArrayList<PointLivraison> listOfLivr2 = new ArrayList<PointLivraison>();
-        listOfLivr2.add(PL2);
+        DeliveryPoint DP1 = new DeliveryPoint("Foyer1", 1, listDevice1);
+        DeliveryPoint DP2 = new DeliveryPoint("Foyer2", 1, listDevice2);
+        ArrayList<DeliveryPoint> listOfDeliv1 = new ArrayList<DeliveryPoint>();
+        listOfDeliv1.add(DP1);
+        ArrayList<DeliveryPoint> listOfDeliv2 = new ArrayList<DeliveryPoint>();
+        listOfDeliv2.add(DP2);
 
         // Création des consommations
-        Consommation C1 = new Consommation(listOfLivr1);
-        Consommation C2 = new Consommation(listOfLivr2);
-        double[] consPeriodique = C1.generer(1); // Exemple pour le jour 1
-        double[] consConstante = C2.generer(1);
+        Consumption C1 = new Consumption(listOfDeliv1);
+        Consumption C2 = new Consumption(listOfDeliv2);
+        double[] consPeriodic = C1.generer(1); // Exemple pour le jour 1
+        double[] consConstant = C2.generer(1);
 
         // Test affichage console des Appareils
-        System.out.println(app1.toString());
-        System.out.println(app2.toString());
+        System.out.println(dev1.toString());
+        System.out.println(dev2.toString());
 
         // Test affichage des Points de Livraison (Foyers)
-        PL1.display();
-        PL2.display();
+        DP1.display();
+        DP2.display();
 
         // Test affichage des Consommations
-        C1.displaylistPL();
-        C1.displayPuissCons(consPeriodique);
+        C1.displaylistDP();
+        C1.displayPuissCons(consPeriodic);
         // Au besoin, celle pour la consommation constante:
         // C2.displaylistPL();
         // C2.displayPuissCons(consConstante);
 
         // Test intégration sur plus d'une journée (affichage message)
-        C1.integrer(2000, consPeriodique);
+        C1.integrer(2000, consPeriodic);
 
         // Test affichage graphique
         Plot plot = new Plot();
-        for (int i = 0; i < consConstante.length; i++) {
-            plot.addPoint(0, i, consConstante[i], true);
+        for (int i = 0; i < consConstant.length; i++) {
+            plot.addPoint(0, i, consConstant[i], true);
         }
-        for (int i = 0; i < consPeriodique.length; i++) {
-            plot.addPoint(1, i, consPeriodique[i], true);
+        for (int i = 0; i < consPeriodic.length; i++) {
+            plot.addPoint(1, i, consPeriodic[i], true);
         }
         plot.addLegend(0, "Consommation Constante");
         plot.addLegend(1, "Consommation périodique");

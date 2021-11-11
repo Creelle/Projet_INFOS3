@@ -1,8 +1,8 @@
 package Ville;
 
 import javax.swing.JFrame;
-import Consommation.Consommation;
 
+import Consumption.Consumption;
 import Production.Production;
 import ptolemy.plot.Plot;
 
@@ -23,7 +23,7 @@ public class VilleMain {
          * sur une journée particulière (ex j=1)
          */
         Production P = maVilleTest.getProdVille();
-        Consommation C = maVilleTest.getConsVille();
+        Consumption C = maVilleTest.getConsVille();
         double[] prod = P.generer(1);
         double[] cons = C.generer(1);
         Plot plot = new Plot();

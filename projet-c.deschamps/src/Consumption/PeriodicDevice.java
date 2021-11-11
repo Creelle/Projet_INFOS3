@@ -1,6 +1,6 @@
-package Consommation;
+package Consumption;
 
-public class AppareilPeriodique extends Appareil {
+public class PeriodicDevice extends Device {
 
     // Attributs
     private int periode; // Période de consommation en min
@@ -19,7 +19,7 @@ public class AppareilPeriodique extends Appareil {
      * @param t1
      * @param t2
      */
-    public AppareilPeriodique(String name, double puissCons, String nameFonc, int periode, int duree, int t1, int t2) {
+    public PeriodicDevice(String name, double puissCons, String nameFonc, int periode, int duree, int t1, int t2) {
         super(name, puissCons, true, nameFonc); // flag = true car Consommation périodique du point
         this.periode = periode;
         this.duree = duree;
@@ -63,7 +63,7 @@ public class AppareilPeriodique extends Appareil {
     // Méthode toString
     @Override
     public String toString() {
-        return "{" + "name : " + getName() + ", Périodique :" + getFlag() + ", Puissance = " + getPuissCons()
+        return "{" + "name : " + getName() + ", Périodique :" + getFlag() + ", Puissance = " + getPowCons()
                 + ", nameFonc : " + getNameFonc() + ", Periode=" + getPeriode() + ", duree=" + getDuree() + ", t1="
                 + getT1() + ", t2=" + getT2() + "}";
     }
@@ -113,7 +113,7 @@ public class AppareilPeriodique extends Appareil {
             // Boucle sur la durée duree
             for (int i = t1 + k * periode; i < t1 + k * periode + duree; i++) {
                 if (i < 1440) {
-                    cons[i] = cons[i] + getPuissCons() * f;
+                    cons[i] = cons[i] + getPowCons() * f;
                 }
             }
         }
