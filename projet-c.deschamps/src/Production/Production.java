@@ -27,10 +27,10 @@ public class Production implements Energy {
      * 
      * @param listInj
      */
-    public Production(ArrayList<InjectionPoint> listInj) {
+    public Production(ArrayList<InjectionPoint> listInj, int nbHouses) {
         this.listInj = listInj;
         deltaT = 1;
-        this.nbHouses = 1000;
+        this.nbHouses = nbHouses;
     }
 
     /**

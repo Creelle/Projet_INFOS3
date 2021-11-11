@@ -1,6 +1,9 @@
 package City;
 
+import java.util.ArrayList;
+
 import Consumption.Consumption;
+import Production.InjectionPoint;
 import Production.Production;
 
 public class City {
@@ -9,9 +12,10 @@ public class City {
     private int nbHouses; // Nombre d'habitations
     private Production cityProd; // Production de la Ville
     private Consumption cityCons; // Consommation de la Ville
-    /*private double x; //Coordonnées x de la ville
+    private boolean producer; //La ville produit-elle de l'énergie?
+    private double x; //Coordonnées x de la ville
     private double y; //Coordonées y de la ville
-    private int number; //Numéro (étiquette) de la Ville   */ 
+    private int number; //Numéro (étiquette) de la Ville   
 
     /**
      * Constructeur primaire
@@ -20,10 +24,39 @@ public class City {
         nbHouses = 1000;
         cityProd = new Production();
         cityCons = new Consumption();
+        producer = true;
+        x = 1.0;
+        y = 1.0;
+        number = 1;
     }
 
     /**
-     * Constructeur explicite
+     * Constructeur explicite partie groupe
+     * 
+     * @param nbHouses
+     * @param producer
+     * @param x0
+     * @param y0
+     * @param n0
+     */
+    public City(int nbHouses,boolean producer, double x0, double y0, int n0) {
+        this.nbHouses = nbHouses;
+        if(producer==true){
+            cityProd = new Production(nbHouses);
+        }
+        else{
+            ArrayList<InjectionPoint> listInj = new ArrayList<>();
+            cityProd = new Production(listInj, nbHouses);
+        }
+        cityCons = new Consumption(nbHouses);
+        this.producer = producer;
+        this.x = x0;
+        this.y = y0;
+        this.number = n0;
+    }
+
+    /**
+     * Constructeur explicite maquette individuelle
      * 
      * @param nbHouses
      */
@@ -31,6 +64,10 @@ public class City {
         this.nbHouses = nbHouses;
         cityProd = new Production(nbHouses);
         cityCons = new Consumption(nbHouses);
+        producer = true;
+        x = 1.0;
+        y = 1.0;
+        number = 1;
     }
 
     // Setters and Getters
@@ -59,13 +96,46 @@ public class City {
         this.cityCons = cityCons;
     }
 
+    public double getX() {
+        return this.x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return this.y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public int getNumber() {
+        return this.number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public boolean getProducer() {
+        return this.producer;
+    }
+
+    public void setProducer(boolean producer) {
+        this.producer = producer;
+    }
+
+
     // Méthodes
 
     /**
      * Affichage console de la liste des Points d'Injection et des Points de
      * Livraison
      */
-    public void displayVille() {
+    public void displayCity() {
         System.out.println("Production :");
         cityProd.displaylistIP();
         System.out.println("Consommation");
