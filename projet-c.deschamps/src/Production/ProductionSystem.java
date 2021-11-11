@@ -1,18 +1,18 @@
 package Production;
 
-abstract public class SystemeProd {
+abstract public class ProductionSystem {
     // Attributs
     private String name; // nom du point d'injection
-    private double puissProd; // puissance nominale produite en W
+    private double powProd; // puissance nominale produite en W
     private boolean flag; // Booléen représentant le caractère périodique (true) ou non
     private String nameFonc; // nom de la fonction de forme annuelle
 
     /**
      * Constructeur primaire
      */
-    public SystemeProd() {
+    public ProductionSystem() {
         name = "Injection";
-        puissProd = 100;
+        powProd = 100;
         flag = false;
         nameFonc = "const";
     }
@@ -21,14 +21,14 @@ abstract public class SystemeProd {
      * Constructeur explicite
      * 
      * @param name
-     * @param puissprod
+     * @param powprod
      * @param flag
      * @param nameFonc
      */
 
-    public SystemeProd(String name, double puissprod, boolean flag, String nameFonc) {
+    public ProductionSystem(String name, double powprod, boolean flag, String nameFonc) {
         this.name = name;
-        this.puissProd = puissprod;
+        this.powProd = powprod;
         this.flag = flag;
         this.nameFonc = nameFonc;
     }
@@ -42,12 +42,12 @@ abstract public class SystemeProd {
         this.name = name;
     }
 
-    public double getPuissProd() {
-        return this.puissProd;
+    public double getPowProd() {
+        return this.powProd;
     }
 
-    public void setPuissProd(double puissProd) {
-        this.puissProd = puissProd;
+    public void setPowProd(double powProd) {
+        this.powProd = powProd;
     }
 
     public boolean getFlag() {

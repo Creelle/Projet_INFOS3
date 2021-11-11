@@ -67,7 +67,7 @@ public class Ville {
      */
     public void displayVille() {
         System.out.println("Production :");
-        prodVille.displaylistPI();
+        prodVille.displaylistIP();
         System.out.println("Consommation");
         consVille.displaylistDP();
     }
@@ -77,8 +77,8 @@ public class Ville {
      * la Ville est en déficit énergétique
      */
     public void compare(int j) {
-        double[] prod = prodVille.generer(j);
-        double[] cons = consVille.generer(j);
+        double[] prod = prodVille.generate(j);
+        double[] cons = consVille.generate(j);
         for (int i = 0; i < prod.length; i++) {
             if (prod[i] - cons[i] < 0) {
                 System.out.println("A la minute " + i + " la production est inférieure à la consommation");
@@ -91,8 +91,8 @@ public class Ville {
      * journée
      */
     public void displayCSVJour(int j) {
-        double[] prod = prodVille.generer(j);
-        double[] cons = consVille.generer(j);
+        double[] prod = prodVille.generate(j);
+        double[] cons = consVille.generate(j);
         for (int i = 0; i < cons.length; i++) {
             System.out.println(i + " ; " + cons[i] + " ; " + prod[i] + " ; " + consVille.integrer(i, cons) + " ; "
                     + prodVille.integrer(i, prod));
@@ -105,8 +105,8 @@ public class Ville {
      */
     public void displayCSVAn() {
         for (int j = 1; j < 366; j++) {
-            double[] prod = prodVille.generer(j);
-            double[] cons = consVille.generer(j);
+            double[] prod = prodVille.generate(j);
+            double[] cons = consVille.generate(j);
             System.out
                     .println(j + " ; " + Math.round(consVille.integrer(cons.length - 1, cons) / 1440 * 10.0 * 60) / 10.0
                             + " ; " + Math.round(prodVille.integrer(prod.length - 1, prod) * 60 * 10.0 / 1440) / 10.0

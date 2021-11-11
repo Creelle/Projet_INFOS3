@@ -24,8 +24,8 @@ public class VilleMain {
          */
         Production P = maVilleTest.getProdVille();
         Consumption C = maVilleTest.getConsVille();
-        double[] prod = P.generer(1);
-        double[] cons = C.generer(1);
+        double[] prod = P.generate(1);
+        double[] cons = C.generate(1);
         Plot plot = new Plot();
         for (int i = 0; i < cons.length; i++) {
             plot.addPoint(0, i, cons[i], true);
@@ -51,8 +51,8 @@ public class VilleMain {
 
         Plot plot1 = new Plot();
         for (int j = 1; j < 366; j++) {
-            double[] prod1 = P.generer(j);
-            double[] cons1 = C.generer(j);
+            double[] prod1 = P.generate(j);
+            double[] cons1 = C.generate(j);
             double pConsMoy = Math.round(C.integrer(cons1.length - 1, cons1) / 1440 * 10.0 * 60) / 10.0;
             double pProdMoy = Math.round(P.integrer(prod1.length - 1, prod1) * 60 * 10.0 / 1440) / 10.0;
             double diff = pProdMoy - pConsMoy;

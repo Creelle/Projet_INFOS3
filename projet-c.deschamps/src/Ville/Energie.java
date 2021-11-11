@@ -11,7 +11,7 @@ public interface Energie {
      *         consommation
      */
 
-    public double[] generer(int j);
+    public double[] generate(int j);
 
     /**
      * Méthode abstraite d'intégration qui est implémentée dans Production et dans

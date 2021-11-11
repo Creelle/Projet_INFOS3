@@ -1,16 +1,16 @@
 package Production;
 
-public class SystemeConstant extends SystemeProd {
+public class ConstantSystem extends ProductionSystem {
 
     /**
      * Constructeur avec initialisation des attributs de la classe Point d'Injection
      * 
      * @param name
-     * @param puissProd
+     * @param powProd
      * @param nameFonc
      */
-    public SystemeConstant(String name, double puissProd, String nameFonc) {
-        super(name, puissProd, false, nameFonc); // flag = false car Consommation constante du point
+    public ConstantSystem(String name, double powProd, String nameFonc) {
+        super(name, powProd, false, nameFonc); // flag = false car Consommation constante du point
     }
 
     /**
@@ -18,7 +18,7 @@ public class SystemeConstant extends SystemeProd {
      */
     @Override
     public String toString() {
-        return "{" + "name : " + getName() + ", Périodique : " + getFlag() + ", " + "Puissance : " + getPuissProd()
+        return "{" + "Name : " + getName() + ", Periodic : " + getFlag() + ", " + "Puissance : " + getPowProd()
                 + ", nameFonc : " + getNameFonc() + "}";
     }
 
@@ -46,7 +46,7 @@ public class SystemeConstant extends SystemeProd {
             f = 1;
         }
         for (int i = 0; i < prod.length; i++) {
-            prod[i] = prod[i] + getPuissProd() * f;
+            prod[i] = prod[i] + getPowProd() * f;
         }
         return prod;
     }

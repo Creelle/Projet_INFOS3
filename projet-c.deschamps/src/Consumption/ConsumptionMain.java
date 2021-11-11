@@ -27,8 +27,8 @@ public class ConsumptionMain {
         // Création des consommations
         Consumption C1 = new Consumption(listOfDeliv1);
         Consumption C2 = new Consumption(listOfDeliv2);
-        double[] consPeriodic = C1.generer(1); // Exemple pour le jour 1
-        double[] consConstant = C2.generer(1);
+        double[] consPeriodic = C1.generate(1); // Exemple pour le jour 1
+        double[] consConstant = C2.generate(1);
 
         // Test affichage console des Appareils
         System.out.println(dev1.toString());
@@ -67,8 +67,8 @@ public class ConsumptionMain {
         // Test affichage des production sur l'année
         Plot plot1 = new Plot();
         for (int j = 1; j < 366; j++) {
-            double[] cons1 = C1.generer(j);
-            double[] cons2 = C2.generer(j);
+            double[] cons1 = C1.generate(j);
+            double[] cons2 = C2.generate(j);
             double pConsMoy1 = Math.round(C1.integrer(cons1.length - 1, cons1) * 60 * 10.0 / 1440) / 10.0;
             double pConsMoy2 = Math.round(C2.integrer(cons2.length - 1, cons2) * 60 * 10.0 / 1440) / 10.0;
             plot1.addPoint(0, j, pConsMoy1, true);

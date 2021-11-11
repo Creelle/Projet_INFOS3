@@ -1,10 +1,10 @@
 package Production;
 
-public class SystemePeriodique extends SystemeProd {
+public class PeriodicSystem extends ProductionSystem {
 
     // Attributs
     private int periode; // Période de production en min
-    private int duree; // Durée de production en min
+    private int duration; // Durée de production en min
     private int t1; // Instant de début de production
     private int t2; // Instant de fin de production
 
@@ -13,18 +13,18 @@ public class SystemePeriodique extends SystemeProd {
      * d'Injection
      * 
      * @param name
-     * @param puissProd
+     * @param powProd
      * @param nameFonc
      * @param periode
-     * @param duree
+     * @param duration
      * @param t1
      * @param t2
      * @param nameFonc
      */
-    public SystemePeriodique(String name, double puissProd, String nameFonc, int periode, int duree, int t1, int t2) {
-        super(name, puissProd, true, nameFonc); // flag = true car Production périodique du point
+    public PeriodicSystem(String name, double powProd, String nameFonc, int periode, int duration, int t1, int t2) {
+        super(name, powProd, true, nameFonc); // flag = true car Production périodique du point
         this.periode = periode;
-        this.duree = duree;
+        this.duration = duration;
         this.t1 = t1;
         this.t2 = t2;
     }
@@ -39,12 +39,12 @@ public class SystemePeriodique extends SystemeProd {
         this.periode = periode;
     }
 
-    public int getDuree() {
-        return this.duree;
+    public int getDuration() {
+        return this.duration;
     }
 
-    public void setDuree(int duree) {
-        this.duree = duree;
+    public void setDuration(int duree) {
+        this.duration = duree;
     }
 
     public int getT1() {
@@ -66,8 +66,8 @@ public class SystemePeriodique extends SystemeProd {
     // Méthode toString
     @Override
     public String toString() {
-        return "{" + "name : " + getName() + ", Périodique :" + getFlag() + ", Puissance = " + getPuissProd()
-                + ", nameFonc : " + getNameFonc() + ", Periode=" + getPeriode() + ", duree=" + getDuree() + ", t1="
+        return "{" + "Name : " + getName() + ", Periodic :" + getFlag() + ", Puissance = " + getPowProd()
+                + ", NameFonc : " + getNameFonc() + ", Periode=" + getPeriode() + ", Duration=" + getDuration() + ", t1="
                 + getT1() + ", t2=" + getT2() + "}";
     }
 
@@ -106,10 +106,10 @@ public class SystemePeriodique extends SystemeProd {
         // Boucle sur le nombre n
         for (int k = 0; k <= n - 1; k++) {
             // Boucle sur la durée duree
-            for (int i = t1 + k * periode; i < t1 + k * periode + duree; i++) {
+            for (int i = t1 + k * periode; i < t1 + k * periode + duration; i++) {
                 // Prévention d'écriture hors limite
                 if (i < 1440) {
-                    prod[i] = prod[i] + getPuissProd() * f;
+                    prod[i] = prod[i] + getPowProd() * f;
                 }
             }
         }

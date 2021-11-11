@@ -2,33 +2,33 @@ package Production;
 
 import java.util.ArrayList;
 
-public class PointInjection {
+public class InjectionPoint {
 
     // Attributs
     String name; // Nom du Point d'Injection
-    int nombreSys; // Nombre de système de Production dans le Point d'Injection
-    ArrayList<SystemeProd> listSys; // Liste de tous les Systèmes de prod
+    int nbSys; // Nombre de système de Production dans le Point d'Injection
+    ArrayList<ProductionSystem> listSys; // Liste de tous les Systèmes de prod
                                     // dans le Point d'Injection
 
     /**
      * Constructeur primaire
      */
-    public PointInjection() {
+    public InjectionPoint() {
         name = "Centrale";
-        nombreSys = 1;
-        listSys = new ArrayList<SystemeProd>(nombreSys);
+        nbSys = 1;
+        listSys = new ArrayList<ProductionSystem>(nbSys);
     }
 
     /**
      * Constructeur explicite
      * 
      * @param name
-     * @param nombreSys
+     * @param nbSys
      * @param listSys
      */
-    public PointInjection(String name, int nombreSys, ArrayList<SystemeProd> listSys) {
+    public InjectionPoint(String name, int nbSys, ArrayList<ProductionSystem> listSys) {
         this.name = name;
-        this.nombreSys = nombreSys;
+        this.nbSys = nbSys;
         this.listSys = listSys;
     }
 
@@ -42,27 +42,27 @@ public class PointInjection {
         this.name = name;
     }
 
-    public int getNombreSys() {
-        return this.nombreSys;
+    public int getNbSys() {
+        return this.nbSys;
     }
 
-    public void setNombreSys(int nombreSys) {
-        this.nombreSys = nombreSys;
+    public void setNbSys(int nbSys) {
+        this.nbSys = nbSys;
     }
 
-    public ArrayList<SystemeProd> getListSys() {
+    public ArrayList<ProductionSystem> getListSys() {
         return this.listSys;
     }
 
-    public void setListSys(ArrayList<SystemeProd> listSys) {
+    public void setListSys(ArrayList<ProductionSystem> listSys) {
         this.listSys = listSys;
     }
 
     // display console des Points de Livraison
     public void display() {
         System.out.print(
-                "[" + "name : " + getName() + " ; nombre Systèmes : " + getNombreSys() + " ; Liste des Systèmes : (");
-        for (SystemeProd S : listSys) {
+                "[" + "Name : " + getName() + " ; Number of Systems : " + getNbSys() + " ; List of Systems : (");
+        for (ProductionSystem S : listSys) {
             System.out.print(S.getName() + " ");
         }
 

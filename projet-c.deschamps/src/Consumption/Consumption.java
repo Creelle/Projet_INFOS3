@@ -137,7 +137,7 @@ public class Consumption implements Energie {
      * 
      * @return cons tableau de consommation
      */
-    public double[] generer(int j) {
+    public double[] generate(int j) {
         double[] cons = new double[1440];
         for (DeliveryPoint DP : listDelivery) {
             ArrayList<Device> listDevices = DP.getListDevices();

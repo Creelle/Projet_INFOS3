@@ -4,7 +4,7 @@ public class PeriodicDevice extends Device {
 
     // Attributs
     private int periode; // Période de consommation en min
-    private int duree; // Durée de consommation en min (durée sur laquelle la conso vaut son max)
+    private int duration; // Durée de consommation en min (durée sur laquelle la conso vaut son max)
     private int t1; // Instant de début de consommation
     private int t2; // Instant de fin de consommation
 
@@ -12,17 +12,17 @@ public class PeriodicDevice extends Device {
      * Constructeur avec initialisation des attributs de PointLivraison
      * 
      * @param name
-     * @param puissCons
+     * @param powCons
      * @param nameFonc
      * @param periode
-     * @param duree
+     * @param duration
      * @param t1
      * @param t2
      */
-    public PeriodicDevice(String name, double puissCons, String nameFonc, int periode, int duree, int t1, int t2) {
-        super(name, puissCons, true, nameFonc); // flag = true car Consommation périodique du point
+    public PeriodicDevice(String name, double powCons, String nameFonc, int periode, int duration, int t1, int t2) {
+        super(name, powCons, true, nameFonc); // flag = true car Consommation périodique du point
         this.periode = periode;
-        this.duree = duree;
+        this.duration = duration;
         this.t1 = t1;
         this.t2 = t2;
     }
@@ -36,12 +36,12 @@ public class PeriodicDevice extends Device {
         this.periode = periode;
     }
 
-    public int getDuree() {
-        return this.duree;
+    public int getDuration() {
+        return this.duration;
     }
 
-    public void setDuree(int duree) {
-        this.duree = duree;
+    public void setDuration(int duree) {
+        this.duration = duree;
     }
 
     public int getT1() {
@@ -64,7 +64,7 @@ public class PeriodicDevice extends Device {
     @Override
     public String toString() {
         return "{" + "name : " + getName() + ", Périodique :" + getFlag() + ", Puissance = " + getPowCons()
-                + ", nameFonc : " + getNameFonc() + ", Periode=" + getPeriode() + ", duree=" + getDuree() + ", t1="
+                + ", nameFonc : " + getNameFonc() + ", Periode=" + getPeriode() + ", duree=" + getDuration() + ", t1="
                 + getT1() + ", t2=" + getT2() + "}";
     }
 
@@ -99,11 +99,11 @@ public class PeriodicDevice extends Device {
             f = 1;
         }
         // Changement si duree>periode:
-        if(duree>periode){
+        if(duration>periode){
             System.out.println("durée > periode : la durée ne peut pas être plus "+
             "grande que la période, la durée est donc fixée à la période.");
-            setDuree(periode);
-            System.out.println("nouvelle durée = "+ duree);
+            setDuration(periode);
+            System.out.println("nouvelle durée = "+ duration);
         }
         // Nombre de période de consommation sur la durée considérée
         double n = Math.ceil((t2 - t1) / getPeriode());
@@ -111,7 +111,7 @@ public class PeriodicDevice extends Device {
         // Boucle sur le nombre n
         for (int k = 0; k <= n - 1; k++) {
             // Boucle sur la durée duree
-            for (int i = t1 + k * periode; i < t1 + k * periode + duree; i++) {
+            for (int i = t1 + k * periode; i < t1 + k * periode + duration; i++) {
                 if (i < 1440) {
                     cons[i] = cons[i] + getPowCons() * f;
                 }
