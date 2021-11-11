@@ -42,7 +42,7 @@ public class ProductionMain {
         P1.displaylistIP();
 
         // Test intégration sur plus d'une journée (affichage message)
-        System.out.println(P1.integrer(2000, prodPeriodic));
+        System.out.println(P1.integrate(2000, prodPeriodic));
 
         // Test affichage des productions dans un graph
         Plot plot = new Plot();
@@ -65,8 +65,8 @@ public class ProductionMain {
         for (int j = 1; j < 366; j++) {
             double[] prod1 = P1.generate(j);
             double[] prod2 = P2.generate(j);
-            double pProdMoy1 = Math.round(P1.integrer(prod1.length - 1, prod1) * 60 * 10.0 / 1440) / 10.0;
-            double pProdMoy2 = Math.round(P2.integrer(prod2.length - 1, prod2) * 60 * 10.0 / 1440) / 10.0;
+            double pProdMoy1 = Math.round(P1.integrate(prod1.length - 1, prod1) * 60 * 10.0 / 1440) / 10.0;
+            double pProdMoy2 = Math.round(P2.integrate(prod2.length - 1, prod2) * 60 * 10.0 / 1440) / 10.0;
             plot1.addPoint(0, j, pProdMoy1, true);
             plot1.addPoint(1, j, pProdMoy2, true);
         }

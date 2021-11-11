@@ -1,9 +1,10 @@
 package Production;
 
 import java.util.ArrayList;
-import Ville.Energie;
 
-public class Production implements Energie {
+import City.Energy;
+
+public class Production implements Energy {
 
     // Attributs
     private ArrayList<InjectionPoint> listInj; // Liste des Points dInjection
@@ -187,7 +188,7 @@ public class Production implements Energie {
      * 
      * @return e énergie produite sur la durée considérée
      */
-    public double integrer(int duration, double[] prod) {
+    public double integrate(int duration, double[] prod) {
         double e = 0;
         // Test duree < 1440 : Arrêt de l'intégration
         try {

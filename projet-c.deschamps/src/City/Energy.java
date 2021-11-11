@@ -1,6 +1,6 @@
-package Ville;
+package City;
 
-public interface Energie {
+public interface Energy {
 
     /**
      * Méthode abstraite de génération des tableaux de données
@@ -17,9 +17,9 @@ public interface Energie {
      * Méthode abstraite d'intégration qui est implémentée dans Production et dans
      * Consommation
      * 
-     * @param duree   durée d'intégration
-     * @param donnees tableau des puissances consommées ou produites sur la journée
+     * @param duration   durée d'intégration
+     * @param data tableau des puissances consommées ou produites sur la journée
      * @return l'énergie consommée sur la durée duree
      */
-    public double integrer(int duree, double[] donnees);
+    public double integrate(int duration, double[] data);
 }

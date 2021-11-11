@@ -46,7 +46,7 @@ public class ConsumptionMain {
         // C2.displayPuissCons(consConstante);
 
         // Test intégration sur plus d'une journée (affichage message)
-        C1.integrer(2000, consPeriodic);
+        C1.integrate(2000, consPeriodic);
 
         // Test affichage graphique
         Plot plot = new Plot();
@@ -69,8 +69,8 @@ public class ConsumptionMain {
         for (int j = 1; j < 366; j++) {
             double[] cons1 = C1.generate(j);
             double[] cons2 = C2.generate(j);
-            double pConsMoy1 = Math.round(C1.integrer(cons1.length - 1, cons1) * 60 * 10.0 / 1440) / 10.0;
-            double pConsMoy2 = Math.round(C2.integrer(cons2.length - 1, cons2) * 60 * 10.0 / 1440) / 10.0;
+            double pConsMoy1 = Math.round(C1.integrate(cons1.length - 1, cons1) * 60 * 10.0 / 1440) / 10.0;
+            double pConsMoy2 = Math.round(C2.integrate(cons2.length - 1, cons2) * 60 * 10.0 / 1440) / 10.0;
             plot1.addPoint(0, j, pConsMoy1, true);
             plot1.addPoint(1, j, pConsMoy2, true);
         }

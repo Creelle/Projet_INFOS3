@@ -1,9 +1,10 @@
 package Consumption;
 
 import java.util.ArrayList;
-import Ville.Energie;
 
-public class Consumption implements Energie {
+import City.Energy;
+
+public class Consumption implements Energy {
 
     // Attributs
     private ArrayList<DeliveryPoint> listDelivery; // Liste de tous les points de Livraison
@@ -170,7 +171,7 @@ public class Consumption implements Energie {
      * 
      * @return e énergie consommée sur la durée considérée
      */
-    public double integrer(int duree, double[] cons) {
+    public double integrate(int duree, double[] cons) {
         double e = 0;
         // Test duree < 1440 : Arrêt de l'intégration
         try {
