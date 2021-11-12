@@ -15,7 +15,8 @@ public class City {
     private boolean producer; //La ville produit-elle de l'énergie?
     private double x; //Coordonnées x de la ville
     private double y; //Coordonées y de la ville
-    private int number; //Numéro (étiquette) de la Ville   
+    private int number; //Numéro (étiquette) de la Ville  
+    private int nbLinks; //Nombre maximal de liens avec d'autres villes 
 
     /**
      * Constructeur primaire
@@ -28,6 +29,7 @@ public class City {
         x = 1.0;
         y = 1.0;
         number = 1;
+        nbLinks = 2;
     }
 
     /**
@@ -53,6 +55,14 @@ public class City {
         this.x = x0;
         this.y = y0;
         this.number = n0;
+        double rand = Math.random();
+        if(rand<0.1){
+            nbLinks = 1;
+        }else if(rand>0.9){
+            nbLinks = 3;
+        }else{
+            nbLinks = 2;
+        }
     }
 
     /**
@@ -68,6 +78,7 @@ public class City {
         x = 1.0;
         y = 1.0;
         number = 1;
+        nbLinks = 2;
     }
 
     // Setters and Getters
@@ -126,6 +137,18 @@ public class City {
 
     public void setProducer(boolean producer) {
         this.producer = producer;
+    }
+
+    public boolean isProducer() {
+        return this.producer;
+    }
+
+    public int getNbLinks() {
+        return this.nbLinks;
+    }
+
+    public void setNbLinks(int nbLinks) {
+        this.nbLinks = nbLinks;
     }
 
 

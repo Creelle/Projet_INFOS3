@@ -21,7 +21,7 @@ public class Link {
         end = 2;
     }
 
-    //Constructeur explicite
+    //Constructeurs explicites
     public Link(double length, double[] transportedPower, int start, int end){
         this.linkLength = length;
         this.transportedPower = transportedPower;
@@ -29,6 +29,14 @@ public class Link {
         this.end = end;
         lineicLoss = 1.0;
     }
+    public Link(double length, int start, int end){
+        this.linkLength = length;
+        this.transportedPower = new double[1440];
+        this.start = start;
+        this.end = end;
+        lineicLoss = 1.0;
+    }
+
 
     //Setters and Getters 
 
@@ -95,7 +103,12 @@ public class Link {
         Consumption C = city.getCityCons();
         double[] cons = C.generate(j);
         for(int k = 0; k<1440; k++){
-            powerToTransport[k] = prod[k] - cons[k];
+            double surplus = prod[k] - cons[k];
+            if(surplus > 0){
+                powerToTransport[k] = surplus;
+            }else{
+                powerToTransport[k] = 0;
+            }
         }
         return powerToTransport;
     }
