@@ -1,6 +1,8 @@
 package Network;
 
 import City.City;
+import Production.Production;
+import Consumption.Consumption;
 import java.util.ArrayList;
 import ptolemy.plot.Plot;
 import javax.swing.JFrame;
@@ -90,9 +92,30 @@ public class Network {
         return cityEmpty;   
     }
 
+    /**
+     * Le lien existe-t-il déjà dans la liste?
+     * @param num1
+     * @param num2
+     * @param listLinks
+     * @return oui ou non
+     */
     public boolean isLinkInList(int num1, int num2, ArrayList<Link> listLinks){
         for(Link link : listLinks){
             if(link.getStart()==num1 && link.getEnd()==num2){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * La liste a-t-elle une ville productrice?
+     * @param listCities
+     * @return oui ou non
+     */
+    public boolean isProducerInList(ArrayList<City> listCities){
+        for(City city : listCities){
+            if(city.getProducer()==true){
                 return true;
             }
         }
@@ -117,11 +140,19 @@ public class Network {
             }
             int nbHouses = (int) Math.round(Math.random()*2000);
             boolean producer = false;
-            if(Math.random()<1.0/20.0){
+            if(Math.random()<1.0/5.0){
                 producer = true;
             }
             City city = new City(nbHouses, producer, x, y, k);
             listCities.add(city);
+        }
+        //Pour ne pas avoir de réseau sans producteur : je change la première ville 
+            // en une ville productrice
+        if(isProducerInList(listCities)==false){
+            City city = listCities.get(0);
+            City newCity = new City(city.getNbHouses(), true, city.getX(), city.getY(), city.getNumber());
+            listCities.remove(0);
+            listCities.add(0, newCity);
         }
         return listCities;
     }
@@ -189,9 +220,6 @@ public class Network {
                     listLinks.add(link1);
                     listLinks.add(link2);
                 }
-                System.out.println("linkStart :" + counterLinksStart);
-                System.out.println("linkEnd :" + counterLinksEnd);
-                System.out.println("loop :" + counterLoop);
             }
         }
         return listLinks;
@@ -207,6 +235,9 @@ public class Network {
         }
     }
 
+    /**
+     * Affichage graphique du réseau
+     */
     public void plotGraphNetwork(){
         Plot plot = new Plot();
         for(Link link : listLinks){
@@ -220,5 +251,70 @@ public class Network {
         frame1.pack();
         frame1.setVisible(true);
         frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    /**
+     * Renvoie la première ville productrice du réseau
+     * @param listCities
+     * @return la première ville productrice
+     */
+    public City firstProducer(ArrayList<City> listCities){
+        for(City city : listCities){
+            if(city.getProducer()==true){
+                return city;
+            }
+        }
+        //Simple sécurité mais n'arrive jamais
+        System.out.println("No producer in the network!");
+        City cityEmpty = new City();
+        return cityEmpty;
+    }
+
+    public boolean needPower(int number, ArrayList<double[]> listTableProd, ArrayList<double[]> listTableCons){
+        double[] prod = listTableProd.get(number-1);
+        double[] cons = listTableCons.get(number-1);
+        for(int k=0; k>1440; k++){
+            if(cons[k]-prod[k]<0){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public double detRatio(City city, ArrayList<double[]> listTableProd, ArrayList<double[]> listTableCons){
+        int counter = 0;
+        int number = city.getNumber();
+        //Parcours des liens pour une ville de départ donnée
+        for(Link link : listLinks){
+            if(link.getStart()==number){
+                //Si la ville liée à besoin d'énergie, ajoute 1 au compteur
+                if(needPower(link.getEnd(), listTableProd, listTableCons)==true){
+                    counter+=1;
+                }
+            }
+        }
+        if(counter!=0){
+            return 1/counter;
+        }
+        return 1.0;
+    }
+
+    public void simulation(int j){
+
+        //Création des listes de tableaux
+        //ArrayList<City> listOrderedCities = new ArrayList<>();
+        ArrayList<double[]> listTableProd = new ArrayList<>();
+        ArrayList<double[]> listTableCons = new ArrayList<>();
+
+        //Création des tableaux pour chaque ville de la liste et ajout aux listes
+        for(City city : listCities){
+            Production P = city.getCityProd();
+            Consumption C = city.getCityCons();
+            double[] prod = P.generate(j);
+            double[] cons = C.generate(j);
+            listTableProd.add(prod);
+            listTableCons.add(cons);
+        }
+        
     }
 }

@@ -58,7 +58,7 @@ public class City {
         double rand = Math.random();
         if(rand<0.1){
             nbLinks = 1;
-        }else if(rand>0.9){
+        }else if(rand>0.6){
             nbLinks = 3;
         }else{
             nbLinks = 2;

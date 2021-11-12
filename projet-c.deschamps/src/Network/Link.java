@@ -1,7 +1,6 @@
 package Network;
 import City.City;
-import Consumption.Consumption;
-import Production.Production;
+import java.util.ArrayList;
 public class Link {
     
     //Attributs
@@ -85,27 +84,31 @@ public class Link {
     /**
      * Méthode injectant le surplus de production d'une autre ville dans une certaine ville
      * 
-     * @param city //Ville considérée
-     * @param j //jour considéré
+     * @param prod tableau de production existant de la ville considérée
      */
-    public void inject(City city, int j){
-        Production P = city.getCityProd();
-        double[] prod = P.generate(j);
+    public void inject(double[] prod){
         for(int k = 0; k<1440; k++){
             prod[k]+= transportedPower[k]-lineicLoss*linkLength;
         }
     }
-
-    public double[] takeSurplus(City city, int j){
+    /**
+     * Génère le tableau de puissance en trop dans la ville proportionnellement au nombre
+     * de ville ne produisant pas
+     * @param city
+     * @param j
+     * @param ratio inverse du nombre de villes ne produisant pas
+     *  à laquelle la ville considérée est reliée
+     * @return le tableau de puissance en trop
+     */
+    public double[] takeSurplus(City city, ArrayList<double[]> listTableProd, ArrayList<double[]> listTableCons, double ratio){
         double[] powerToTransport = new double[1440];
-        Production P = city.getCityProd();
-        double[] prod = P.generate(j);
-        Consumption C = city.getCityCons();
-        double[] cons = C.generate(j);
+        double[] prod = listTableProd.get(city.getNumber()-1);
+        double[] cons = listTableCons.get(city.getNumber()-1);
         for(int k = 0; k<1440; k++){
-            double surplus = prod[k] - cons[k];
+            double surplus = Math.round((prod[k] - cons[k])/ratio*10.0)/10.0;
             if(surplus > 0){
                 powerToTransport[k] = surplus;
+                prod[k] = prod[k] - surplus; //L'énergie n'est plus dispo dans cette ville!
             }else{
                 powerToTransport[k] = 0;
             }
