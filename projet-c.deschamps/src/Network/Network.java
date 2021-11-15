@@ -3,9 +3,12 @@ package Network;
 import City.City;
 import Production.Production;
 import Consumption.Consumption;
+
 import java.util.ArrayList;
+
 import ptolemy.plot.Plot;
 import javax.swing.JFrame;
+
 
 public class Network {
     
@@ -90,6 +93,24 @@ public class Network {
         System.out.println("City not in the list !");
         City cityEmpty = new City();
         return cityEmpty;   
+    }
+
+    /**
+     * 
+     * @param startCityNum
+     * @param endCityNum
+     * @param listLinks
+     * @return le lien désiré
+     */
+    public Link getLinkInList(int startCityNum, int endCityNum, ArrayList<Link> listLinks){
+        for(Link link : listLinks){
+            if(link.getStart()==startCityNum && link.getEnd() == endCityNum){
+                return link;
+            }
+        }
+        System.out.println("Link not in the list !");
+        Link link = new Link();
+        return link;   
     }
 
     /**
@@ -270,6 +291,13 @@ public class Network {
         return cityEmpty;
     }
 
+    /**
+     * 
+     * @param number
+     * @param listTableProd
+     * @param listTableCons
+     * @return oui ou non suivant si la ville a besoin d'énergie ou non
+     */
     public boolean needPower(int number, ArrayList<double[]> listTableProd, ArrayList<double[]> listTableCons){
         double[] prod = listTableProd.get(number-1);
         double[] cons = listTableCons.get(number-1);
@@ -281,6 +309,13 @@ public class Network {
         return false;
     }
 
+    /**
+     * 
+     * @param city
+     * @param listTableProd
+     * @param listTableCons
+     * @return le Ratio de puissance demandée par chaque ville 
+     */
     public double detRatio(City city, ArrayList<double[]> listTableProd, ArrayList<double[]> listTableCons){
         int counter = 0;
         int number = city.getNumber();
@@ -297,6 +332,100 @@ public class Network {
             return 1/counter;
         }
         return 1.0;
+    }
+
+    /**
+     * Déterminer la liste des voisins
+     * @param city
+     * @param network
+     * @return la liste des villes voisines
+     */
+    public ArrayList<City> getNeighbors(City city){
+        ArrayList<City> listNeighbors = new ArrayList<>();
+        int numCity = city.getNumber();
+        for(Link link : listLinks){
+            if(link.getStart() == numCity){
+                City cityToAdd = getCityInList(link.getEnd(), listCities);
+                listNeighbors.add(cityToAdd);
+            }
+        }
+        return listNeighbors;
+    }
+
+    /**
+     * 
+     * @param totalLength tableau des distances plus courtes distances entre une ville de départ
+     *  et les villes du tableau.
+     * @param listCities liste des villes du tableau
+     * @return laville ayant la plus courte distance par rapport au point de départ.
+     */
+    public City cityWithMinTotLen(double[] totalLength, ArrayList<City> listCities){
+        double minLen = Double.MAX_VALUE;
+        int numCityWithMinTotLen = 0;
+        for(City city : listCities){
+            if(totalLength[city.getNumber()-1]<minLen){
+                numCityWithMinTotLen = city.getNumber();
+            }
+        }
+        //Test la valeur minLen a bien changé
+        if(minLen == Double.MAX_VALUE){
+            City cityToReturn = listCities.get(0);
+            return cityToReturn;
+        }
+        City cityToReturn = getCityInList(numCityWithMinTotLen, listCities);
+        return cityToReturn;
+    }
+
+    /**
+     *  Algorithme du plus court chemin
+     * @param start
+     * @param end
+     * @return la liste des numéros des villes à suivre
+     */
+    public ArrayList<Integer> shortestPath(int start, int end){
+        //Déclaration des variables
+        ArrayList<Integer> listToFollow = new ArrayList<>();
+        int[] pred = new int[listCities.size()];
+        double[] totalLength = new double[listCities.size()];
+
+        //Création de la liste intermédiaire
+        ArrayList<City> intermediateListCities = new ArrayList<>();
+        for(City city : listCities){
+            intermediateListCities.add(city);
+            totalLength[city.getNumber()-1] = Double.MAX_VALUE; 
+        }
+
+        //Initialisation
+        City cityStart = getCityInList(start, listCities);
+        totalLength[cityStart.getNumber()-1] = 0.0;
+
+        //Boucle
+        while(intermediateListCities.isEmpty() == false){
+            City cityToTry = cityWithMinTotLen(totalLength, intermediateListCities) ;
+            intermediateListCities.remove(cityToTry);
+            ArrayList<City> listOfNeighbors = getNeighbors(cityToTry);
+            for(City neighborCity : listOfNeighbors){
+                Link link = getLinkInList(cityToTry.getNumber(), neighborCity.getNumber(), listLinks);
+                double newLen = totalLength[cityToTry.getNumber()-1]+link.getLinkLength();
+                if(newLen<totalLength[neighborCity.getNumber()-1]){
+                    totalLength[neighborCity.getNumber()-1] = newLen;
+                    pred[neighborCity.getNumber()-1] = cityToTry.getNumber();
+                }
+            }
+        }
+        //Retour de la liste des noeuds du chemin
+        listToFollow.add(end);
+        int number = end;
+        while(number != start){
+            listToFollow.add(0, pred[number-1]);
+            number = pred[number-1];
+        }
+        System.out.print("[");
+        for(int num : listToFollow){
+            System.out.print(num + " ");
+        }
+        System.out.println("]");
+        return listToFollow;
     }
 
     public void simulation(int j){
