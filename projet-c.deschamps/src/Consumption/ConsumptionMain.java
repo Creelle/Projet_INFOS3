@@ -66,11 +66,17 @@ public class ConsumptionMain {
 
         // Test affichage des production sur l'année
         Plot plot1 = new Plot();
+        
+        double pConsMoy1;
+        double pConsMoy2;
+        double[] cons1;
+        double[] cons2;
+
         for (int j = 1; j < 366; j++) {
-            double[] cons1 = C1.generate(j);
-            double[] cons2 = C2.generate(j);
-            double pConsMoy1 = Math.round(C1.integrate(cons1.length - 1, cons1) * 60 * 10.0 / 1440) / 10.0;
-            double pConsMoy2 = Math.round(C2.integrate(cons2.length - 1, cons2) * 60 * 10.0 / 1440) / 10.0;
+            cons1 = C1.generate(j);
+            cons2 = C2.generate(j);
+            pConsMoy1 = Math.round(C1.integrate(cons1.length - 1, cons1) * 60 * 10.0 / 1440) / 10.0;
+            pConsMoy2 = Math.round(C2.integrate(cons2.length - 1, cons2) * 60 * 10.0 / 1440) / 10.0;
             plot1.addPoint(0, j, pConsMoy1, true);
             plot1.addPoint(1, j, pConsMoy2, true);
         }

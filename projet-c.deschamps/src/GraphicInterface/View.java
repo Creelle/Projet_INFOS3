@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class View {
+    
+
+    Controller controller;
 
     // components
     private JButton plotButton1;
@@ -20,12 +23,10 @@ public class View {
     public View(){
         
         //Buttons creation
-        plotButton1 = new JButton("Press here to graph the consummer");
+        plotButton1 = new JButton("Plot button");
         exitButton1 = new JButton("EXIT");
         exitButton2 = new JButton("EXIT");
-        ExitController exit_controller = new ExitController();
-        exitButton1.addActionListener(exit_controller);
-        exitButton2.addActionListener(exit_controller);
+        
         
         // pane creator
         pane1 = new JPanel();
@@ -63,9 +64,18 @@ public class View {
         
      }
 
+     public void setController(Controller controller){
+        this.controller = controller;
+        ExitController exit_controller = new ExitController();
+        
+        exitButton1.addActionListener(exit_controller);
+        exitButton2.addActionListener(exit_controller);
+        plotButton1.addActionListener(this.controller);
+     }
+
      public void show(){
-         mainWindow.pack();
-         mainWindow.setVisible(true);
+        mainWindow.pack();
+        mainWindow.setVisible(true);
      }
 
      public void refresh(){
