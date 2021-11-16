@@ -1,5 +1,5 @@
 package GraphicInterface;
 
-public class Plotter {
+public class Model{
     
 }
