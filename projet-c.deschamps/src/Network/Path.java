@@ -29,7 +29,7 @@ public class Path {
                 System.out.print(num + " ");
             }
             System.out.println("]");
-        System.out.println("Length = "+lenPath);
+        System.out.println("Length = "+Math.round(lenPath*10.0)/10.0);
     }
     
 }
