@@ -28,12 +28,12 @@ public class Link {
         this.end = end;
         lineicLoss = 1.0;
     }
-    public Link(double length, int start, int end){
+    public Link(double length, int start, int end, double lineicLoss){
         this.linkLength = length;
         this.transportedPower = new double[1440];
         this.start = start;
         this.end = end;
-        lineicLoss = 1.0;
+        this.lineicLoss = lineicLoss;
     }
 
 

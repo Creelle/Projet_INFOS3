@@ -287,8 +287,9 @@ public class Network {
                 } else {
                     // Création des liens correspondants (aller-retour)
                     double length = calculateLength(city, cityToLink);
-                    Link link1 = new Link(length, city.getNumber(), cityToLink.getNumber());
-                    Link link2 = new Link(length, cityToLink.getNumber(), city.getNumber());
+                    double lineicLoss = Math.round((Math.random()*2.5+0.5)/10.0)*10.0;
+                    Link link1 = new Link(length, city.getNumber(), cityToLink.getNumber(), lineicLoss);
+                    Link link2 = new Link(length, cityToLink.getNumber(), city.getNumber(), lineicLoss);
                     listLinks.add(link1);
                     listLinks.add(link2);
                 }
@@ -308,6 +309,7 @@ public class Network {
     }
 
 //------------------------------------------------------------------------------------------//
+
 
 //Partie  affichage graphique du réseau
 
@@ -332,7 +334,7 @@ public class Network {
 //---------------------------------------------------------------------------------//
 
 
-//Partie Autres méthodes utiles
+//Partie Vérification graph connexe
 
     public int connectedTo(int numCity, ArrayList<Integer> leftOverCities, ArrayList<Integer> listInt, ArrayList<Link> listLinks){
         for(Link link : listLinks){
@@ -366,7 +368,7 @@ public class Network {
 //-----------------------------------------------------------------------------------//
 
 
-//Partie Vérification graph connexe
+//Partie Autres méthodes utiles
 
     /**
      * Renvoie la première ville productrice du réseau
@@ -430,6 +432,7 @@ public class Network {
     }
 
 //---------------------------------------------------------------------------------//
+
 
 // Partie algorithme du plus court chemin
 
@@ -514,15 +517,26 @@ public class Network {
                 }
             }
         }
-        // Retour de la liste des noeuds du chemin
+        // Ecriture de la liste des noeuds du chemin calcul de la perte linéique moyenne
+        for(int i=0;i<listCities.size();i++){
+            System.out.print(pred[i]);
+        }
+        System.out.println(" ");
         listToFollow.add(end);
         int number = end;
         while (number != start) {
             listToFollow.add(0, pred[number - 1]);
             number = pred[number - 1];
         }
+        //Calcul de la perte linéique moyenne
+        double meanLineicLoss = 0;
+        for(int index=0; index<listToFollow.size()-1; index++){
+            Link linkConsidered = getLinkInList(listToFollow.get(index), listToFollow.get(index+1), listLinks);
+            meanLineicLoss = meanLineicLoss + linkConsidered.getLineicLoss()*linkConsidered.getLinkLength();
+        }
+        meanLineicLoss = meanLineicLoss/totalLength[end-1];
         // Création du chemin
-        Path shortPath = new Path(listToFollow, totalLength[5]);
+        Path shortPath = new Path(listToFollow, totalLength[end-1], meanLineicLoss);
         return shortPath;
     }
 
@@ -546,6 +560,25 @@ public class Network {
             double[] cons = C.generate(j);
             listTableProd.add(prod);
             listTableCons.add(cons);
+        }
+
+        //Création des listes de Producteurs et des autres villes
+        ArrayList<City> listCityProd = getProdCities();
+        ArrayList<City> listCityNoProd = getNoProdCities();
+
+        //Simulation
+        for(City cityNoProd : listCityNoProd){
+            ArrayList<Integer> listNumCities = new ArrayList<>();
+            Path path = new Path(listNumCities, Double.MAX_VALUE, 0.0);
+            //Sélection de la ville productrice la plus proche
+            for(City cityProd : listCityProd){
+                /*Insérer une boucle de sécurité*/
+                Path newPath = shortestPath(cityProd.getNumber(), cityNoProd.getNumber());
+                if(path.lenPath>newPath.lenPath){
+                    path = newPath;
+                }
+            path.injectPower(cityProd, cityNoProd, listTableProd, listTableCons);
+            }
         }
     }
 }
