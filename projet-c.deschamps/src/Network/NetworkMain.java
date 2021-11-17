@@ -6,7 +6,8 @@ public class NetworkMain {
         network.displayListCities();
         network.displayListLinks();
         network.plotGraphNetwork();
-        network.shortestPath(1, 6);
+        Path shortPath = network.shortestPath(1, 6);
+        shortPath.displayPath();
         //network.simulation(1);
     }
 }

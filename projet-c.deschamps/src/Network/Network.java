@@ -345,49 +345,28 @@ public class Network {
     }
 
     public boolean checkConnectedNetwork(ArrayList<City> listCities, ArrayList<Link> listLinks){
-        boolean connected;
-        ArrayList<Integer> leftOverCities = new ArrayList<>();
-        //Création liste avec tous les numéros des villes du Réseau
-        ArrayList<Integer> listNum = new ArrayList<>();
+        boolean connected = false;
+        int numStart = listCities.get(0).getNumber();
         for(City city : listCities){
-            listNum.add(city.getNumber()-1,city.getNumber());
-        }
-        //Point de départ
-        int num = listNum.get(0);
-        int newInt = 0;
-        int[] pred = new int[listNum.size()];
-        int k = 0;
-        leftOverCities.add(num);
-        //Tant que la liste des numéros n'est pas vide
-        while(listNum.isEmpty()==false && k<100){
-            newInt = connectedTo(num,leftOverCities,listNum,listLinks);
-            System.out.println("newInt : "+newInt);
-            if(newInt==0){
-                System.out.println(num);
-                listNum.remove((Integer) num);
-                leftOverCities.add(num);
-                if(num!=0){
-                    leftOverCities.remove((Integer) pred[num-1]);
-                    num = pred[num-1];
-                }                
-            }else{
-                pred[newInt-1] = num;
-                leftOverCities.add(pred[newInt-1]);
-                num = newInt;
+            int numCity = city.getNumber();
+            if(city.getNumber()!=numStart){
+                try{
+                    shortestPath(numStart, numCity);
+                }catch(IndexOutOfBoundsException error){
+                    System.out.println("Network not connected");
+                    return connected;
+                }
             }
-            //System.out.println(newInt);
-            k+=1;
         }
-        //Résultat
-        if(k==100){
-            connected = false;
-            System.out.println("Not Connected Network");
-            return connected;
-        }
+        System.out.println("Network connected");
         connected = true;
-        System.out.println("Connected Network");
         return connected;
     }
+
+//-----------------------------------------------------------------------------------//
+
+
+//Partie Vérification graph connexe
 
     /**
      * Renvoie la première ville productrice du réseau
@@ -544,7 +523,6 @@ public class Network {
         }
         // Création du chemin
         Path shortPath = new Path(listToFollow, totalLength[5]);
-        shortPath.displayPath();
         return shortPath;
     }
 
