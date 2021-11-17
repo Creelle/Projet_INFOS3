@@ -7,6 +7,9 @@ import ptolemy.plot.Plot;
 
 public class Model{
 
+    public int number_of_days = 365;
+
+    
     public void plotCons(){
 
         // Création des consommations
@@ -30,8 +33,6 @@ public class Model{
         Consumption.Consumption C1 = new Consumption.Consumption(listOfDeliv1);
         Consumption.Consumption C2 = new Consumption.Consumption(listOfDeliv2);
         
-
-        
         Plot plot1 = new Plot();
         
         double pConsMoy1;
@@ -39,7 +40,7 @@ public class Model{
         double[] cons1;
         double[] cons2;
 
-        for (int j = 1; j < 366; j++) {
+        for (int j = 0; j < number_of_days; j++) {
             cons1 = C1.generate(j);
             cons2 = C2.generate(j);
             pConsMoy1 = Math.round(C1.integrate(cons1.length - 1, cons1) * 60 * 10.0 / 1440) / 10.0;
