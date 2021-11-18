@@ -287,7 +287,7 @@ public class Network {
                 } else {
                     // Création des liens correspondants (aller-retour)
                     double length = calculateLength(city, cityToLink);
-                    double lineicLoss = Math.round((Math.random()*2.5+0.5)/10.0)*10.0;
+                    double lineicLoss = Math.round((Math.random()*2.5+0.5)*10.0)/10.0;
                     Link link1 = new Link(length, city.getNumber(), cityToLink.getNumber(), lineicLoss);
                     Link link2 = new Link(length, cityToLink.getNumber(), city.getNumber(), lineicLoss);
                     listLinks.add(link1);
@@ -304,7 +304,8 @@ public class Network {
     public void displayListLinks() {
         for (Link link : listLinks) {
             System.out.println(
-                    "Link between " + link.getStart() + " and " + link.getEnd() + ", Length = " + link.getLinkLength());
+                    "Link between " + link.getStart() + " and " + link.getEnd() + ", Length = " +
+                     link.getLinkLength()+ ", Lineic loss = "+link.getLineicLoss());
         }
     }
 
@@ -527,6 +528,7 @@ public class Network {
         while (number != start) {
             listToFollow.add(0, pred[number - 1]);
             number = pred[number - 1];
+            System.out.println("num: "+ number);
         }
         //Calcul de la perte linéique moyenne
         double meanLineicLoss = 0;
@@ -573,6 +575,7 @@ public class Network {
             //Sélection de la ville productrice la plus proche
             for(City cityProd : listCityProd){
                 /*Insérer une boucle de sécurité*/
+                System.out.println("numProd :"+cityProd.getNumber()+" numNoProd :"+cityNoProd.getNumber());
                 Path newPath = shortestPath(cityProd.getNumber(), cityNoProd.getNumber());
                 if(path.lenPath>newPath.lenPath){
                     path = newPath;
