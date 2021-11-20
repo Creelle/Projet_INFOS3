@@ -13,29 +13,29 @@ public class Network {
 
     // Attributs
     private int nbCities;
-    private ArrayList<City> listCities;
-    private ArrayList<Link> listLinks;
+    private ArrayList<City> listOfCities;
+    private ArrayList<Link> listOfLinks;
 
     // Constructeur primaire
     public Network() {
         nbCities = 0;
-        listCities = new ArrayList<>();
-        listLinks = new ArrayList<>();
+        listOfCities = new ArrayList<>();
+        listOfLinks = new ArrayList<>();
     }
 
     // Constructeurs explicites
     public Network(int nbCities, ArrayList<City> listCities, ArrayList<Link> listLinks) {
         this.nbCities = nbCities;
-        this.listCities = listCities;
-        this.listLinks = listLinks;
+        this.listOfCities = listCities;
+        this.listOfLinks = listLinks;
     }
 
     public Network(int nbCities) {
         this.nbCities = nbCities;
-        listCities = generateListCity();
-        listLinks = generateListLinks(listCities);
-        while(checkConnectedNetwork(listCities, listLinks)==false){
-            listLinks = generateListLinks(listCities);
+        listOfCities = generateListCity();
+        listOfLinks = generateListLinks(listOfCities);
+        while (checkConnectedNetwork(listOfCities, listOfLinks) == false) {
+            listOfLinks = generateListLinks(listOfCities);
         }
     }
 
@@ -50,25 +50,28 @@ public class Network {
     }
 
     public ArrayList<City> getListCities() {
-        return this.listCities;
+        return this.listOfCities;
     }
 
     public void setListCities(ArrayList<City> listCities) {
-        this.listCities = listCities;
+        this.listOfCities = listCities;
     }
 
     public ArrayList<Link> getListLinks() {
-        return this.listLinks;
+        return this.listOfLinks;
     }
 
     public void setListLinks(ArrayList<Link> listLinks) {
-        this.listLinks = listLinks;
+        this.listOfLinks = listLinks;
     }
 
-/* ---------------------------------------------------------------------------------*/
+    /*
+     * -----------------------------------------------------------------------------
+     * ----
+     */
     // Méthodes
 
-    //Getters dans une liste
+    // Getters dans une liste
 
     /**
      * Renvoie la Ville demandée à partir de son numéro
@@ -83,7 +86,7 @@ public class Network {
                 return city;
             }
         }
-        System.out.println("City not in the list !");
+        // System.out.println("City not in the list !");
         City cityEmpty = new City();
         return cityEmpty;
     }
@@ -110,13 +113,13 @@ public class Network {
      * 
      * @return la liste des villes productrices d'énergie
      */
-    public ArrayList<City> getProdCities(){
+    public ArrayList<City> getProdCities() {
         ArrayList<City> listProdCities = new ArrayList<>();
         int k = 0;
-        for(City city : listCities){
-            if(city.getProducer()==true){
+        for (City city : listOfCities) {
+            if (city.getProducer() == true) {
                 listProdCities.add(k, city);
-                k+=1;
+                k += 1;
             }
         }
         return listProdCities;
@@ -126,26 +129,24 @@ public class Network {
      * 
      * @return la liste des villes non productrices d'énergie
      */
-    public ArrayList<City> getNoProdCities(){
+    public ArrayList<City> getNoProdCities() {
         ArrayList<City> listNoProdCities = new ArrayList<>();
         int k = 0;
-        for(City city : listCities){
-            if(city.getProducer()==false){
+        for (City city : listOfCities) {
+            if (city.getProducer() == false) {
                 listNoProdCities.add(k, city);
-                k+=1;
+                k += 1;
             }
         }
         return listNoProdCities;
     }
 
-//--------------------------------------------------------------------------------------//
+    // --------------------------------------------------------------------------------------//
 
-
-    //Partie génération de liste de villes
+    // Partie génération de liste de villes
 
     /**
-     * Méthode auxiliaire
-     * La liste a-t-elle une ville productrice?
+     * Méthode auxiliaire La liste a-t-elle une ville productrice?
      * 
      * @param listCities
      * @return oui ou non
@@ -200,7 +201,7 @@ public class Network {
      * Display de la liste des villes du réseau.
      */
     public void displayListCities() {
-        for (City city : listCities) {
+        for (City city : listOfCities) {
             System.out.println("Number : " + city.getNumber() + ", Number of Houses : " + city.getNbHouses()
                     + ", Number of Links : " + city.getNbLinks() + ", Coordinates (x,y) = ("
                     + Math.round(city.getX() * 10.0) / 10.0 + "," + Math.round(city.getY() * 10.0) / 10.0
@@ -209,10 +210,9 @@ public class Network {
         }
     }
 
-// --------------------------------------------------------------------------------//
+    // --------------------------------------------------------------------------------//
 
-
-    //Partie génération de liste de liens
+    // Partie génération de liste de liens
 
     /**
      * Méthode auxiliaire
@@ -228,8 +228,7 @@ public class Network {
     }
 
     /**
-     * Méthode auxiliaire
-     * Le lien existe-t-il déjà dans la liste?
+     * Méthode auxiliaire Le lien existe-t-il déjà dans la liste?
      * 
      * @param num1
      * @param num2
@@ -254,7 +253,7 @@ public class Network {
     public ArrayList<Link> generateListLinks(ArrayList<City> listOfCities) {
         ArrayList<Link> listLinks = new ArrayList<>();
         // Détermination longueur de la liste
-        for (City city : listCities) {
+        for (City city : listOfCities) {
             int nbLinks = city.getNbLinks();
             for (int i = 1; i <= nbLinks; i++) {
                 // Détermination des autres villes avec lesquelles elle est liée
@@ -287,7 +286,7 @@ public class Network {
                 } else {
                     // Création des liens correspondants (aller-retour)
                     double length = calculateLength(city, cityToLink);
-                    double lineicLoss = Math.round((Math.random()*2.5+0.5)*10.0)/10.0;
+                    double lineicLoss = Math.round((Math.random() * 2.5 + 0.5) * 10.0) / 10.0;
                     Link link1 = new Link(length, city.getNumber(), cityToLink.getNumber(), lineicLoss);
                     Link link2 = new Link(length, cityToLink.getNumber(), city.getNumber(), lineicLoss);
                     listLinks.add(link1);
@@ -302,27 +301,25 @@ public class Network {
      * Affichage des liens de la liste
      */
     public void displayListLinks() {
-        for (Link link : listLinks) {
-            System.out.println(
-                    "Link between " + link.getStart() + " and " + link.getEnd() + ", Length = " +
-                     link.getLinkLength()+ ", Lineic loss = "+link.getLineicLoss());
+        for (Link link : listOfLinks) {
+            System.out.println("Link between " + link.getStart() + " and " + link.getEnd() + ", Length = "
+                    + link.getLinkLength() + ", Lineic loss = " + link.getLineicLoss());
         }
     }
 
-//------------------------------------------------------------------------------------------//
+    // ------------------------------------------------------------------------------------------//
 
-
-//Partie  affichage graphique du réseau
+    // Partie affichage graphique du réseau
 
     /**
      * Affichage graphique du réseau
      */
     public void plotGraphNetwork() {
         Plot plot = new Plot();
-        for (Link link : listLinks) {
-            City cityStart = getCityInList(link.getStart(), listCities);
+        for (Link link : listOfLinks) {
+            City cityStart = getCityInList(link.getStart(), listOfCities);
             plot.addPoint(0, cityStart.getX(), cityStart.getY(), false);
-            City cityEnd = getCityInList(link.getEnd(), listCities);
+            City cityEnd = getCityInList(link.getEnd(), listOfCities);
             plot.addPoint(0, cityEnd.getX(), cityEnd.getY(), true);
         }
         JFrame frame1 = new JFrame("Network");
@@ -332,30 +329,30 @@ public class Network {
         frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-//---------------------------------------------------------------------------------//
+    // ---------------------------------------------------------------------------------//
 
+    // Partie Vérification graph connexe
 
-//Partie Vérification graph connexe
-
-    public int connectedTo(int numCity, ArrayList<Integer> leftOverCities, ArrayList<Integer> listInt, ArrayList<Link> listLinks){
-        for(Link link : listLinks){
-            if(link.getStart()==numCity && leftOverCities.contains(link.getEnd())==false
-                && listInt.contains(link.getEnd())==true){
+    public int connectedTo(int numCity, ArrayList<Integer> leftOverCities, ArrayList<Integer> listInt,
+            ArrayList<Link> listLinks) {
+        for (Link link : listLinks) {
+            if (link.getStart() == numCity && leftOverCities.contains(link.getEnd()) == false
+                    && listInt.contains(link.getEnd()) == true) {
                 return link.getEnd();
             }
         }
         return 0;
     }
 
-    public boolean checkConnectedNetwork(ArrayList<City> listCities, ArrayList<Link> listLinks){
+    public boolean checkConnectedNetwork(ArrayList<City> listCities, ArrayList<Link> listLinks) {
         boolean connected = false;
         int numStart = listCities.get(0).getNumber();
-        for(City city : listCities){
+        for (City city : listCities) {
             int numCity = city.getNumber();
-            if(city.getNumber()!=numStart){
-                try{
+            if (city.getNumber() != numStart) {
+                try {
                     shortestPath(numStart, numCity);
-                }catch(IndexOutOfBoundsException error){
+                } catch (IndexOutOfBoundsException error) {
                     System.out.println("Network not connected");
                     return connected;
                 }
@@ -366,10 +363,9 @@ public class Network {
         return connected;
     }
 
-//-----------------------------------------------------------------------------------//
+    // -----------------------------------------------------------------------------------//
 
-
-//Partie Autres méthodes utiles
+    // Partie Autres méthodes utiles
 
     /**
      * Renvoie la première ville productrice du réseau
@@ -418,7 +414,7 @@ public class Network {
         int counter = 0;
         int number = city.getNumber();
         // Parcours des liens pour une ville de départ donnée
-        for (Link link : listLinks) {
+        for (Link link : listOfLinks) {
             if (link.getStart() == number) {
                 // Si la ville liée à besoin d'énergie, ajoute 1 au compteur
                 if (needPower(link.getEnd(), listTableProd, listTableCons) == true) {
@@ -432,10 +428,9 @@ public class Network {
         return 1.0;
     }
 
-//---------------------------------------------------------------------------------//
+    // ---------------------------------------------------------------------------------//
 
-
-// Partie algorithme du plus court chemin
+    // Partie algorithme du plus court chemin
 
     /**
      * Déterminer la liste des voisins
@@ -447,10 +442,13 @@ public class Network {
     public ArrayList<City> getNeighbors(City city) {
         ArrayList<City> listNeighbors = new ArrayList<>();
         int numCity = city.getNumber();
-        for (Link link : listLinks) {
+        for (Link link : listOfLinks) {
             if (link.getStart() == numCity) {
-                City cityToAdd = getCityInList(link.getEnd(), listCities);
-                listNeighbors.add(cityToAdd);
+                City cityToAdd = getCityInList(link.getEnd(), listOfCities);
+                // test la ville ne fait pas partie des villes exclues
+                if (city.getNumber() != 0) {
+                    listNeighbors.add(cityToAdd);
+                }
             }
         }
         return listNeighbors;
@@ -461,19 +459,22 @@ public class Network {
      * @param totalLength tableau des distances plus courtes distances entre une
      *                    ville de départ et les villes du tableau.
      * @param listCities  liste des villes du tableau
-     * @return laville ayant la plus courte distance par rapport au point de départ.
+     * @return la ville ayant la plus courte distance par rapport au point de
+     *         départ.
      */
     public City cityWithMinTotLen(double[] totalLength, ArrayList<City> listCities) {
         double minLen = Double.MAX_VALUE;
-        int numCityWithMinTotLen = 0;
+        int numCityWithMinTotLen = 1;
         for (City city : listCities) {
             if (totalLength[city.getNumber() - 1] < minLen) {
                 numCityWithMinTotLen = city.getNumber();
+                minLen = totalLength[city.getNumber() - 1];
             }
         }
-        // Test la valeur minLen a bien changé
+        // Simple sécurité mais n'arrive jamais
         if (minLen == Double.MAX_VALUE) {
             City cityToReturn = listCities.get(0);
+            System.out.println("no change");
             return cityToReturn;
         }
         City cityToReturn = getCityInList(numCityWithMinTotLen, listCities);
@@ -490,18 +491,18 @@ public class Network {
     public Path shortestPath(int start, int end) {
         // Déclaration des variables
         ArrayList<Integer> listToFollow = new ArrayList<>();
-        int[] pred = new int[listCities.size()];
-        double[] totalLength = new double[listCities.size()];
+        int[] pred = new int[listOfCities.size()];
+        double[] totalLength = new double[listOfCities.size()];
 
         // Création de la liste intermédiaire
         ArrayList<City> intermediateListCities = new ArrayList<>();
-        for (City city : listCities) {
+        for (City city : listOfCities) {
             intermediateListCities.add(city);
             totalLength[city.getNumber() - 1] = Double.MAX_VALUE;
         }
 
         // Initialisation
-        City cityStart = getCityInList(start, listCities);
+        City cityStart = getCityInList(start, listOfCities);
         totalLength[cityStart.getNumber() - 1] = 0.0;
 
         // Boucle
@@ -510,52 +511,49 @@ public class Network {
             intermediateListCities.remove(cityToTry);
             ArrayList<City> listOfNeighbors = getNeighbors(cityToTry);
             for (City neighborCity : listOfNeighbors) {
-                Link link = getLinkInList(cityToTry.getNumber(), neighborCity.getNumber(), listLinks);
-                double newLen = totalLength[cityToTry.getNumber() - 1] + link.getLinkLength();
-                if (newLen < totalLength[neighborCity.getNumber() - 1]) {
-                    totalLength[neighborCity.getNumber() - 1] = newLen;
-                    pred[neighborCity.getNumber() - 1] = cityToTry.getNumber();
+                if (intermediateListCities.contains(neighborCity) == true) {
+                    Link link = getLinkInList(cityToTry.getNumber(), neighborCity.getNumber(), listOfLinks);
+                    double newLen = totalLength[cityToTry.getNumber() - 1] + link.getLinkLength();
+                    if (newLen < totalLength[neighborCity.getNumber() - 1]) {
+                        totalLength[neighborCity.getNumber() - 1] = newLen;
+                        pred[neighborCity.getNumber() - 1] = cityToTry.getNumber();
+                    }
                 }
+
             }
         }
+
         // Ecriture de la liste des noeuds du chemin calcul de la perte linéique moyenne
-        for(int i=0;i<listCities.size();i++){
-            System.out.print(pred[i]);
-        }
-        System.out.println(" ");
         listToFollow.add(end);
         int number = end;
         while (number != start) {
             listToFollow.add(0, pred[number - 1]);
             number = pred[number - 1];
-            System.out.println("num: "+ number);
         }
-        //Calcul de la perte linéique moyenne
+        // Calcul de la perte linéique moyenne
         double meanLineicLoss = 0;
-        for(int index=0; index<listToFollow.size()-1; index++){
-            Link linkConsidered = getLinkInList(listToFollow.get(index), listToFollow.get(index+1), listLinks);
-            meanLineicLoss = meanLineicLoss + linkConsidered.getLineicLoss()*linkConsidered.getLinkLength();
+        for (int index = 0; index < listToFollow.size() - 1; index++) {
+            Link linkConsidered = getLinkInList(listToFollow.get(index), listToFollow.get(index + 1), listOfLinks);
+            meanLineicLoss = meanLineicLoss + linkConsidered.getLineicLoss() * linkConsidered.getLinkLength();
         }
-        meanLineicLoss = meanLineicLoss/totalLength[end-1];
+        meanLineicLoss = meanLineicLoss / totalLength[end - 1];
         // Création du chemin
-        Path shortPath = new Path(listToFollow, totalLength[end-1], meanLineicLoss);
+        Path shortPath = new Path(listToFollow, totalLength[end - 1], meanLineicLoss);
         return shortPath;
     }
 
-//--------------------------------------------------------------------------//
+    // --------------------------------------------------------------------------//
 
-
-//Partie simulation
+    // Partie simulation
 
     public void simulation(int j) {
 
         // Création des listes de tableaux
-        // ArrayList<City> listOrderedCities = new ArrayList<>();
         ArrayList<double[]> listTableProd = new ArrayList<>();
         ArrayList<double[]> listTableCons = new ArrayList<>();
 
         // Création des tableaux pour chaque ville de la liste et ajout aux listes
-        for (City city : listCities) {
+        for (City city : listOfCities) {
             Production P = city.getCityProd();
             Consumption C = city.getCityCons();
             double[] prod = P.generate(j);
@@ -564,23 +562,22 @@ public class Network {
             listTableCons.add(cons);
         }
 
-        //Création des listes de Producteurs et des autres villes
+        // Création des listes de Producteurs et des autres villes
         ArrayList<City> listCityProd = getProdCities();
         ArrayList<City> listCityNoProd = getNoProdCities();
 
-        //Simulation
-        for(City cityNoProd : listCityNoProd){
+        // Simulation
+        for (City cityNoProd : listCityNoProd) {
             ArrayList<Integer> listNumCities = new ArrayList<>();
             Path path = new Path(listNumCities, Double.MAX_VALUE, 0.0);
-            //Sélection de la ville productrice la plus proche
-            for(City cityProd : listCityProd){
-                /*Insérer une boucle de sécurité*/
-                System.out.println("numProd :"+cityProd.getNumber()+" numNoProd :"+cityNoProd.getNumber());
+            // Sélection de la ville productrice la plus proche
+            for (City cityProd : listCityProd) {
+                /* Insérer une boucle de sécurité */
                 Path newPath = shortestPath(cityProd.getNumber(), cityNoProd.getNumber());
-                if(path.lenPath>newPath.lenPath){
+                if (path.lenPath > newPath.lenPath) {
                     path = newPath;
                 }
-            path.injectPower(cityProd, cityNoProd, listTableProd, listTableCons);
+                path.injectPower(cityProd, cityNoProd, listTableProd, listTableCons);
             }
         }
     }

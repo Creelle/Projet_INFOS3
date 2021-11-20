@@ -28,7 +28,7 @@ public class City {
         producer = true;
         x = 1.0;
         y = 1.0;
-        number = 1;
+        number = 0;
         nbLinks = 2;
     }
 
