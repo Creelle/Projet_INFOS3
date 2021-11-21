@@ -65,10 +65,8 @@ public class Network {
         this.listOfLinks = listLinks;
     }
 
-    /*
-     * -----------------------------------------------------------------------------
-     * ----
-     */
+    //*************************************************************************\\
+
     // Méthodes
 
     // Getters dans une liste
@@ -141,7 +139,7 @@ public class Network {
         return listNoProdCities;
     }
 
-    // --------------------------------------------------------------------------------------//
+    //***************************************************************************\\
 
     // Partie génération de liste de villes
 
@@ -178,9 +176,9 @@ public class Network {
                     y = 100 * Math.random();
                 }
             }
-            int nbHouses = (int) Math.round(Math.random() * 2000);
+            int nbHouses = (int) Math.round(Math.random() * 4000);
             boolean producer = false;
-            if (Math.random() < 1.0 / 5.0) {
+            if (Math.random() < 2.0 / 5.0) {
                 producer = true;
             }
             City city = new City(nbHouses, producer, x, y, k);
@@ -210,7 +208,7 @@ public class Network {
         }
     }
 
-    // --------------------------------------------------------------------------------//
+    // ************************************************************************************** \\
 
     // Partie génération de liste de liens
 
@@ -307,7 +305,7 @@ public class Network {
         }
     }
 
-    // ------------------------------------------------------------------------------------------//
+    // ***************************************************************************************** \\
 
     // Partie affichage graphique du réseau
 
@@ -329,7 +327,7 @@ public class Network {
         frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    // ---------------------------------------------------------------------------------//
+    // ************************************************************************************* \\
 
     // Partie Vérification graph connexe
 
@@ -344,6 +342,14 @@ public class Network {
         return 0;
     }
 
+    /**
+     * Méthode de vérificatin de graphe connexe : existe - il un plus court chemin
+     * entre la ville 1 et les autres?
+     * 
+     * @param listCities
+     * @param listLinks
+     * @return true/false suivant si le graphe est connexe ou non
+     */
     public boolean checkConnectedNetwork(ArrayList<City> listCities, ArrayList<Link> listLinks) {
         boolean connected = false;
         int numStart = listCities.get(0).getNumber();
@@ -363,72 +369,8 @@ public class Network {
         return connected;
     }
 
-    // -----------------------------------------------------------------------------------//
+    // ************************************************************************************* \\
 
-    // Partie Autres méthodes utiles
-
-    /**
-     * Renvoie la première ville productrice du réseau
-     * 
-     * @param listCities
-     * @return la première ville productrice
-     */
-    public City firstProducer(ArrayList<City> listCities) {
-        for (City city : listCities) {
-            if (city.getProducer() == true) {
-                return city;
-            }
-        }
-        // Simple sécurité mais n'arrive jamais
-        System.out.println("No producer in the network!");
-        City cityEmpty = new City();
-        return cityEmpty;
-    }
-
-    /**
-     * 
-     * @param number
-     * @param listTableProd
-     * @param listTableCons
-     * @return oui ou non suivant si la ville a besoin d'énergie ou non
-     */
-    public boolean needPower(int number, ArrayList<double[]> listTableProd, ArrayList<double[]> listTableCons) {
-        double[] prod = listTableProd.get(number - 1);
-        double[] cons = listTableCons.get(number - 1);
-        for (int k = 0; k > 1440; k++) {
-            if (cons[k] - prod[k] < 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * 
-     * @param city
-     * @param listTableProd
-     * @param listTableCons
-     * @return le Ratio de puissance demandée par chaque ville
-     */
-    public double detRatio(City city, ArrayList<double[]> listTableProd, ArrayList<double[]> listTableCons) {
-        int counter = 0;
-        int number = city.getNumber();
-        // Parcours des liens pour une ville de départ donnée
-        for (Link link : listOfLinks) {
-            if (link.getStart() == number) {
-                // Si la ville liée à besoin d'énergie, ajoute 1 au compteur
-                if (needPower(link.getEnd(), listTableProd, listTableCons) == true) {
-                    counter += 1;
-                }
-            }
-        }
-        if (counter != 0) {
-            return 1 / counter;
-        }
-        return 1.0;
-    }
-
-    // ---------------------------------------------------------------------------------//
 
     // Partie algorithme du plus court chemin
 
@@ -494,7 +436,8 @@ public class Network {
         int[] pred = new int[listOfCities.size()];
         double[] totalLength = new double[listOfCities.size()];
 
-        // Création de la liste intermédiaire
+        // Création de la liste intermédiaire : elle est constituée de toutes les villes 
+        // que l'on peut encore aller visiter
         ArrayList<City> intermediateListCities = new ArrayList<>();
         for (City city : listOfCities) {
             intermediateListCities.add(city);
@@ -509,8 +452,10 @@ public class Network {
         while (intermediateListCities.isEmpty() == false) {
             City cityToTry = cityWithMinTotLen(totalLength, intermediateListCities);
             intermediateListCities.remove(cityToTry);
+            //Quels sont les voisins de la ville à essayer?
             ArrayList<City> listOfNeighbors = getNeighbors(cityToTry);
             for (City neighborCity : listOfNeighbors) {
+                // A-t-on le droit de visiter ce voisin-ci?
                 if (intermediateListCities.contains(neighborCity) == true) {
                     Link link = getLinkInList(cityToTry.getNumber(), neighborCity.getNumber(), listOfLinks);
                     double newLen = totalLength[cityToTry.getNumber() - 1] + link.getLinkLength();
@@ -546,29 +491,37 @@ public class Network {
 
     // Partie simulation
 
-    //Méthode auxiliaire 
+    // Méthode auxiliaire
 
-    public double getMaxInTable(double[] table){
-        double res=0;
-        for(double db : table){
-            if(db>res){
+    public double getMaxInTable(double[] table) {
+        double res = 0;
+        for (double db : table) {
+            if (db > res) {
                 res = db;
             }
         }
         return res;
     }
 
-    public void plotSimulationOfCity(double[] prod, double[] cons, int k){
+    
+    /**
+     * Méthode auxiliaire d'affichage de la simulation du jour J pour la ville V
+     * @param prod
+     * @param cons
+     * @param cityToPlot
+     */
+    public void plotSimulationOfCity(double[] prod, double[] cons, City cityToPlot) {
         Plot plot = new Plot();
         for (int i = 0; i < 1440; i++) {
             plot.addPoint(0, i, cons[i], true);
             plot.addPoint(1, i, prod[i], true);
             plot.addPoint(2, i, prod[i] - cons[i], true);
         }
-        plot.addLegend(0, "Consommation");
+        plot.addLegend(0, "Consumption");
         plot.addLegend(1, "Production");
-        plot.addLegend(2, "Surplus de production");
-        String nameFrame = "Ville n°" + k;
+        plot.addLegend(2, "Surplus of production");
+        String nameFrame = "Ville n°" + cityToPlot.getNumber() + ", Producer : " + cityToPlot.getProducer()
+                + ", Number of Houses : " + cityToPlot.getNbHouses();
         JFrame frame = new JFrame(nameFrame);
         frame.add(plot);
         frame.pack();
@@ -576,7 +529,25 @@ public class Network {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    public boolean canProvidePower(City cityProd, double neededPower, double[] tableProd){
+        boolean res = true;
+        double minPower = tableProd[0];
+        for(double db : tableProd){
+            if(minPower>db){
+                minPower=db;
+            }
+        }
+        if(minPower<neededPower){
+            res = false;
+        }
+        return res;
+    }
 
+    /**
+     * Effectue la simulation du jour J pour le réseau
+     * 
+     * @param j
+     */
     public void simulation(int j) {
 
         // Création des listes de tableaux
@@ -601,32 +572,29 @@ public class Network {
         for (City cityNoProd : listCityNoProd) {
             ArrayList<Integer> listNumCities = new ArrayList<>();
             int numCityProd = 0;
+            double maxNecessaryPower = getMaxInTable(listTableCons.get(cityNoProd.getNumber() - 1));
             Path path = new Path(listNumCities, Double.MAX_VALUE, 0.0);
             // Sélection de la ville productrice la plus proche
             for (City cityProd : listCityProd) {
-                /* Insérer une boucle de sécurité */
                 Path newPath = shortestPath(cityProd.getNumber(), cityNoProd.getNumber());
-                if (path.lenPath > newPath.lenPath) {
+                //Il faut que la ville productrice soit en capacité de fournir de l'énergie
+                if (path.lenPath > newPath.lenPath &&
+                        canProvidePower(cityProd, maxNecessaryPower, listTableProd.get(cityProd.getNumber()-1))) {
                     path = newPath;
                     numCityProd = cityProd.getNumber();
                 }
             }
             path.displayPath();
-            double maxNecessaryPower = getMaxInTable(listTableCons.get(cityNoProd.getNumber()-1));
             path.injectPower(getCityInList(numCityProd, listCityProd), cityNoProd, listTableProd, maxNecessaryPower);
         }
-        for(City city : listOfCities){
-            double[] cons = listTableCons.get(city.getNumber()-1);
-            double[] prod = listTableProd.get(city.getNumber()-1);
-            /*for(int k=0; k<1440; k++){
-                System.out.print(cons[k]);
-            }
-            System.out.println();*/
-            plotSimulationOfCity(prod, cons, city.getNumber());
-            //Attente pour laisser le temps au graph de se print.
-            try{
-                Thread.sleep(500);
-            }catch(Exception e){
+        for (City city : listOfCities) {
+            double[] cons = listTableCons.get(city.getNumber() - 1);
+            double[] prod = listTableProd.get(city.getNumber() - 1);
+            plotSimulationOfCity(prod, cons, city);
+            // Attente pour laisser le temps au graph de se print.
+            try {
+                Thread.sleep(200);
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
