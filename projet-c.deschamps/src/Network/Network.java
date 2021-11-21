@@ -286,7 +286,7 @@ public class Network {
                 } else {
                     // Création des liens correspondants (aller-retour)
                     double length = calculateLength(city, cityToLink);
-                    double lineicLoss = Math.round((Math.random() * 2.5 + 0.5) * 10.0) / 10.0;
+                    double lineicLoss = Math.round((Math.random() * 0.5 + 1.0) * 10.0) / 10.0;
                     Link link1 = new Link(length, city.getNumber(), cityToLink.getNumber(), lineicLoss);
                     Link link2 = new Link(length, cityToLink.getNumber(), city.getNumber(), lineicLoss);
                     listLinks.add(link1);
@@ -546,6 +546,37 @@ public class Network {
 
     // Partie simulation
 
+    //Méthode auxiliaire 
+
+    public double getMaxInTable(double[] table){
+        double res=0;
+        for(double db : table){
+            if(db>res){
+                res = db;
+            }
+        }
+        return res;
+    }
+
+    public void plotSimulationOfCity(double[] prod, double[] cons, int k){
+        Plot plot = new Plot();
+        for (int i = 0; i < 1440; i++) {
+            plot.addPoint(0, i, cons[i], true);
+            plot.addPoint(1, i, prod[i], true);
+            plot.addPoint(2, i, prod[i] - cons[i], true);
+        }
+        plot.addLegend(0, "Consommation");
+        plot.addLegend(1, "Production");
+        plot.addLegend(2, "Surplus de production");
+        String nameFrame = "Ville n°" + k;
+        JFrame frame = new JFrame(nameFrame);
+        frame.add(plot);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+
     public void simulation(int j) {
 
         // Création des listes de tableaux
@@ -569,6 +600,7 @@ public class Network {
         // Simulation
         for (City cityNoProd : listCityNoProd) {
             ArrayList<Integer> listNumCities = new ArrayList<>();
+            int numCityProd = 0;
             Path path = new Path(listNumCities, Double.MAX_VALUE, 0.0);
             // Sélection de la ville productrice la plus proche
             for (City cityProd : listCityProd) {
@@ -576,8 +608,26 @@ public class Network {
                 Path newPath = shortestPath(cityProd.getNumber(), cityNoProd.getNumber());
                 if (path.lenPath > newPath.lenPath) {
                     path = newPath;
+                    numCityProd = cityProd.getNumber();
                 }
-                path.injectPower(cityProd, cityNoProd, listTableProd, listTableCons);
+            }
+            path.displayPath();
+            double maxNecessaryPower = getMaxInTable(listTableCons.get(cityNoProd.getNumber()-1));
+            path.injectPower(getCityInList(numCityProd, listCityProd), cityNoProd, listTableProd, maxNecessaryPower);
+        }
+        for(City city : listOfCities){
+            double[] cons = listTableCons.get(city.getNumber()-1);
+            double[] prod = listTableProd.get(city.getNumber()-1);
+            /*for(int k=0; k<1440; k++){
+                System.out.print(cons[k]);
+            }
+            System.out.println();*/
+            plotSimulationOfCity(prod, cons, city.getNumber());
+            //Attente pour laisser le temps au graph de se print.
+            try{
+                Thread.sleep(500);
+            }catch(Exception e){
+                System.out.println(e.getMessage());
             }
         }
     }

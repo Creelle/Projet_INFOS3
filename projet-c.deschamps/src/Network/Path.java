@@ -64,13 +64,14 @@ public class Path {
     }
     
     //Méthode de transport de l'énergie le long d'un chemin
-    public void injectPower(City cityProd, City cityReciever, ArrayList<double[]> listTableProd, ArrayList<double[]> listTableCons){
+    public void injectPower(City cityProd, City cityReciever, ArrayList<double[]> listTableProd, double maxConsOfDay){
         double[] prodCityProd = listTableProd.get(cityProd.getNumber()-1);
         double[] prodCityReciever = listTableProd.get(cityReciever.getNumber()-1);
-        double[] consCityReciever = listTableCons.get(cityReciever.getNumber()-1);
         for(int i =0; i<1440; i++){
-            prodCityReciever[i]=consCityReciever[i];
-            prodCityProd[i] = prodCityProd[i] - meanLineicLoss*lenPath;
+            //Envoi de la puissance maximale nécessaire sur la journée à la ville
+            prodCityReciever[i]=maxConsOfDay;
+            //Déduction de la puissance produite disponible dans la ville produtrice
+            prodCityProd[i] = prodCityProd[i] - meanLineicLoss*lenPath - maxConsOfDay;
         }
     }
 }
