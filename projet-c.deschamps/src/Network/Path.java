@@ -7,22 +7,22 @@ import City.City;
 public class Path {
 
     //Attributs
-    ArrayList<Integer> listNumberCities;
-    double lenPath;
-    double meanLineicLoss;
+    ArrayList<Integer> listNumberCities; //Liste des numéros des villes du chemin
+    double lenPath; //Longueur du chemin
+    double lossPath; //Puissance perdue sur le chemin
 
     //Constructeur primaire
     public Path(){
         listNumberCities = new ArrayList<>();
         lenPath = 0;
-        meanLineicLoss = 1.0;
+        lossPath = 0;
     }
 
     //Constructeur explicite
-    public Path(ArrayList<Integer> listNumberCities, double lenPath, double meanLineicLoss){
+    public Path(ArrayList<Integer> listNumberCities, double lenPath, double lossPath){
         this.listNumberCities = listNumberCities;
         this.lenPath = lenPath;
-        this.meanLineicLoss = meanLineicLoss;
+        this.lossPath = lossPath;
     }
 
     //Setters and Getters
@@ -43,12 +43,12 @@ public class Path {
         this.lenPath = lenPath;
     }
 
-    public double getMeanLineicLoss() {
-        return this.meanLineicLoss;
+    public double getLossPath() {
+        return this.lossPath;
     }
 
-    public void setMeanLineicLoss(double meanLineicLoss) {
-        this.meanLineicLoss = meanLineicLoss;
+    public void setLossPath(double lossPath) {
+        this.lossPath = lossPath;
     }
 
 
@@ -58,9 +58,9 @@ public class Path {
         for(int num : listNumberCities){
                 System.out.print(num + " ");
             }
-            System.out.println("]");
-        System.out.println("Length = "+Math.round(lenPath*10.0)/10.0);
-        System.out.println("Mean lineic loss of Power = "+Math.round(meanLineicLoss*10.0)/10.0);
+            System.out.print("]");
+        System.out.print(", Length = "+Math.round(lenPath*10.0)/10.0);
+        System.out.println(", Loss of Power = "+Math.round(lossPath*10.0)/10.0);
     }
     
     //Méthode de transport de l'énergie le long d'un chemin
@@ -71,7 +71,7 @@ public class Path {
             //Envoi de la puissance maximale nécessaire sur la journée à la ville
             prodCityReciever[i]=maxConsOfDay;
             //Déduction de la puissance produite disponible dans la ville produtrice
-            prodCityProd[i] = prodCityProd[i] - meanLineicLoss*lenPath - maxConsOfDay;
+            prodCityProd[i] = prodCityProd[i] - lossPath - maxConsOfDay;
         }
     }
 }

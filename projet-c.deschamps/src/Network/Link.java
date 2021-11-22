@@ -1,11 +1,11 @@
 package Network;
-import City.City;
-import java.util.ArrayList;
+//import City.City;
+//import java.util.ArrayList;
 public class Link {
     
     //Attributs
     private double linkLength; //Nombre de villes dans le Réseau (en km)
-    private double[] transportedPower; //Puissance transportée par le lien au départ (W)
+    //private double[] transportedPower; //Puissance transportée par le lien au départ (W)
     private double lineicLoss; //Perte linéique de puissance (W/km)
     private int start; //Départ du lien
     private int end; //Fin du lien
@@ -14,23 +14,23 @@ public class Link {
 
     public Link(){
         linkLength = 1.0;
-        transportedPower = new double[1440];
+        //transportedPower = new double[1440];
         lineicLoss = 1.0;
         start = 1;
         end = 2;
     }
 
     //Constructeurs explicites
-    public Link(double length, double[] transportedPower, int start, int end){
+    /*public Link(double length, double[] transportedPower, int start, int end){
         this.linkLength = length;
         this.transportedPower = transportedPower;
         this.start = start;
         this.end = end;
         lineicLoss = 1.0;
-    }
+    }*/
     public Link(double length, int start, int end, double lineicLoss){
         this.linkLength = length;
-        this.transportedPower = new double[1440];
+        //this.transportedPower = new double[1440];
         this.start = start;
         this.end = end;
         this.lineicLoss = lineicLoss;
@@ -47,13 +47,13 @@ public class Link {
         this.linkLength = linkLength;
     }
 
-    public double[] getTransportedPower() {
+    /*public double[] getTransportedPower() {
         return this.transportedPower;
     }
 
     public void setTransportedPower(double[] transportedPower) {
         this.transportedPower = transportedPower;
-    }
+    }*/
 
     public double getLineicLoss() {
         return this.lineicLoss;
@@ -86,11 +86,13 @@ public class Link {
      * 
      * @param prod tableau de production existant de la ville considérée
      */
-    public void inject(double[] prod){
+    /*public void inject(double[] prod){
         for(int k = 0; k<1440; k++){
             prod[k]+= transportedPower[k]-lineicLoss*linkLength;
         }
-    }
+    }*/
+
+    
     /**
      * Génère le tableau de puissance en trop dans la ville proportionnellement au nombre
      * de ville ne produisant pas
@@ -100,7 +102,7 @@ public class Link {
      *  à laquelle la ville considérée est reliée
      * @return le tableau de puissance en trop
      */
-    public double[] takeSurplus(City city, ArrayList<double[]> listTableProd, ArrayList<double[]> listTableCons, double ratio){
+    /*public double[] takeSurplus(City city, ArrayList<double[]> listTableProd, ArrayList<double[]> listTableCons, double ratio){
         double[] powerToTransport = new double[1440];
         double[] prod = listTableProd.get(city.getNumber()-1);
         double[] cons = listTableCons.get(city.getNumber()-1);
@@ -114,6 +116,6 @@ public class Link {
             }
         }
         return powerToTransport;
-    }
+    }*/
 
 }
