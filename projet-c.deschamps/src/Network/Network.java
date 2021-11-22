@@ -176,9 +176,9 @@ public class Network {
                     y = 100 * Math.random();
                 }
             }
-            int nbHouses = (int) Math.round(Math.random() * 5000);
+            int nbHouses = (int) Math.round(Math.random() * 2000);
             boolean producer = false;
-            if (Math.random() < 2.0 / 5.0) {
+            if (Math.random() < 0.5) {
                 producer = true;
             }
             City city = new City(nbHouses, producer, x, y, k);
@@ -260,7 +260,7 @@ public class Network {
                 // et pas de boucle infinie
                 int counterLoop = 0;
                 while ((city.getNumber() == numCity || isLinkInList(numCity, city.getNumber(), listLinks) == true)
-                        && counterLoop < 10) {
+                        && counterLoop < 100) {
                     numCity = (int) Math.round(Math.random() * (nbCities - 1) + 1);
                     counterLoop += 1;
                 }
@@ -279,7 +279,7 @@ public class Network {
                 }
                 if (counterLinksEnd >= cityToLink.getNbLinks() || counterLinksStart >= city.getNbLinks()) {
                     // Ne rien faire!
-                } else if (counterLoop == 10) {
+                } else if (counterLoop == 100) {
                     // Ne rien faire !
                 } else {
                     // Création des liens correspondants (aller-retour)
@@ -528,16 +528,24 @@ public class Network {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public boolean canProvidePower(City cityProd, double neededPower, double[] tableProd){
-        boolean res = true;
+    public double meanOfTable(double[] table){
+        double s = 0;
+        for(double db : table){
+            s+=db;
+        }
+        return s/1440;
+    }
+
+    public boolean canProvidePower(double neededPower, double[] tableProd){
+        boolean res = false;
         double minPower = tableProd[0];
         for(double db : tableProd){
             if(minPower>db){
                 minPower=db;
             }
         }
-        if(minPower<neededPower){
-            res = false;
+        if(minPower>neededPower){
+            res = true;
         }
         return res;
     }
@@ -547,7 +555,8 @@ public class Network {
      * 
      * @param j
      */
-    public void simulation(int j) {
+    public double[] simulation(int j) {
+        double[] res = new double [2*listOfCities.size()];
 
         // Création des listes de tableaux
         ArrayList<double[]> listTableProd = new ArrayList<>();
@@ -579,7 +588,7 @@ public class Network {
                     Path newPath = bestPath(cityProd.getNumber(), cityNoProd.getNumber());
                     //Il faut que la ville productrice soit en capacité de fournir de l'énergie
                     if (path.lenPath > newPath.lenPath &&
-                            canProvidePower(cityProd, maxNecessaryPower, listTableProd.get(cityProd.getNumber()-1))==true) {
+                            canProvidePower(maxNecessaryPower, listTableProd.get(cityProd.getNumber()-1))==true) {
                         path = newPath;
                         numCityProd = cityProd.getNumber();
                     }
@@ -590,6 +599,10 @@ public class Network {
             for (City city : listOfCities) {
                 double[] cons = listTableCons.get(city.getNumber() - 1);
                 double[] prod = listTableProd.get(city.getNumber() - 1);
+                double meanProdOfDay = meanOfTable(prod);
+                double meanConsOfDay = meanOfTable(cons); 
+                res[city.getNumber()-1]=meanProdOfDay;
+                res[city.getNumber()]=meanConsOfDay;
                 plotSimulationOfCity(prod, cons, city);
                 // Attente pour laisser le temps au graph de se print.
                 try {
@@ -601,5 +614,27 @@ public class Network {
         }catch(IndexOutOfBoundsException error){
             System.out.println("Production of the network is not sufficient to provide power to all cities!");
         }
+        return res;
     }
+
+    /*public void simulateOnAYear(){
+
+        // Création des listes de tableaux
+        ArrayList<double[]> listTableMeanProd = new ArrayList<>();
+        ArrayList<double[]> listTableMeanCons = new ArrayList<>();
+
+        // Initialisation des tableaux vides
+        for(int k=0; k<listOfCities.size(); k++){
+            double[] prod = new double[365];
+            double[] cons = new double[365];
+            listTableMeanProd.add(prod);
+            listTableMeanCons.add(cons);
+        }
+        
+        // Mise à jour des tableaux moyens
+        for(int j=1; j<366; j++){
+            double[] meanTables = simulation(j);
+
+        }
+    }*/
 }
