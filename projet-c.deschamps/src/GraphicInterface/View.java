@@ -3,30 +3,45 @@ package GraphicInterface;
 import javax.swing.*;
 import java.awt.*;
 
+import GraphicInterface.GICons.ConsController;
+import GraphicInterface.GIProd.ProdController;
+import GraphicInterface.GICity.CityController;
+import GraphicInterface.GINetwork.NetController;
+
 public class View {
     
 
+   // Controllers
     Controller controller;
     ConsController conscontroller;
+    ProdController prodcontroller;
+    CityController citycontroller;
+    NetController netcontroller;
 
+    //Textfields
+
+   // Texfields pane1
     public JTextField textField;
     public JTextField nConstantF;
     public JTextField nPeriodicF;
     
-    
-
-    // components
+   // Buttons
     
     private JButton exitButton1;
     private JButton exitButton2;
     private JButton exitButton3;
     private JButton exitButton4;
 
+   // Buttons pane 1 
     private JButton plotButton1;
     private JButton submitB;
     private JButton nConstantB;
     private JButton nPeriodicB;
-    
+
+    //Labels
+    JLabel label = new JLabel();
+
+    // Panes
     private JPanel pane1;
     private JPanel pane2;
     private JPanel pane3;
@@ -92,8 +107,7 @@ public class View {
         mainWindow.add(tabs);
 
 
-        // label creation
-        JLabel label = new JLabel();
+        // label creator
         label.setText("Hello welcolme in the consummer simulator");
         label.setForeground(Color.BLUE);
 
@@ -124,9 +138,12 @@ public class View {
         
      }
 
-     public void setController(Controller controller, ConsController conscontroller){
+     public void setController(Controller controller, ConsController conscontroller,ProdController prodcontrol, CityController citycontrol, NetController netcontrol){
         this.controller = controller;
         this.conscontroller = conscontroller;
+        this.prodcontroller = prodcontrol;
+        this.citycontroller = citycontrol;
+        this.netcontroller = netcontrol;
         
 
         exitButton1.addActionListener(this.controller);

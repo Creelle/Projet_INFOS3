@@ -1,11 +1,11 @@
-package GraphicInterface;
+package GraphicInterface.GIProd;
 
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import ptolemy.plot.Plot;
 
 
-public class ConsModel{
+public class ProdModel{
 
     public int number_of_days = 365;
 

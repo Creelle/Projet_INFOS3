@@ -1,7 +1,9 @@
-package GraphicInterface;
+package GraphicInterface.GICons;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import GraphicInterface.View;
 
 
 public class ConsController implements ActionListener{
