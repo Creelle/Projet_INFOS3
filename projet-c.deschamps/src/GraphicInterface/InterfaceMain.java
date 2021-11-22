@@ -2,11 +2,12 @@ package GraphicInterface;
 
 public class InterfaceMain {
     public static void main(String[] args) {
-        Model m = new Model();
+        ConsModel m = new ConsModel();
         View v = new View();
-        Controller c = new Controller(m,v);
+        ConsController cc = new ConsController(m,v);
+        Controller c = new Controller();
         
-        v.setController(c);
+        v.setController(c,cc);
         
         v.show();
     }

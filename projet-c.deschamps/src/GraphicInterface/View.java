@@ -7,18 +7,25 @@ public class View {
     
 
     Controller controller;
+    ConsController conscontroller;
 
     public JTextField textField;
+    public JTextField nConstantF;
+    public JTextField nPeriodicF;
     
     
 
     // components
-    private JButton plotButton1;
+    
     private JButton exitButton1;
     private JButton exitButton2;
     private JButton exitButton3;
     private JButton exitButton4;
+
+    private JButton plotButton1;
     private JButton submitB;
+    private JButton nConstantB;
+    private JButton nPeriodicB;
     
     private JPanel pane1;
     private JPanel pane2;
@@ -39,11 +46,19 @@ public class View {
         exitButton3 = new JButton("EXIT");
         exitButton4 = new JButton("EXIT");
         submitB = new JButton("submit text");
+        nConstantB = new JButton("Number of constant devices");
+        nPeriodicB = new JButton("Number of periodic devices");
 
         //Textfields
 
         textField = new JTextField(20);
         textField.setText("365");
+
+        nConstantF = new JTextField(20);
+        nConstantF.setText("1");
+        
+        nPeriodicF = new JTextField(20);
+        nPeriodicF.setText("1");
         
         
         // pane creator
@@ -88,6 +103,10 @@ public class View {
         pane1.add(exitButton1);
         pane1.add(submitB);
         pane1.add(textField);
+        pane1.add(nConstantB);
+        pane1.add(nConstantF);
+        pane1.add(nPeriodicB);
+        pane1.add(nPeriodicF);
         
 
         //pane 2 filling
@@ -105,16 +124,20 @@ public class View {
         
      }
 
-     public void setController(Controller controller){
+     public void setController(Controller controller, ConsController conscontroller){
         this.controller = controller;
-        ExitController exit_controller = new ExitController();
+        this.conscontroller = conscontroller;
+        
 
-        exitButton1.addActionListener(exit_controller);
-        exitButton2.addActionListener(exit_controller);
-        exitButton3.addActionListener(exit_controller);
-        exitButton4.addActionListener(exit_controller);
-        plotButton1.addActionListener(this.controller);
-        submitB.addActionListener(this.controller);
+        exitButton1.addActionListener(this.controller);
+        exitButton2.addActionListener(this.controller);
+        exitButton3.addActionListener(this.controller);
+        exitButton4.addActionListener(this.controller);
+
+        plotButton1.addActionListener(this.conscontroller);
+        submitB.addActionListener(this.conscontroller);
+        nConstantB.addActionListener(this.conscontroller);
+        nPeriodicB.addActionListener(this.conscontroller);
       }
 
      public void show(){
