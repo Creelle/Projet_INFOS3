@@ -176,7 +176,7 @@ public class Network {
                     y = 100 * Math.random();
                 }
             }
-            int nbHouses = (int) Math.round(Math.random() * 4000);
+            int nbHouses = (int) Math.round(Math.random() * 5000);
             boolean producer = false;
             if (Math.random() < 2.0 / 5.0) {
                 producer = true;
@@ -284,7 +284,7 @@ public class Network {
                 } else {
                     // Création des liens correspondants (aller-retour)
                     double length = calculateLength(city, cityToLink);
-                    double lineicLoss = Math.round((Math.random() * 0.5 + 1.0) * 10.0) / 10.0;
+                    double lineicLoss = Math.round((Math.random() * 2.5 + 0.5) * 10.0) / 10.0;
                     Link link1 = new Link(length, city.getNumber(), cityToLink.getNumber(), lineicLoss);
                     Link link2 = new Link(length, cityToLink.getNumber(), city.getNumber(), lineicLoss);
                     listLinks.add(link1);
@@ -357,7 +357,7 @@ public class Network {
             int numCity = city.getNumber();
             if (city.getNumber() != numStart) {
                 try {
-                    shortestPath(numStart, numCity);
+                    bestPath(numStart, numCity);
                 } catch (IndexOutOfBoundsException error) {
                     System.out.println("Network not connected");
                     return connected;
@@ -398,23 +398,23 @@ public class Network {
 
     /**
      * 
-     * @param totalLength tableau des distances plus courtes distances entre une
+     * @param totalLoss tableau des distances plus courtes distances entre une
      *                    ville de départ et les villes du tableau.
      * @param listCities  liste des villes du tableau
      * @return la ville ayant la plus courte distance par rapport au point de
      *         départ.
      */
-    public City cityWithMinTotLen(double[] totalLength, ArrayList<City> listCities) {
-        double minLen = Double.MAX_VALUE;
+    public City cityWithMinTotLoss(double[] totalLoss, ArrayList<City> listCities) {
+        double minLoss = Double.MAX_VALUE;
         int numCityWithMinTotLen = 1;
         for (City city : listCities) {
-            if (totalLength[city.getNumber() - 1] < minLen) {
+            if (totalLoss[city.getNumber() - 1] < minLoss) {
                 numCityWithMinTotLen = city.getNumber();
-                minLen = totalLength[city.getNumber() - 1];
+                minLoss = totalLoss[city.getNumber() - 1];
             }
         }
         // Simple sécurité mais n'arrive jamais
-        if (minLen == Double.MAX_VALUE) {
+        if (minLoss == Double.MAX_VALUE) {
             City cityToReturn = listCities.get(0);
             System.out.println("no change");
             return cityToReturn;
@@ -424,33 +424,33 @@ public class Network {
     }
 
     /**
-     * Algorithme du plus court chemin
+     * Algorithme du meilleur chemin
      * 
      * @param start
      * @param end
      * @return la liste des numéros des villes à suivre
      */
-    public Path shortestPath(int start, int end) {
+    public Path bestPath(int start, int end) {
         // Déclaration des variables
         ArrayList<Integer> listToFollow = new ArrayList<>();
         int[] pred = new int[listOfCities.size()];
-        double[] totalLength = new double[listOfCities.size()];
+        double[] totalLoss = new double[listOfCities.size()];
 
         // Création de la liste intermédiaire : elle est constituée de toutes les villes 
         // que l'on peut encore aller visiter
         ArrayList<City> intermediateListCities = new ArrayList<>();
         for (City city : listOfCities) {
             intermediateListCities.add(city);
-            totalLength[city.getNumber() - 1] = Double.MAX_VALUE;
+            totalLoss[city.getNumber() - 1] = Double.MAX_VALUE;
         }
 
         // Initialisation
         City cityStart = getCityInList(start, listOfCities);
-        totalLength[cityStart.getNumber() - 1] = 0.0;
+        totalLoss[cityStart.getNumber() - 1] = 0.0;
 
         // Boucle
         while (intermediateListCities.isEmpty() == false) {
-            City cityToTry = cityWithMinTotLen(totalLength, intermediateListCities);
+            City cityToTry = cityWithMinTotLoss(totalLoss, intermediateListCities);
             intermediateListCities.remove(cityToTry);
             //Quels sont les voisins de la ville à essayer?
             ArrayList<City> listOfNeighbors = getNeighbors(cityToTry);
@@ -458,9 +458,9 @@ public class Network {
                 // A-t-on le droit de visiter ce voisin-ci?
                 if (intermediateListCities.contains(neighborCity) == true) {
                     Link link = getLinkInList(cityToTry.getNumber(), neighborCity.getNumber(), listOfLinks);
-                    double newLen = totalLength[cityToTry.getNumber() - 1] + link.getLinkLength();
-                    if (newLen < totalLength[neighborCity.getNumber() - 1]) {
-                        totalLength[neighborCity.getNumber() - 1] = newLen;
+                    double newLoss = totalLoss[cityToTry.getNumber() - 1] + link.getLineicLoss()*link.getLinkLength();
+                    if (newLoss < totalLoss[neighborCity.getNumber() - 1]) {
+                        totalLoss[neighborCity.getNumber() - 1] = newLoss;
                         pred[neighborCity.getNumber() - 1] = cityToTry.getNumber();
                     }
                 }
@@ -468,22 +468,21 @@ public class Network {
             }
         }
 
-        // Ecriture de la liste des noeuds du chemin calcul de la perte linéique moyenne
+        // Ecriture de la liste des noeuds du chemin 
         listToFollow.add(end);
         int number = end;
         while (number != start) {
             listToFollow.add(0, pred[number - 1]);
             number = pred[number - 1];
         }
-        // Calcul de la perte linéique moyenne
-        double meanLineicLoss = 0;
+        // Calcul de la longueur totale
+        double length = 0;
         for (int index = 0; index < listToFollow.size() - 1; index++) {
             Link linkConsidered = getLinkInList(listToFollow.get(index), listToFollow.get(index + 1), listOfLinks);
-            meanLineicLoss = meanLineicLoss + linkConsidered.getLineicLoss() * linkConsidered.getLinkLength();
+            length = length + linkConsidered.getLinkLength();
         }
-        meanLineicLoss = meanLineicLoss / totalLength[end - 1];
         // Création du chemin
-        Path shortPath = new Path(listToFollow, totalLength[end - 1], meanLineicLoss);
+        Path shortPath = new Path(listToFollow, length, totalLoss[end - 1]);
         return shortPath;
     }
 
@@ -569,34 +568,38 @@ public class Network {
         ArrayList<City> listCityNoProd = getNoProdCities();
 
         // Simulation
-        for (City cityNoProd : listCityNoProd) {
-            ArrayList<Integer> listNumCities = new ArrayList<>();
-            int numCityProd = 0;
-            double maxNecessaryPower = getMaxInTable(listTableCons.get(cityNoProd.getNumber() - 1));
-            Path path = new Path(listNumCities, Double.MAX_VALUE, 0.0);
-            // Sélection de la ville productrice la plus proche
-            for (City cityProd : listCityProd) {
-                Path newPath = shortestPath(cityProd.getNumber(), cityNoProd.getNumber());
-                //Il faut que la ville productrice soit en capacité de fournir de l'énergie
-                if (path.lenPath > newPath.lenPath &&
-                        canProvidePower(cityProd, maxNecessaryPower, listTableProd.get(cityProd.getNumber()-1))) {
-                    path = newPath;
-                    numCityProd = cityProd.getNumber();
+        try{
+            for (City cityNoProd : listCityNoProd) {
+                ArrayList<Integer> listNumCities = new ArrayList<>();
+                int numCityProd = 0;
+                double maxNecessaryPower = getMaxInTable(listTableCons.get(cityNoProd.getNumber() - 1));
+                Path path = new Path(listNumCities, Double.MAX_VALUE, 0.0);
+                // Sélection de la ville productrice la plus proche
+                for (City cityProd : listCityProd) {
+                    Path newPath = bestPath(cityProd.getNumber(), cityNoProd.getNumber());
+                    //Il faut que la ville productrice soit en capacité de fournir de l'énergie
+                    if (path.lenPath > newPath.lenPath &&
+                            canProvidePower(cityProd, maxNecessaryPower, listTableProd.get(cityProd.getNumber()-1))==true) {
+                        path = newPath;
+                        numCityProd = cityProd.getNumber();
+                    }
+                }
+                path.displayPath();
+                path.injectPower(getCityInList(numCityProd, listCityProd), cityNoProd, listTableProd, maxNecessaryPower);
+            }
+            for (City city : listOfCities) {
+                double[] cons = listTableCons.get(city.getNumber() - 1);
+                double[] prod = listTableProd.get(city.getNumber() - 1);
+                plotSimulationOfCity(prod, cons, city);
+                // Attente pour laisser le temps au graph de se print.
+                try {
+                    Thread.sleep(200);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
                 }
             }
-            path.displayPath();
-            path.injectPower(getCityInList(numCityProd, listCityProd), cityNoProd, listTableProd, maxNecessaryPower);
-        }
-        for (City city : listOfCities) {
-            double[] cons = listTableCons.get(city.getNumber() - 1);
-            double[] prod = listTableProd.get(city.getNumber() - 1);
-            plotSimulationOfCity(prod, cons, city);
-            // Attente pour laisser le temps au graph de se print.
-            try {
-                Thread.sleep(200);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
+        }catch(IndexOutOfBoundsException error){
+            System.out.println("Production of the network is not sufficient to provide power to all cities!");
         }
     }
 }
