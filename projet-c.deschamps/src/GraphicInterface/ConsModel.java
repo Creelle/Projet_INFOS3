@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 import ptolemy.plot.Plot;
 
 
-public class Model{
+public class ConsModel{
 
     public int number_of_days = 365;
 
@@ -33,9 +33,6 @@ public class Model{
         }
         
       
-
-        
-
         // Création des Points de Livraison et listes associées
         Consumption.DeliveryPoint DP1 = new Consumption.DeliveryPoint("ConstantFoyer", 1, listDevice1);
         Consumption.DeliveryPoint DP2 = new Consumption.DeliveryPoint("PeriodicFoyer", 1, listDevice2);

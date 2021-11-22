@@ -7,6 +7,7 @@ public class View {
     
 
     Controller controller;
+    ConsController conscontroller;
 
     public JTextField textField;
     public JTextField nConstantF;
@@ -54,10 +55,10 @@ public class View {
         textField.setText("365");
 
         nConstantF = new JTextField(20);
-        nConstantF.setText("365");
+        nConstantF.setText("1");
         
         nPeriodicF = new JTextField(20);
-        nPeriodicF.setText("365");
+        nPeriodicF.setText("1");
         
         
         // pane creator
@@ -123,18 +124,20 @@ public class View {
         
      }
 
-     public void setController(Controller controller){
+     public void setController(Controller controller, ConsController conscontroller){
         this.controller = controller;
-        ExitController exit_controller = new ExitController();
+        this.conscontroller = conscontroller;
+        
 
-        exitButton1.addActionListener(exit_controller);
-        exitButton2.addActionListener(exit_controller);
-        exitButton3.addActionListener(exit_controller);
-        exitButton4.addActionListener(exit_controller);
-        plotButton1.addActionListener(this.controller);
-        submitB.addActionListener(this.controller);
-        nConstantB.addActionListener(this.controller);
-        nPeriodicB.addActionListener(this.controller);
+        exitButton1.addActionListener(this.controller);
+        exitButton2.addActionListener(this.controller);
+        exitButton3.addActionListener(this.controller);
+        exitButton4.addActionListener(this.controller);
+
+        plotButton1.addActionListener(this.conscontroller);
+        submitB.addActionListener(this.conscontroller);
+        nConstantB.addActionListener(this.conscontroller);
+        nPeriodicB.addActionListener(this.conscontroller);
       }
 
      public void show(){
