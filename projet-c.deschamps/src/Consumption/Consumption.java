@@ -30,7 +30,7 @@ public class Consumption implements Energy {
     public Consumption(ArrayList<DeliveryPoint> listDelivery) {
         this.listDelivery = listDelivery;
         deltaT = 1;
-        nbHouses = 1000;
+        nbHouses = listDelivery.size();
     }
 
     /**
