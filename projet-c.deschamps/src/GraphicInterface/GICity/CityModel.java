@@ -1,67 +1,109 @@
 package GraphicInterface.GICity;
 
-import java.util.ArrayList;
 import javax.swing.JFrame;
 import ptolemy.plot.Plot;
+
+import City.*;
+import Production.*;
+import Consumption.*;
 
 
 public class CityModel{
 
     public int number_of_days = 365;
+    public int nbHouses = 6000;
+    City myCity;
+    Production P;
+    Consumption C;
 
-    public int number_of_constant_device = 1;
-    public int number_of_periodic_device = 1;
+    public void createCity(){
+        myCity = new City(nbHouses);
+        P = myCity.getCityProd();
+        C = myCity.getCityCons();
+    }
+   
+    public void checkCityProd(int j){
+        createCity();
+        // checks if the city consumption doesn't exceed city prod for 1 day
+        myCity.compare(j);
+
+    }
+
+    public void displayCSVDay(int j){
+        createCity();
+        myCity.displayCSVDay(j);
+    }
+
+    public void displayCSVYear(){
+        createCity();
+        myCity.displayCSVYear();
+    }
+
+    public void displayCity(){
+        createCity();
+        myCity.displayCity();
+    }
 
     
-    public void plotCons(){
+    public void plotCityDay(){
+        createCity();
 
-        // Création des consommations
-        Consumption.Device dev1;
-        ArrayList<Consumption.Device> listDevice1 = new ArrayList<Consumption.Device>();
-
-        for(int i = 0; i<number_of_constant_device;i++){
-            dev1= new Consumption.PeriodicDevice("Climatisation", 2000, "ete", 300, 300, 720, 1020);
-            listDevice1.add(dev1);
+        /*
+         * Affichage de la consommation (0), de la production (1) et du différentiel (2)
+         * sur une journée particulière (ex j=1)
+         */
+        
+        double[] prod = P.generate(1);
+        double[] cons = C.generate(1);
+        Plot plot = new Plot();
+        for (int i = 0; i < cons.length; i++) {
+            plot.addPoint(0, i, cons[i], true);
+            plot.addPoint(1, i, prod[i], true);
+            plot.addPoint(2, i, prod[i] - cons[i], true);
         }
         
-        ArrayList<Consumption.Device> listDevice2 = new ArrayList<Consumption.Device>();
-       
-        Consumption.Device dev2;
-        for(int i = 0; i<number_of_periodic_device;i++){
-            dev2 = new Consumption.ConstantDevice("Radiateur", 500, "hiver");
-            listDevice2.add(dev2);
-        }
-        
-      
-        // Création des Points de Livraison et listes associées
-        Consumption.DeliveryPoint DP1 = new Consumption.DeliveryPoint("ConstantFoyer", 1, listDevice1);
-        Consumption.DeliveryPoint DP2 = new Consumption.DeliveryPoint("PeriodicFoyer", 1, listDevice2);
-        ArrayList<Consumption.DeliveryPoint> listOfDeliv1 = new ArrayList<Consumption.DeliveryPoint>();
-        listOfDeliv1.add(DP1);
-        ArrayList<Consumption.DeliveryPoint> listOfDeliv2 = new ArrayList<Consumption.DeliveryPoint>();
-        listOfDeliv2.add(DP2);
+        plot.addLegend(0, "Consumption");
+        plot.addLegend(1, "Production");
+        plot.addLegend(2, "Production surplus");
+        JFrame frame = new JFrame("One day balance");
+        frame.add(plot);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        Consumption.Consumption C1 = new Consumption.Consumption(listOfDeliv1);
-        Consumption.Consumption C2 = new Consumption.Consumption(listOfDeliv2);
         
+    }
+
+    public void plotCityYear(){
+        createCity();
+        /*
+         * ***Attention ! ce graph met du temps à apparaître !***
+         *
+         * Affichage de la consommation moyenne (0), de la production moyenne (1) et du
+         * différentiel (2) sur l'année
+         */
+
         Plot plot1 = new Plot();
-        
-        double pConsMoy1;
-        double pConsMoy2;
+        double[] prod1;
         double[] cons1;
-        double[] cons2;
+        double pConsMoy;
+        double pProdMoy;
+        double diff;
 
         for (int j = 0; j < number_of_days; j++) {
-            cons1 = C1.generate(j);
-            cons2 = C2.generate(j);
-            pConsMoy1 = Math.round(C1.integrate(cons1.length - 1, cons1) * 60 * 10.0 / 1440) / 10.0;
-            pConsMoy2 = Math.round(C2.integrate(cons2.length - 1, cons2) * 60 * 10.0 / 1440) / 10.0;
-            plot1.addPoint(0, j, pConsMoy1, true);
-            plot1.addPoint(1, j, pConsMoy2, true);
+            prod1 = P.generate(j);
+            cons1 = C.generate(j);
+            pConsMoy = Math.round(C.integrate(cons1.length - 1, cons1) / 1440 * 10.0 * 60) / 10.0;
+            pProdMoy = Math.round(P.integrate(prod1.length - 1, prod1) * 60 * 10.0 / 1440) / 10.0;
+            diff = pProdMoy - pConsMoy;
+            plot1.addPoint(0, j, pConsMoy, true);
+            plot1.addPoint(1, j, pProdMoy, true);
+            plot1.addPoint(2, j, diff, true);
         }
-        plot1.addLegend(0, "Constant");
-        plot1.addLegend(1, "Periodic");
-        JFrame frame1 = new JFrame("Consommation moyenne");
+        plot1.addLegend(0, "Consumption");
+        plot1.addLegend(1, "Production");
+        plot1.addLegend(2, "Production surplus");
+        JFrame frame1 = new JFrame("Balance over a year");
         frame1.add(plot1);
         frame1.pack();
         frame1.setVisible(true);
