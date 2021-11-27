@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import ptolemy.plot.Plot;
 
+import Consumption.*;
+
 
 public class ConsModel{
 
@@ -16,34 +18,34 @@ public class ConsModel{
     public void plotCons(){
 
         // Création des consommations
-        Consumption.Device dev1;
-        ArrayList<Consumption.Device> listDevice1 = new ArrayList<Consumption.Device>();
+        Device dev1;
+        ArrayList<Device> listDevice1 = new ArrayList<Device>();
 
         for(int i = 0; i<number_of_constant_device;i++){
-            dev1= new Consumption.PeriodicDevice("Climatisation", 2000, "ete", 300, 300, 720, 1020);
+            dev1= new PeriodicDevice("Climatisation", 2000, "ete", 300, 300, 720, 1020);
             listDevice1.add(dev1);
         }
         
-        Consumption.Device dev2;
-        ArrayList<Consumption.Device> listDevice2 = new ArrayList<Consumption.Device>();
+        Device dev2;
+        ArrayList<Device> listDevice2 = new ArrayList<Device>();
        
         
         for(int i = 0; i<number_of_periodic_device;i++){
-            dev2 = new Consumption.ConstantDevice("Radiateur", 500, "hiver");
+            dev2 = new ConstantDevice("Radiateur", 500, "hiver");
             listDevice2.add(dev2);
         }
         
       
         // Création des Points de Livraison et listes associées
-        Consumption.DeliveryPoint DP1 = new Consumption.DeliveryPoint("ConstantFoyer", 1, listDevice1);
-        Consumption.DeliveryPoint DP2 = new Consumption.DeliveryPoint("PeriodicFoyer", 1, listDevice2);
-        ArrayList<Consumption.DeliveryPoint> listOfDeliv1 = new ArrayList<Consumption.DeliveryPoint>();
+        DeliveryPoint DP1 = new DeliveryPoint("ConstantFoyer", 1, listDevice1);
+        DeliveryPoint DP2 = new DeliveryPoint("PeriodicFoyer", 1, listDevice2);
+        ArrayList<DeliveryPoint> listOfDeliv1 = new ArrayList<DeliveryPoint>();
         listOfDeliv1.add(DP1);
-        ArrayList<Consumption.DeliveryPoint> listOfDeliv2 = new ArrayList<Consumption.DeliveryPoint>();
+        ArrayList<DeliveryPoint> listOfDeliv2 = new ArrayList<DeliveryPoint>();
         listOfDeliv2.add(DP2);
 
-        Consumption.Consumption C1 = new Consumption.Consumption(listOfDeliv1);
-        Consumption.Consumption C2 = new Consumption.Consumption(listOfDeliv2);
+        Consumption C1 = new Consumption(listOfDeliv1);
+        Consumption C2 = new Consumption(listOfDeliv2);
         
         Plot plot1 = new Plot();
         

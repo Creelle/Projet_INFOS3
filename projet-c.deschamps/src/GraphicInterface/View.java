@@ -32,6 +32,10 @@ public class View {
     public JTextField ncoalF;
     public JTextField nhydraulicF;
     public JTextField nnuclearF;
+
+    //Textfields pane3 
+    public JTextField textField3;
+    public JTextField nbHousesF;
     
    // Buttons
     
@@ -52,7 +56,15 @@ public class View {
     private JButton mainBYear;
     private JButton submitB2;
     
-    
+    //Buttons pane 3
+
+    private JButton nbHousesB;
+    private JButton submitB3;
+    private JButton CheckProdB;
+    private JButton displayCSVdayB;
+    private JButton displayCSVyearB;
+    private JButton plotDayB;
+    private JButton plotYearB;
 
     //Labels
     JLabel label;
@@ -94,6 +106,15 @@ public class View {
         submitB2 = new JButton("Number of days");
         mainBYear = new JButton("Year production plot");
 
+        //pane3 
+        nbHousesB = new JButton("Number of houses");
+        submitB3 = new JButton("Number of days");
+        CheckProdB = new JButton("Check production for 1 day");
+        displayCSVdayB = new JButton("Display production vs consumption for the last day");
+        displayCSVyearB = new JButton("Display production vs consumption per day");
+        plotDayB = new JButton("Plot over 1 day");
+        plotYearB = new JButton("Plot over 1 year");
+       
 
         //Textfields
         //textF pane1
@@ -125,6 +146,13 @@ public class View {
         nnuclearF = new JTextField(20);
         nnuclearF.setText("0");
 
+        // pane 3 
+        textField3 = new JTextField(20);
+        textField3.setText("365");
+
+        nbHousesF =  new JTextField(20);
+        nbHousesF.setText("6000");
+
 
         
         // pane creator
@@ -135,7 +163,7 @@ public class View {
         pane2.setLayout(new GridLayout(2,2));
 
         pane3= new JPanel();
-        pane3.setLayout(new GridLayout(2,2));
+        pane3.setLayout(new GridLayout(2,5));
 
         pane4= new JPanel();
         pane4.setLayout(new GridLayout(2,2));
@@ -206,13 +234,17 @@ public class View {
         pane2.add(nwindL);
         pane2.add(nwindF);
 
-        
-        
-        
-        
-
         // pane 3 filling
         pane3.add(exitButton3);
+        pane3.add(nbHousesB);
+        pane3.add(nbHousesF);
+        pane3.add(submitB3);
+        pane3.add(textField3);
+        pane3.add(CheckProdB);
+        pane3.add(displayCSVdayB);
+        pane3.add(displayCSVyearB);
+        pane3.add(plotDayB);
+        pane3.add(plotYearB);
 
         // pane 4 filling
         pane4.add(exitButton4);
@@ -242,6 +274,14 @@ public class View {
         mainB.addActionListener(this.prodcontroller);
         mainBYear.addActionListener(this.prodcontroller);
         submitB2.addActionListener(this.prodcontroller);
+
+        nbHousesB.addActionListener(citycontroller);;
+        submitB3.addActionListener(citycontroller);;
+        CheckProdB.addActionListener(citycontroller);;
+        displayCSVdayB.addActionListener(citycontroller);;
+        displayCSVyearB.addActionListener(citycontroller);;
+        plotDayB.addActionListener(citycontroller);;
+        plotYearB.addActionListener(citycontroller);;
         
       }
 

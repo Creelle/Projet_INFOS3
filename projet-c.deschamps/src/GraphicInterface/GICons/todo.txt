@@ -1,6 +1,0 @@
-To do for the production panel in the GI:
-
-Choose to add PanneauSolaire or CentraleCharbon + addButtons
-
-Plot a production for a day 
-Plot a production for a year with a varying number of days 

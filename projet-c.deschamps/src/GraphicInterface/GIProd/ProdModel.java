@@ -3,6 +3,7 @@ package GraphicInterface.GIProd;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import ptolemy.plot.Plot;
+import Production.*;
 
 
 
@@ -16,44 +17,45 @@ public class ProdModel{
     public int number_of_nuclear = 0;
     public int number_of_hydraulic = 0;
 
-    Production.ProductionSystem s1;
-    ArrayList<Production.ProductionSystem> listSys1;
-    Production.ProductionSystem s2;
-    ArrayList<Production.ProductionSystem> listSys2;
-    Production.InjectionPoint IP1;
-    Production.InjectionPoint IP2;
-    ArrayList<Production.InjectionPoint> listOfInj1;
-    ArrayList<Production.InjectionPoint> listOfInj2;
-    Production.Production P1;
-    Production.Production P2;
+    ProductionSystem s1;
+    ArrayList<ProductionSystem> listSys1;
+    
+    ProductionSystem s2;
+    ArrayList<ProductionSystem> listSys2;
+    InjectionPoint IP1;
+    InjectionPoint IP2;
+    ArrayList<InjectionPoint> listOfInj1;
+    ArrayList<InjectionPoint> listOfInj2;
+    Production P1;
+    Production P2;
 
     public void ProdCreation(){
         // Création des Systèmes de Prod et listes associées
         
-        listSys1= new ArrayList<Production.ProductionSystem>();
+        listSys1= new ArrayList<ProductionSystem>();
 
         for(int i = 0; i<number_of_solarpanels;i++){
-            s1 = new Production.PeriodicSystem("PanneauSolaire", 200000, "sin", 520, 300, 480, 1200);
+            s1 = new PeriodicSystem("PanneauSolaire", 200000, "sin", 520, 300, 480, 1200);
             listSys1.add(s1);
         }
         for(int i = 0; i<number_of_windmills;i++){
-            s1 = new Production.PeriodicSystem("Eolienne", 900000, "const", 120, 60, 240, 1140);
+            s1 = new PeriodicSystem("Eolienne", 900000, "const", 120, 60, 240, 1140);
             listSys1.add(s1);
         }
         for(int i = 0; i<number_of_hydraulic;i++){
-            s1 = new Production.PeriodicSystem("TurbineHydraulique", 5000000, "const", 720, 240, 360, 1440);
+            s1 = new PeriodicSystem("TurbineHydraulique", 5000000, "const", 720, 240, 360, 1440);
             listSys1.add(s1);
         }
 
-        listSys2 = new ArrayList<Production.ProductionSystem>();
+        listSys2 = new ArrayList<ProductionSystem>();
 
         for(int i = 0; i<number_of_coal;i++){
-            s2 = new Production.ConstantSystem("CentraleCharbon", 25000000, "const");
+            s2 = new ConstantSystem("CentraleCharbon", 25000000, "const");
             listSys2.add(s2);
         }
 
         for(int i = 0; i<number_of_nuclear;i++){
-            s2 = new Production.ConstantSystem("RéacteurNucléaire", 100000000, "const");// en W
+            s2 = new ConstantSystem("RéacteurNucléaire", 100000000, "const");// en W
             listSys2.add(s2);
         }
 
@@ -61,15 +63,15 @@ public class ProdModel{
         
 
         // Création des Points d'Injection et listes associées
-        IP1 = new Production.InjectionPoint("Centrale1", 1, listSys1);
-        IP2 = new Production.InjectionPoint("Centrale2", 1, listSys2);
-        listOfInj1 = new ArrayList<Production.InjectionPoint>();
+        IP1 = new InjectionPoint("Centrale1", 1, listSys1);
+        IP2 = new InjectionPoint("Centrale2", 1, listSys2);
+        listOfInj1 = new ArrayList<InjectionPoint>();
         listOfInj1.add(IP1);
-        listOfInj2 = new ArrayList<Production.InjectionPoint>();
+        listOfInj2 = new ArrayList<InjectionPoint>();
         listOfInj2.add(IP2);
         // Création des Productions
-        P1 = new Production.Production(listOfInj1);
-        P2 = new Production.Production(listOfInj2);
+        P1 = new Production(listOfInj1);
+        P2 = new Production(listOfInj2);
         
 
 
