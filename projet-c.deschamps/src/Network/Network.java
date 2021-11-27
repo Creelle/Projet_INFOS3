@@ -511,7 +511,7 @@ public class Network {
      */
     public void plotSimulationOfCity(double[] prod, double[] cons, City cityToPlot) {
         Plot plot = new Plot();
-        for (int i = 0; i < 1440; i++) {
+        for (int i = 0; i < cons.length; i++) {
             plot.addPoint(0, i, cons[i], true);
             plot.addPoint(1, i, prod[i], true);
             plot.addPoint(2, i, prod[i] - cons[i], true);
@@ -533,7 +533,7 @@ public class Network {
         for(double db : table){
             s+=db;
         }
-        return s/1440;
+        return s/table.length;
     }
 
     public boolean canProvidePower(double neededPower, double[] tableProd){
@@ -555,8 +555,12 @@ public class Network {
      * 
      * @param j
      */
-    public double[] simulation(int j) {
-        double[] res = new double [2*listOfCities.size()];
+    public ArrayList<double[]> simulation(int j, boolean wantPlotOfDay) {
+        //Initialisation des résultats :
+        //res sera composé de meanProd et meanCons
+        ArrayList<double[]> res = new ArrayList<>();
+        double[] meanProd = new double[listOfCities.size()];
+        double[] meanCons = new double[listOfCities.size()];
 
         // Création des listes de tableaux
         ArrayList<double[]> listTableProd = new ArrayList<>();
@@ -583,7 +587,8 @@ public class Network {
                 int numCityProd = 0;
                 double maxNecessaryPower = getMaxInTable(listTableCons.get(cityNoProd.getNumber() - 1));
                 Path path = new Path(listNumCities, Double.MAX_VALUE, 0.0);
-                // Sélection de la ville productrice la plus proche
+                // Sélection de la ville productrice qui permet de fournir de l'énergie avec
+                // peu de pertes
                 for (City cityProd : listCityProd) {
                     Path newPath = bestPath(cityProd.getNumber(), cityNoProd.getNumber());
                     //Il faut que la ville productrice soit en capacité de fournir de l'énergie
@@ -593,31 +598,48 @@ public class Network {
                         numCityProd = cityProd.getNumber();
                     }
                 }
-                path.displayPath();
+                //path.displayPath();
                 path.injectPower(getCityInList(numCityProd, listCityProd), cityNoProd, listTableProd, maxNecessaryPower);
             }
+
+            //Calcul des tableaux de res
             for (City city : listOfCities) {
                 double[] cons = listTableCons.get(city.getNumber() - 1);
                 double[] prod = listTableProd.get(city.getNumber() - 1);
+
+                //Calcul des moyennes pour chaque ville
                 double meanProdOfDay = meanOfTable(prod);
-                double meanConsOfDay = meanOfTable(cons); 
-                res[city.getNumber()-1]=meanProdOfDay;
-                res[city.getNumber()]=meanConsOfDay;
-                plotSimulationOfCity(prod, cons, city);
-                // Attente pour laisser le temps au graph de se print.
-                try {
-                    Thread.sleep(200);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                double meanConsOfDay = meanOfTable(cons);
+                double meanSurplus = meanProdOfDay-meanConsOfDay;
+                if(meanSurplus<0){
+                    System.out.println("blem!");
                 }
+                //Mise à jour des tableaux
+                meanProd[city.getNumber() - 1] = meanProdOfDay;
+                meanCons[city.getNumber() - 1] = meanConsOfDay;
+
+                //Exemple de tracé si wantPlotOfDay vaut true
+                if(wantPlotOfDay == true){
+                    plotSimulationOfCity(prod, cons, city);
+                    // Attente pour laisser le temps au graph de se tracer.
+                    try {
+                        Thread.sleep(200);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                }  
             }
         }catch(IndexOutOfBoundsException error){
             System.out.println("Production of the network is not sufficient to provide power to all cities!");
         }
+        
+        res.add(meanProd);
+        res.add(meanCons);
+        
         return res;
     }
 
-    /*public void simulateOnAYear(){
+    public void simulateOnAYear(){
 
         // Création des listes de tableaux
         ArrayList<double[]> listTableMeanProd = new ArrayList<>();
@@ -632,9 +654,41 @@ public class Network {
         }
         
         // Mise à jour des tableaux moyens
-        for(int j=1; j<366; j++){
-            double[] meanTables = simulation(j);
-
+        for(int j=0; j<365; j++){
+            ArrayList<double[]> listMeanTables = simulation(j+1, false);
+            for(int k=0; k<listOfCities.size(); k++){
+                //Mise à jour de ces tableaux
+                listTableMeanProd.get(k)[j] = listMeanTables.get(0)[k];
+                listTableMeanCons.get(k)[j] = listMeanTables.get(1)[k];
+            }
         }
-    }*/
+        //Impression des graphes
+        for(int k=0; k<listTableMeanCons.size(); k++){
+            City city = listOfCities.get(k);
+            double[] meanCons = listTableMeanCons.get(k);
+            double[] meanProd = listTableMeanProd.get(k);
+            Plot plot = new Plot();
+            for (int i = 0; i < meanCons.length; i++) {
+                plot.addPoint(0, i, meanCons[i], true);
+                plot.addPoint(1, i, meanProd[i], true);
+            }
+            plot.addLegend(0, "Consumption");
+            plot.addLegend(1, "Production");
+            String nameFrame = "Ville n°" + city.getNumber() + ", Producer : " + city.getProducer()
+                    + ", Number of Houses : " + city.getNbHouses();
+            JFrame frame = new JFrame(nameFrame);
+            frame.add(plot);
+            frame.pack();
+            frame.setVisible(true);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            try {
+                Thread.sleep(200);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        
+        
+    }
 }
