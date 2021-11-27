@@ -65,7 +65,7 @@ public class Network {
         this.listOfLinks = listLinks;
     }
 
-    //*************************************************************************\\
+    // *************************************************************************\\
 
     // Méthodes
 
@@ -139,7 +139,7 @@ public class Network {
         return listNoProdCities;
     }
 
-    //***************************************************************************\\
+    // ***************************************************************************\\
 
     // Partie génération de liste de villes
 
@@ -168,10 +168,10 @@ public class Network {
         for (int k = 1; k < nbCities + 1; k++) {
             double x = 100 * Math.random();
             double y = 100 * Math.random();
-            // Pas de nouvelle ville dans un cercle de rayon 2km autour d'une ville
+            // Pas de nouvelle ville dans un cercle de rayon 5km autour d'une ville
             // existante
             for (City city : listCities) {
-                while (Math.pow(x - city.getX(), 2) + Math.pow(y - city.getY(), 2) <= 4) {
+                while (Math.pow(x - city.getX(), 2) + Math.pow(y - city.getY(), 2) <= 25) {
                     x = 100 * Math.random();
                     y = 100 * Math.random();
                 }
@@ -208,7 +208,8 @@ public class Network {
         }
     }
 
-    // ************************************************************************************** \\
+    // **************************************************************************************
+    // \\
 
     // Partie génération de liste de liens
 
@@ -305,7 +306,8 @@ public class Network {
         }
     }
 
-    // ***************************************************************************************** \\
+    // *****************************************************************************************
+    // \\
 
     // Partie affichage graphique du réseau
 
@@ -327,24 +329,14 @@ public class Network {
         frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    // ************************************************************************************* \\
+    // *************************************************************************************
+    // \\
 
     // Partie Vérification graph connexe
 
-    public int connectedTo(int numCity, ArrayList<Integer> leftOverCities, ArrayList<Integer> listInt,
-            ArrayList<Link> listLinks) {
-        for (Link link : listLinks) {
-            if (link.getStart() == numCity && leftOverCities.contains(link.getEnd()) == false
-                    && listInt.contains(link.getEnd()) == true) {
-                return link.getEnd();
-            }
-        }
-        return 0;
-    }
-
     /**
-     * Méthode de vérificatin de graphe connexe : existe - il un plus court chemin
-     * entre la ville 1 et les autres?
+     * Pour vérifier si le graphe est connesxe ou non, je vérifie qu'il existe un
+     * chemin efficace energétiquement entre la ville 1 et les autres du réseau
      * 
      * @param listCities
      * @param listLinks
@@ -353,12 +345,16 @@ public class Network {
     public boolean checkConnectedNetwork(ArrayList<City> listCities, ArrayList<Link> listLinks) {
         boolean connected = false;
         int numStart = listCities.get(0).getNumber();
+        // Pour toutes les autres villes : existe-t-il un chemin efficient pour
+        // aller jusqu'à cette ville?
         for (City city : listCities) {
             int numCity = city.getNumber();
             if (city.getNumber() != numStart) {
                 try {
                     bestPath(numStart, numCity);
-                } catch (IndexOutOfBoundsException error) {
+                }
+                // Si une ville n'est pas réliée à celle de départ, l'erreur suivante apparaît
+                catch (IndexOutOfBoundsException error) {
                     System.out.println("Network not connected");
                     return connected;
                 }
@@ -369,10 +365,10 @@ public class Network {
         return connected;
     }
 
-    // ************************************************************************************* \\
+    // *************************************************************************************
+    // \\
 
-
-    // Partie algorithme du plus court chemin
+    // Partie algorithme du chemin le plus efficace
 
     /**
      * Déterminer la liste des voisins
@@ -398,9 +394,9 @@ public class Network {
 
     /**
      * 
-     * @param totalLoss tableau des distances plus courtes distances entre une
-     *                    ville de départ et les villes du tableau.
-     * @param listCities  liste des villes du tableau
+     * @param totalLoss  tableau des distances plus courtes distances entre une
+     *                   ville de départ et les villes du tableau.
+     * @param listCities liste des villes du tableau
      * @return la ville ayant la plus courte distance par rapport au point de
      *         départ.
      */
@@ -413,10 +409,9 @@ public class Network {
                 minLoss = totalLoss[city.getNumber() - 1];
             }
         }
-        // Simple sécurité mais n'arrive jamais
+        // Ceci arrive lorsque le graphe n'est pas connexe
         if (minLoss == Double.MAX_VALUE) {
             City cityToReturn = listCities.get(0);
-            System.out.println("no change");
             return cityToReturn;
         }
         City cityToReturn = getCityInList(numCityWithMinTotLen, listCities);
@@ -436,7 +431,7 @@ public class Network {
         int[] pred = new int[listOfCities.size()];
         double[] totalLoss = new double[listOfCities.size()];
 
-        // Création de la liste intermédiaire : elle est constituée de toutes les villes 
+        // Création de la liste intermédiaire : elle est constituée de toutes les villes
         // que l'on peut encore aller visiter
         ArrayList<City> intermediateListCities = new ArrayList<>();
         for (City city : listOfCities) {
@@ -444,23 +439,25 @@ public class Network {
             totalLoss[city.getNumber() - 1] = Double.MAX_VALUE;
         }
 
-        // Initialisation
+        // Initialisation du programme : on démarre à la ville désirée
         City cityStart = getCityInList(start, listOfCities);
         totalLoss[cityStart.getNumber() - 1] = 0.0;
 
-        // Boucle
+        // Boucle jusqu'a ce qu'il n'y ait plus de villes à visiter
         while (intermediateListCities.isEmpty() == false) {
             City cityToTry = cityWithMinTotLoss(totalLoss, intermediateListCities);
             intermediateListCities.remove(cityToTry);
-            //Quels sont les voisins de la ville à essayer?
+            // Quels sont les voisins de la ville à essayer?
             ArrayList<City> listOfNeighbors = getNeighbors(cityToTry);
             for (City neighborCity : listOfNeighbors) {
                 // A-t-on le droit de visiter ce voisin-ci?
                 if (intermediateListCities.contains(neighborCity) == true) {
                     Link link = getLinkInList(cityToTry.getNumber(), neighborCity.getNumber(), listOfLinks);
-                    double newLoss = totalLoss[cityToTry.getNumber() - 1] + link.getLineicLoss()*link.getLinkLength();
+                    double newLoss = totalLoss[cityToTry.getNumber() - 1] + link.getLineicLoss() * link.getLinkLength();
                     if (newLoss < totalLoss[neighborCity.getNumber() - 1]) {
+                        // Mise à jour de la perte si celle ci est moindre
                         totalLoss[neighborCity.getNumber() - 1] = newLoss;
+                        // Mise à jour du prédecesseur
                         pred[neighborCity.getNumber() - 1] = cityToTry.getNumber();
                     }
                 }
@@ -468,7 +465,7 @@ public class Network {
             }
         }
 
-        // Ecriture de la liste des noeuds du chemin 
+        // Ecriture de la liste des noeuds du chemin
         listToFollow.add(end);
         int number = end;
         while (number != start) {
@@ -486,12 +483,18 @@ public class Network {
         return shortPath;
     }
 
-    // --------------------------------------------------------------------------//
+    // **********************************************************************************\\
 
     // Partie simulation
 
-    // Méthode auxiliaire
+    // Méthodes auxiliaires
 
+    /**
+     * Méthode auxiliaire du max d'un tableau
+     * 
+     * @param table
+     * @return la valeur max du tableau
+     */
     public double getMaxInTable(double[] table) {
         double res = 0;
         for (double db : table) {
@@ -502,9 +505,9 @@ public class Network {
         return res;
     }
 
-    
     /**
      * Méthode auxiliaire d'affichage de la simulation du jour J pour la ville V
+     * 
      * @param prod
      * @param cons
      * @param cityToPlot
@@ -528,23 +531,36 @@ public class Network {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public double meanOfTable(double[] table){
+    /**
+     * Méthode auxiliaire de la moyenne d'un tableau
+     * 
+     * @param table
+     * @return la valeur moyenne
+     */
+    public double meanOfTable(double[] table) {
         double s = 0;
-        for(double db : table){
-            s+=db;
+        for (double db : table) {
+            s += db;
         }
-        return s/table.length;
+        return s / table.length;
     }
 
-    public boolean canProvidePower(double neededPower, double[] tableProd){
+    /**
+     * Méthode auxiliaire de la détermination de capacité à fournir de la puissance
+     * 
+     * @param neededPower //puissance demandée par une ville non productrice
+     * @param tableProd   //tableau d eproduction de la ville productrice
+     * @return true/false suivant la capacité de la ville à fournir de l'énergie
+     */
+    public boolean canProvidePower(double neededPower, double[] tableProd) {
         boolean res = false;
         double minPower = tableProd[0];
-        for(double db : tableProd){
-            if(minPower>db){
-                minPower=db;
+        for (double db : tableProd) {
+            if (minPower > db) {
+                minPower = db;
             }
         }
-        if(minPower>neededPower){
+        if (minPower > neededPower) {
             res = true;
         }
         return res;
@@ -554,10 +570,15 @@ public class Network {
      * Effectue la simulation du jour J pour le réseau
      * 
      * @param j
+     * @param wantPlotOfDay Veut-on le tracé pour chaque ville pour le jour J?
+     * 
+     * @return ArrayList des production et consommation moyennes sur le jour J des
+     *         villes
      */
     public ArrayList<double[]> simulation(int j, boolean wantPlotOfDay) {
-        //Initialisation des résultats :
-        //res sera composé de meanProd et meanCons
+
+        // Initialisation des résultats :
+        // res sera composé de meanProd et meanCons
         ArrayList<double[]> res = new ArrayList<>();
         double[] meanProd = new double[listOfCities.size()];
         double[] meanCons = new double[listOfCities.size()];
@@ -581,7 +602,7 @@ public class Network {
         ArrayList<City> listCityNoProd = getNoProdCities();
 
         // Simulation
-        try{
+        try {
             for (City cityNoProd : listCityNoProd) {
                 ArrayList<Integer> listNumCities = new ArrayList<>();
                 int numCityProd = 0;
@@ -591,35 +612,35 @@ public class Network {
                 // peu de pertes
                 for (City cityProd : listCityProd) {
                     Path newPath = bestPath(cityProd.getNumber(), cityNoProd.getNumber());
-                    //Il faut que la ville productrice soit en capacité de fournir de l'énergie
-                    if (path.lenPath > newPath.lenPath &&
-                            canProvidePower(maxNecessaryPower, listTableProd.get(cityProd.getNumber()-1))==true) {
+                    // Il faut que la ville productrice soit en capacité de fournir de l'énergie
+                    if (path.lenPath > newPath.lenPath && canProvidePower(maxNecessaryPower,
+                            listTableProd.get(cityProd.getNumber() - 1)) == true) {
                         path = newPath;
                         numCityProd = cityProd.getNumber();
                     }
                 }
-                //path.displayPath();
-                path.injectPower(getCityInList(numCityProd, listCityProd), cityNoProd, listTableProd, maxNecessaryPower);
+                path.injectPower(getCityInList(numCityProd, listCityProd), cityNoProd, listTableProd,
+                        maxNecessaryPower);
             }
 
-            //Calcul des tableaux de res
+            // Calcul des tableaux de res
             for (City city : listOfCities) {
                 double[] cons = listTableCons.get(city.getNumber() - 1);
                 double[] prod = listTableProd.get(city.getNumber() - 1);
 
-                //Calcul des moyennes pour chaque ville
+                // Calcul des moyennes pour chaque ville
                 double meanProdOfDay = meanOfTable(prod);
                 double meanConsOfDay = meanOfTable(cons);
-                double meanSurplus = meanProdOfDay-meanConsOfDay;
-                if(meanSurplus<0){
+                double meanSurplus = meanProdOfDay - meanConsOfDay;
+                if (meanSurplus < 0) {
                     System.out.println("blem!");
                 }
-                //Mise à jour des tableaux
+                // Mise à jour des tableaux
                 meanProd[city.getNumber() - 1] = meanProdOfDay;
                 meanCons[city.getNumber() - 1] = meanConsOfDay;
 
-                //Exemple de tracé si wantPlotOfDay vaut true
-                if(wantPlotOfDay == true){
+                // Exemple de tracé si wantPlotOfDay vaut true
+                if (wantPlotOfDay == true) {
                     plotSimulationOfCity(prod, cons, city);
                     // Attente pour laisser le temps au graph de se tracer.
                     try {
@@ -627,43 +648,46 @@ public class Network {
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
-                }  
+                }
             }
-        }catch(IndexOutOfBoundsException error){
+        } catch (IndexOutOfBoundsException error) {
             System.out.println("Production of the network is not sufficient to provide power to all cities!");
         }
-        
+
         res.add(meanProd);
         res.add(meanCons);
-        
+
         return res;
     }
 
-    public void simulateOnAYear(){
+    /**
+     * Simulation pour l'année
+     */
+    public void simulateOnAYear() {
 
         // Création des listes de tableaux
         ArrayList<double[]> listTableMeanProd = new ArrayList<>();
         ArrayList<double[]> listTableMeanCons = new ArrayList<>();
 
         // Initialisation des tableaux vides
-        for(int k=0; k<listOfCities.size(); k++){
+        for (int k = 0; k < listOfCities.size(); k++) {
             double[] prod = new double[365];
             double[] cons = new double[365];
             listTableMeanProd.add(prod);
             listTableMeanCons.add(cons);
         }
-        
+
         // Mise à jour des tableaux moyens
-        for(int j=0; j<365; j++){
-            ArrayList<double[]> listMeanTables = simulation(j+1, false);
-            for(int k=0; k<listOfCities.size(); k++){
-                //Mise à jour de ces tableaux
+        for (int j = 0; j < 365; j++) {
+            ArrayList<double[]> listMeanTables = simulation(j + 1, false);
+            for (int k = 0; k < listOfCities.size(); k++) {
+                // Mise à jour de ces tableaux
                 listTableMeanProd.get(k)[j] = listMeanTables.get(0)[k];
                 listTableMeanCons.get(k)[j] = listMeanTables.get(1)[k];
             }
         }
-        //Impression des graphes
-        for(int k=0; k<listTableMeanCons.size(); k++){
+        // Impression des graphes
+        for (int k = 0; k < listTableMeanCons.size(); k++) {
             City city = listOfCities.get(k);
             double[] meanCons = listTableMeanCons.get(k);
             double[] meanProd = listTableMeanProd.get(k);
@@ -687,8 +711,5 @@ public class Network {
                 System.out.println(e.getMessage());
             }
         }
-
-        
-        
     }
 }
