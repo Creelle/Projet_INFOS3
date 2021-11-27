@@ -95,7 +95,7 @@ public class Production implements Energy {
         double nb = 10 + Math.floor(Math.random() * (990));
         int k = 0; // compteur du nombre de système
         for (int i = 0; i < nb; i++) {
-            ProductionSystem s1 = new PeriodicSystem("PanneauSolaire", 200, "sin", 720, 600, 480, 1200);
+            ProductionSystem s1 = new Solar(250, 150, 400);
             listSolar.add(s1);
             k += 1;
         }
@@ -107,12 +107,14 @@ public class Production implements Energy {
         nb = Math.floor(Math.random() * (20));
         k = 0;
         for (int i = 0; i < nb; i++) {
-            ProductionSystem s2 = new PeriodicSystem("Eolienne", 400000, "const", 120, 60, 240, 1140);
+            ProductionSystem s2 = new Eolian(400000, 150000, 550000);
             listWindTurbine.add(s2);
             k += 1;
         }
         InjectionPoint IP2 = new InjectionPoint("FermeEolienne", k, listWindTurbine);
         listIP.add(IP2);
+
+        /** 
 
         // Création Centrale Hydraulique
         if (5000 > nbHouses) {
@@ -139,25 +141,26 @@ public class Production implements Energy {
             InjectionPoint IP3 = new InjectionPoint("CentraleHydraulique", k, listHydraulic);
             listIP.add(IP3);
         }
+        */ 
 
         // Création Centrale Fossile
-        if (nbHouses < 10000) {
+        //if (nbHouses < 10000) {
+        //    ArrayList<ProductionSystem> listFossil = new ArrayList<>();
+        //    ProductionSystem s4 = new ConstantSystem("RéacteurNucléaire", 95000000, "const");
+        //    listFossil.add(s4);
+        //    k = 1;
+        //    InjectionPoint IP4 = new InjectionPoint("CentraleFossile", k, listFossil);
+        //    listIP.add(IP4);
+        //} else if (nbHouses >= 10000) {
             ArrayList<ProductionSystem> listFossil = new ArrayList<>();
-            ProductionSystem s4 = new ConstantSystem("RéacteurNucléaire", 95000000, "const");
-            listFossil.add(s4);
+            ProductionSystem s4a = new Nuclear(20000000,35000000, 0.0023, 360);
+        //    ProductionSystem s4b = new ConstantSystem("TurbineCharbon", 250000000, "const");
+            listFossil.add(s4a);
+        //    listFossil.add(s4b);
             k = 1;
             InjectionPoint IP4 = new InjectionPoint("CentraleFossile", k, listFossil);
             listIP.add(IP4);
-        } else if (nbHouses >= 10000) {
-            ArrayList<ProductionSystem> listFossil = new ArrayList<>();
-            ProductionSystem s4a = new ConstantSystem("RéacteurNucléaire", 900000000, "const");
-            ProductionSystem s4b = new ConstantSystem("TurbineCharbon", 250000000, "const");
-            listFossil.add(s4a);
-            listFossil.add(s4b);
-            k = 2;
-            InjectionPoint IP4 = new InjectionPoint("CentraleFossile", k, listFossil);
-            listIP.add(IP4);
-        }
+        //}
 
         return listIP;
     }
