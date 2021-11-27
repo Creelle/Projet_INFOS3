@@ -24,6 +24,14 @@ public class View {
     public JTextField textField;
     public JTextField nConstantF;
     public JTextField nPeriodicF;
+
+    //Textfiles pane2
+    public JTextField textField2;
+    public JTextField nsolarF;
+    public JTextField nwindF;
+    public JTextField ncoalF;
+    public JTextField nhydraulicF;
+    public JTextField nnuclearF;
     
    // Buttons
     
@@ -41,9 +49,20 @@ public class View {
     //Buttons pane 2
 
     private JButton mainB;
+    private JButton mainBYear;
+    private JButton submitB2;
+    
+    
 
     //Labels
-    JLabel label = new JLabel();
+    JLabel label;
+
+    //label pane2
+    public JLabel nsolarL;
+    public JLabel nwindL;
+    public JLabel ncoalL;
+    public JLabel nhydraulicL;
+    public JLabel nnuclearL;
 
     // Panes
     private JPanel pane1;
@@ -71,11 +90,13 @@ public class View {
         nPeriodicB = new JButton("Number of periodic devices");
 
         //pane2
-        mainB = new JButton("Main");
+        mainB = new JButton("Day production plot");
+        submitB2 = new JButton("Number of days");
+        mainBYear = new JButton("Year production plot");
 
 
         //Textfields
-
+        //textF pane1
         textField = new JTextField(20);
         textField.setText("365");
 
@@ -84,7 +105,27 @@ public class View {
         
         nPeriodicF = new JTextField(20);
         nPeriodicF.setText("1");
-        
+
+        //textF pane2
+        textField2 = new JTextField(20);
+        textField2.setText("365");
+
+        nsolarF = new JTextField(20);
+        nsolarF.setText("10");
+
+        nwindF = new JTextField(20);
+        nwindF.setText("25");
+
+        ncoalF = new JTextField(20);
+        ncoalF.setText("1");
+
+        nhydraulicF = new JTextField(20);
+        nhydraulicF.setText("0");
+
+        nnuclearF = new JTextField(20);
+        nnuclearF.setText("0");
+
+
         
         // pane creator
         pane1 = new JPanel();
@@ -117,11 +158,13 @@ public class View {
         mainWindow.add(tabs);
 
 
-        // label creator
-        label.setText("Hello welcolme in the consummer simulator");
-        label.setForeground(Color.BLUE);
+        
+        
 
         //pane1 filling
+        label = new JLabel("Hello welcolme in the consummer simulator");
+        label.setForeground(Color.BLUE);
+
         pane1.add(label);
         pane1.add(plotButton1);
         pane1.add(exitButton1);
@@ -136,6 +179,35 @@ public class View {
         //pane 2 filling
         pane2.add(exitButton2);
         pane2.add(mainB);
+        pane2.add(mainBYear);
+        pane2.add(submitB2);
+        pane2.add(textField2);
+
+        JLabel fillLabel = new JLabel("");
+        pane2.add(fillLabel);
+
+        nnuclearL = new JLabel("Number of nuclear plants");
+        pane2.add(nnuclearL);
+        pane2.add(nnuclearF);
+
+        ncoalL = new JLabel("Number of coal plants");
+        pane2.add(ncoalL);
+        pane2.add(ncoalF);
+
+        nhydraulicL = new JLabel("Number of hydraulic plants");
+        pane2.add(nhydraulicL);
+        pane2.add(nhydraulicF);
+
+        nsolarL = new JLabel("Number of solar plants");
+        pane2.add(nsolarL);
+        pane2.add(nsolarF);
+
+        nwindL = new JLabel("Number of wind plants");
+        pane2.add(nwindL);
+        pane2.add(nwindF);
+
+        
+        
         
         
 
@@ -168,6 +240,9 @@ public class View {
         nPeriodicB.addActionListener(this.conscontroller);
 
         mainB.addActionListener(this.prodcontroller);
+        mainBYear.addActionListener(this.prodcontroller);
+        submitB2.addActionListener(this.prodcontroller);
+        
       }
 
      public void show(){
