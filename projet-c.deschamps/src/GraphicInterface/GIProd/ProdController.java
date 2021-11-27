@@ -19,11 +19,10 @@ public class ProdController implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e){
-        System.out.println(this.model);
-        System.out.println(this.view);
-        System.out.println("This should mean nothing");
-        
-        System.exit(0);
+        String s = e.getActionCommand();
+        if(s=="Main"){
+            model.plotProd();
+        }
     }
     
 }

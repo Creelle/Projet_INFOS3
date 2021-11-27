@@ -38,6 +38,10 @@ public class View {
     private JButton nConstantB;
     private JButton nPeriodicB;
 
+    //Buttons pane 2
+
+    private JButton mainB;
+
     //Labels
     JLabel label = new JLabel();
 
@@ -60,9 +64,15 @@ public class View {
         exitButton2 = new JButton("EXIT");
         exitButton3 = new JButton("EXIT");
         exitButton4 = new JButton("EXIT");
-        submitB = new JButton("submit text");
+
+        //pane1
+        submitB = new JButton("Number of days");
         nConstantB = new JButton("Number of constant devices");
         nPeriodicB = new JButton("Number of periodic devices");
+
+        //pane2
+        mainB = new JButton("Main");
+
 
         //Textfields
 
@@ -125,6 +135,7 @@ public class View {
 
         //pane 2 filling
         pane2.add(exitButton2);
+        pane2.add(mainB);
         
         
 
@@ -155,6 +166,8 @@ public class View {
         submitB.addActionListener(this.conscontroller);
         nConstantB.addActionListener(this.conscontroller);
         nPeriodicB.addActionListener(this.conscontroller);
+
+        mainB.addActionListener(this.prodcontroller);
       }
 
      public void show(){

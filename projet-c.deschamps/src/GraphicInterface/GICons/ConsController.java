@@ -14,15 +14,13 @@ public class ConsController implements ActionListener{
     public ConsController(ConsModel model,View v){
         this.model = model;
         this.view = v;
-
-
     }
 
     @Override
     public void actionPerformed(ActionEvent e){
        
         String s = e.getActionCommand();
-        if(s=="submit text"){
+        if(s=="Number of days"){
             
             model.number_of_days = Integer.parseInt(view.textField.getText());
 

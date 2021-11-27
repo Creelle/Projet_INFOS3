@@ -24,9 +24,10 @@ public class ConsModel{
             listDevice1.add(dev1);
         }
         
+        Consumption.Device dev2;
         ArrayList<Consumption.Device> listDevice2 = new ArrayList<Consumption.Device>();
        
-        Consumption.Device dev2;
+        
         for(int i = 0; i<number_of_periodic_device;i++){
             dev2 = new Consumption.ConstantDevice("Radiateur", 500, "hiver");
             listDevice2.add(dev2);
