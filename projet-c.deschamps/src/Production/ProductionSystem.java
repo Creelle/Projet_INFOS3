@@ -17,6 +17,7 @@ public abstract class ProductionSystem {
         this.PowerMax = PowerMax;
     }
     
+    abstract public String getName();
 
     abstract public void addProd(double[] result, int day);
 }

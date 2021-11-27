@@ -12,6 +12,10 @@ public class Solar extends ProductionSystem{
         this.PowerSunMax = PowerSunMaxR;
     }
 
+    public String getName(){
+        return("Solar");
+    }
+
     public void addProd(double[] prod, int day){
         double acumulate = 0;
         double diff=0;
