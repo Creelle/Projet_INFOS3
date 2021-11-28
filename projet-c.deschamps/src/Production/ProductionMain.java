@@ -11,7 +11,7 @@ public class ProductionMain {
         //ProductionSystem s1 = new PeriodicSystem("PanneauSolaire", 600, "sin", 520, 300, 480, 1200);
         ProductionSystem s1 = new Solar(2500000,1500000,4000000);
 
-        ProductionSystem s2 = new Nuclear(20000000,35000000, 0.0023, 400);
+        ProductionSystem s2 = new Nuclear(20000000,35000000, 0.0023, 4);
         ArrayList<ProductionSystem> listSys1 = new ArrayList<ProductionSystem>();
         listSys1.add(s1);
         ArrayList<ProductionSystem> listSys2 = new ArrayList<ProductionSystem>();

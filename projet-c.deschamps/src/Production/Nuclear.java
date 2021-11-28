@@ -12,6 +12,10 @@ public class Nuclear extends ProductionSystem {
         this.tMaxFis = 1440/nFis;
     }
 
+    public String getName(){
+        return("Nuclear");
+    }
+
     public void addProd(double[] prod, int day){
 
         ArrayList<Double> diffFis = new ArrayList<Double>();

@@ -11,6 +11,10 @@ public class Eolian extends ProductionSystem{
         this.PowerWindMax = PowerWindMaxP;
     }
 
+    public String getName(){
+        return("Eolian");
+    }
+
     public void addProd(double[] prod, int day){
         ArrayList<Double> result = new ArrayList<Double>();
 
