@@ -19,7 +19,7 @@ public class ProdModel{
 
     ProductionSystem s1;
     ArrayList<ProductionSystem> listSys1;
-    
+
     ProductionSystem s2;
     ArrayList<ProductionSystem> listSys2;
     InjectionPoint IP1;
@@ -35,27 +35,27 @@ public class ProdModel{
         listSys1= new ArrayList<ProductionSystem>();
 
         for(int i = 0; i<number_of_solarpanels;i++){
-            s1 = new PeriodicSystem("PanneauSolaire", 200000, "sin", 520, 300, 480, 1200);
+            s1 = new Solar(500000,10000,10000);
             listSys1.add(s1);
         }
         for(int i = 0; i<number_of_windmills;i++){
-            s1 = new PeriodicSystem("Eolienne", 900000, "const", 120, 60, 240, 1140);
+            s1 = new Eolian(1000000,10000,10000);
             listSys1.add(s1);
         }
-        for(int i = 0; i<number_of_hydraulic;i++){
-            s1 = new PeriodicSystem("TurbineHydraulique", 5000000, "const", 720, 240, 360, 1440);
-            listSys1.add(s1);
-        }
+        //for(int i = 0; i<number_of_hydraulic;i++){
+            //s1 = new PeriodicSystem("TurbineHydraulique", 5000000, "const", 720, 240, 360, 1440);
+            ///listSys1.add(s1);
+        //}
 
         listSys2 = new ArrayList<ProductionSystem>();
 
-        for(int i = 0; i<number_of_coal;i++){
-            s2 = new ConstantSystem("CentraleCharbon", 25000000, "const");
-            listSys2.add(s2);
-        }
+        //for(int i = 0; i<number_of_coal;i++){
+            //s2 = new ConstantSystem("CentraleCharbon", 25000000, "const");
+            //listSys2.add(s2);
+        //}
 
         for(int i = 0; i<number_of_nuclear;i++){
-            s2 = new ConstantSystem("RéacteurNucléaire", 100000000, "const");// en W
+            s2 = new Nuclear(10000000,100000,0,10000);// en W
             listSys2.add(s2);
         }
 

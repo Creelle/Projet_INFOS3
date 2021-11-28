@@ -8,8 +8,10 @@ public class ProductionMain {
     public static void main(String[] args) {
 
         // Création des Systèmes de Prod et listes associées
-        ProductionSystem s1 = new PeriodicSystem("PanneauSolaire", 600, "sin", 520, 300, 480, 1200);
-        ProductionSystem s2 = new ConstantSystem("CentraleCharbon", 900, "const");
+        //ProductionSystem s1 = new PeriodicSystem("PanneauSolaire", 600, "sin", 520, 300, 480, 1200);
+        ProductionSystem s1 = new Solar(500,100,100);
+
+        ProductionSystem s2 = new Nuclear(1000,100,0,10);
         ArrayList<ProductionSystem> listSys1 = new ArrayList<ProductionSystem>();
         listSys1.add(s1);
         ArrayList<ProductionSystem> listSys2 = new ArrayList<ProductionSystem>();
