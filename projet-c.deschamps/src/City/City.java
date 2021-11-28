@@ -6,6 +6,7 @@ import Consumption.Consumption;
 import Production.InjectionPoint;
 import Production.Production;
 
+
 public class City {
 
     // Attributs

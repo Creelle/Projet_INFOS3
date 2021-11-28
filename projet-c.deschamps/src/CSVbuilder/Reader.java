@@ -21,10 +21,12 @@ public class Reader {
 	 * <li> One object per line
 	 * <li> Each line must be in the format: 
 	 * <pre>
-	 * citystart;int nbHouses; 1 if producer/0 if not; double x0; double y0
+	 * citystart;int nbHouses; double x0; double y0
      * homestart
-     * constantdevice;515;6984;2295
+     * constantdevice;double power
+     * periodicdevice;double power,int period, int duration,int timestart,int timeend
      * homeend
+     * 
      * cityend
 	 * </pre>
 	 * </ul>
@@ -52,6 +54,8 @@ public class Reader {
         City mycity = new City();
         ArrayList<Device> listDevices = new ArrayList<Device>(0);
         int nbDevice = 0;
+        int nbSys = 0;
+        ArrayList<ProductionSystem> listSys = new ArrayList<ProductionSystem>(0);
         
 		while(bin.ready()) {
 			String line = bin.readLine();
@@ -60,16 +64,7 @@ public class Reader {
 
             switch(lineselector){
                 case "citystart":
-                    
-                    Boolean producer=false;
-                    if (Integer.parseInt(tokens[2].trim())==1){
-                        producer=true;
-                    }
-                    else{
-                        producer=false;
-                    }
-
-                    mycity = new City(Integer.parseInt(tokens[1].trim()), producer, Double.parseDouble(tokens[3].trim()), Double.parseDouble(tokens[4].trim()), 0);
+                    mycity = new City(Integer.parseInt(tokens[1].trim()), false, Double.parseDouble(tokens[2].trim()), Double.parseDouble(tokens[3].trim()), 0);
                     network.getListCities().add(mycity);
                 break;
                 
@@ -81,16 +76,25 @@ public class Reader {
                 case "constantdevice":
                     consdevice = new ConstantDevice("mydevice",Double.parseDouble(tokens[1].trim()),"const");
                     listDevices.add(consdevice);
+                    nbDevice++;
                     
                 break;
 
                 case "periodicdevice":
                     perdevice = new PeriodicDevice("mydevice",Double.parseDouble(tokens[1].trim()),"periodic",Integer.parseInt(tokens[2].trim()),Integer.parseInt(tokens[3].trim()),Integer.parseInt(tokens[4].trim()),Integer.parseInt(tokens[5].trim()));
                     listDevices.add(perdevice);
+                    nbDevice++;
 
                 case "homeend":
                     mycity.getCityCons().getListDelivery().add(new DeliveryPoint("foyer",nbDevice,listDevices));
                 break;
+
+                case "powerplantstart":
+                    listSys = new ArrayList<ProductionSystem>(0);
+                    nbSys = 0;
+                    mycity.setProducer(true);
+
+                case
 
                 case "cityend":
                    network.getListCities().add(mycity);
