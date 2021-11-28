@@ -2,14 +2,18 @@
     "java.project.sourcePaths": ["src"],
     "java.project.outputPath": "bin",
     "cSpell.words": [
+        "acumulate",
         "Centrale",
         "Charbon",
+        "coef",
         "Eolienne",
         "Ferme",
         "Fossile",
         "Hydraulique",
+        "minval",
         "Nucléaire",
         "Réacteur",
-        "Solaire"
+        "Solaire",
+        "tmax"
     ]
 }

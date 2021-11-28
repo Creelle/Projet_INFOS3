@@ -35,11 +35,11 @@ public class ProdModel{
         listSys1= new ArrayList<ProductionSystem>();
 
         for(int i = 0; i<number_of_solarpanels;i++){
-            s1 = new Solar(500000,10000,10000);
+            s1 = new Solar(250, 150, 400);
             listSys1.add(s1);
         }
         for(int i = 0; i<number_of_windmills;i++){
-            s1 = new Eolian(1000000,10000,10000);
+            s1 = new Eolian(400000, 150000, 550000);
             listSys1.add(s1);
         }
         //for(int i = 0; i<number_of_hydraulic;i++){
@@ -55,7 +55,7 @@ public class ProdModel{
         //}
 
         for(int i = 0; i<number_of_nuclear;i++){
-            s2 = new Nuclear(10000000,100000,0,10000);// en W
+            s2 = new Nuclear(20000000,35000000, 0.0023, 360);// en W
             listSys2.add(s2);
         }
 

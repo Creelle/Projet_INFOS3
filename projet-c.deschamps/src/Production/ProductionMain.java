@@ -9,9 +9,9 @@ public class ProductionMain {
 
         // Création des Systèmes de Prod et listes associées
         //ProductionSystem s1 = new PeriodicSystem("PanneauSolaire", 600, "sin", 520, 300, 480, 1200);
-        ProductionSystem s1 = new Solar(500,100,100);
+        ProductionSystem s1 = new Solar(2500000,1500000,4000000);
 
-        ProductionSystem s2 = new Nuclear(1000,100,0,10);
+        ProductionSystem s2 = new Nuclear(20000000,35000000, 0.0023, 400);
         ArrayList<ProductionSystem> listSys1 = new ArrayList<ProductionSystem>();
         listSys1.add(s1);
         ArrayList<ProductionSystem> listSys2 = new ArrayList<ProductionSystem>();
@@ -28,8 +28,8 @@ public class ProductionMain {
         // Création des Productions
         Production P1 = new Production(listOfInj1);
         Production P2 = new Production(listOfInj2);
-        double[] prodPeriodic = P1.generate(1); // On prend le premier jour par ex
-        double[] prodConstant = P2.generate(1);
+        double[] prodSolar = P1.generate(200); // On prend le premier jour par ex
+        double[] prodNuclear = P2.generate(200);
 
         // Test affichage console des Systèmes
         System.out.println(s1.toString());
@@ -40,22 +40,22 @@ public class ProductionMain {
         IP2.display();
 
         // Test affichage console d'une production
-        P1.displayPowProd(prodPeriodic);
+        P1.displayPowProd(prodSolar);
         P1.displaylistIP();
 
         // Test intégration sur plus d'une journée (affichage message)
-        System.out.println(P1.integrate(2000, prodPeriodic));
+        System.out.println(P1.integrate(2000, prodSolar));
 
         // Test affichage des productions dans un graph
         Plot plot = new Plot();
-        for (int i = 0; i < prodConstant.length; i++) {
-            plot.addPoint(0, i, prodConstant[i], true);
+        for (int i = 0; i < prodNuclear.length; i++) {
+            plot.addPoint(0, i, prodNuclear[i], true);
         }
-        for (int i = 0; i < prodPeriodic.length; i++) {
-            plot.addPoint(1, i, prodPeriodic[i], true);
+        for (int i = 0; i < prodSolar.length; i++) {
+            plot.addPoint(1, i, prodSolar[i], true);
         }
-        plot.addLegend(0, "Production Constante");
-        plot.addLegend(1, "Production périodique");
+        plot.addLegend(0, "Production Nuclear");
+        plot.addLegend(1, "Production Solar");
         JFrame frame = new JFrame("Production des points");
         frame.add(plot);
         frame.pack();
