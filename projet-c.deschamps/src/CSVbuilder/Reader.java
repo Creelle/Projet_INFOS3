@@ -22,6 +22,10 @@ public class Reader {
 	 * <li> Each line must be in the format: 
 	 * <pre>
 	 * citystart;int nbHouses; 1 if producer/0 if not; double x0; double y0
+     * homestart
+     * constantdevice;515;6984;2295
+     * homeend
+     * cityend
 	 * </pre>
 	 * </ul>
 	 * 
@@ -43,10 +47,16 @@ public class Reader {
 		BufferedReader bin = new BufferedReader(in);
         String lineselector;
 		Network network = new Network();
+        ConstantDevice consdevice = new ConstantDevice("mydevice",0,"const");
+        PeriodicDevice perdevice = new PeriodicDevice("mydevice",0,"periodic",0,0,0,0);
+        City mycity = new City();
+        ArrayList<Device> listDevices = new ArrayList<Device>(0);
+        int nbDevice = 0;
         
 		while(bin.ready()) {
 			String line = bin.readLine();
 			String[] tokens = line.split(";");
+            lineselector=tokens[0].trim();
 
             switch(lineselector){
                 case "citystart":
@@ -59,20 +69,40 @@ public class Reader {
                         producer=false;
                     }
 
-                    City mycity = new City(Integer.parseInt(tokens[1].trim()), producer, Integer.parseInt(tokens[3].trim()), Integer.parseInt(tokens[4].trim()), 0);
-                    
-                    break;
+                    mycity = new City(Integer.parseInt(tokens[1].trim()), producer, Double.parseDouble(tokens[3].trim()), Double.parseDouble(tokens[4].trim()), 0);
+                    network.getListCities().add(mycity);
+                break;
                 
-                case "home":
+                case "homestart":
+                    listDevices = new ArrayList<Device>(0);
+                    nbDevice = 0;
+                break;
+
+                case "constantdevice":
+                    consdevice = new ConstantDevice("mydevice",Double.parseDouble(tokens[1].trim()),"const");
+                    listDevices.add(consdevice);
+                    
+                break;
+
+                case "periodicdevice":
+                    perdevice = new PeriodicDevice("mydevice",Double.parseDouble(tokens[1].trim()),"periodic",Integer.parseInt(tokens[2].trim()),Integer.parseInt(tokens[3].trim()),Integer.parseInt(tokens[4].trim()),Integer.parseInt(tokens[5].trim()));
+                    listDevices.add(perdevice);
+
+                case "homeend":
+                    mycity.getCityCons().getListDelivery().add(new DeliveryPoint("foyer",nbDevice,listDevices));
+                break;
+
+                case "cityend":
+                   network.getListCities().add(mycity);
+                break;
+
                     
             }
-			String name = tokens[0].trim();
-			int age = Integer.parseInt(tokens[1].trim());
-			persons.add(new Person(name, age));
+			
 		}
 		bin.close();
 		
-		return persons;
+		return network;
 	}
     
 }
