@@ -5,15 +5,11 @@ import java.util.ArrayList;
 public class Nuclear extends ProductionSystem {
     private double PowerMaxFis, tauFis, tMaxFis;
 
-    public Nuclear(double PowerMaxR, double PowerMaxFisR, double tauFisR, double tFisR) {
+    public Nuclear(double PowerMaxR, double PowerMaxFisR, double tauFisR, int nFis) {
         super(PowerMaxR);
         this.PowerMaxFis = PowerMaxFisR;
         this.tauFis = tauFisR;
-        this.tMaxFis = tFisR;
-    }
-
-    public String getName(){
-        return("Nuclear");
+        this.tMaxFis = 1440/nFis;
     }
 
     public void addProd(double[] prod, int day){

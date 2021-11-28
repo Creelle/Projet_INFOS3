@@ -78,4 +78,12 @@ public class BasicModels {
         return genRet;
     }
 
+    public static double genLinear(int day1, int day2, double hour1, double hour2, int day){
+        double genRet;
+
+        genRet = (hour2*60 - hour1*60)/(day2 - day1) * (day - day1) + hour1*60;
+
+        return genRet;
+    }
+
 }

@@ -11,14 +11,13 @@ public class Eolian extends ProductionSystem{
         this.PowerWindMax = PowerWindMaxP;
     }
 
-    public String getName(){
-        return("Eolian");
-    }
-
     public void addProd(double[] prod, int day){
         ArrayList<Double> result = new ArrayList<Double>();
 
-        ArrayList<Double> prodWind = BasicModels.genSin(PowerWindMax, PowerWindMin, 720, Math.PI/2);
+        double PowerMaxWindDay = 0.5 * PowerWindMax + 0.5 * PowerWindMax / Math.E * Math.exp(-Math.cos((1/58.2)*(day+240)))*Math.cos((1/29.1)*(day+240));
+        double PowerMinWindDay = 0.5 * PowerWindMin + 0.5 * PowerWindMin / Math.E * Math.exp(-Math.cos((1/58.2)*(day+240)))*Math.cos((1/29.1)*(day+240));
+
+        ArrayList<Double> prodWind = BasicModels.genSin(PowerMaxWindDay, PowerMinWindDay, 720, Math.PI/2);
 
         ArrayList<Double> prodMax = BasicModels.genConstant(getPowerMax());
 
