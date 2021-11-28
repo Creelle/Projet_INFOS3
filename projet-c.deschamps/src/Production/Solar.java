@@ -46,6 +46,7 @@ public class Solar extends ProductionSystem{
 
             if(diff>0){
                 acumulate+=diff;
+                acumulate = Math.min(acumulate, getPowerMax()*20);
             }
 
             if(diff<0 && acumulate>0){

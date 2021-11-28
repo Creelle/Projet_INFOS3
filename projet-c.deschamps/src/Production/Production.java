@@ -107,7 +107,7 @@ public class Production implements Energy {
         nb = Math.floor(Math.random() * (20));
         k = 0;
         for (int i = 0; i < nb; i++) {
-            ProductionSystem s2 = new Eolian(400000, 150000, 550000);
+            ProductionSystem s2 = new Eolian(400000, 10, 140);
             listWindTurbine.add(s2);
             k += 1;
         }

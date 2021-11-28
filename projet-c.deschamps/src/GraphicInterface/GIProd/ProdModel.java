@@ -39,7 +39,7 @@ public class ProdModel{
             listSys1.add(s1);
         }
         for(int i = 0; i<number_of_windmills;i++){
-            s1 = new Eolian(400000, 150000, 550000);
+            s1 = new Eolian(400000, 10, 140);
             listSys1.add(s1);
         }
         //for(int i = 0; i<number_of_hydraulic;i++){
