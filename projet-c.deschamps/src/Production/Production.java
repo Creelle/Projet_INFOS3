@@ -153,7 +153,7 @@ public class Production implements Energy {
         //    listIP.add(IP4);
         //} else if (nbHouses >= 10000) {
             ArrayList<ProductionSystem> listFossil = new ArrayList<>();
-            ProductionSystem s4a = new Nuclear(20000000,35000000, 0.0023, 360);
+            ProductionSystem s4a = new Nuclear(20000000,35000000, 0.0023, 4);
         //    ProductionSystem s4b = new ConstantSystem("TurbineCharbon", 250000000, "const");
             listFossil.add(s4a);
         //    listFossil.add(s4b);

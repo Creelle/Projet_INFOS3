@@ -55,7 +55,7 @@ public class ProdModel{
         //}
 
         for(int i = 0; i<number_of_nuclear;i++){
-            s2 = new Nuclear(20000000,35000000, 0.0023, 360);// en W
+            s2 = new Nuclear(20000000,35000000, 0.0023, 4);// en W
             listSys2.add(s2);
         }
 
