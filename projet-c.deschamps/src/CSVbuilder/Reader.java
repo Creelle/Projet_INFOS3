@@ -94,7 +94,7 @@ public class Reader {
                     nbSys = 0;
                     mycity.setProducer(true);
 
-                case
+                break;
 
                 case "cityend":
                    network.getListCities().add(mycity);
