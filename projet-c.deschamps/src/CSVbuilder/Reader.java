@@ -8,6 +8,7 @@ import Network.Network;
 import City.City;
 import Production.*;
 import Consumption.*;
+import Production.ProductionSystem;
 
 /**Porvides a method to built a city from a CSV file
  * @author m.forte
@@ -56,6 +57,7 @@ public class Reader {
         int nbDevice = 0;
         int nbSys = 0;
         ArrayList<ProductionSystem> listSys = new ArrayList<ProductionSystem>(0);
+        ProductionSystem powersys = new ProductionSystem(0);
         
 		while(bin.ready()) {
 			String line = bin.readLine();
@@ -93,12 +95,19 @@ public class Reader {
                     listSys = new ArrayList<ProductionSystem>(0);
                     nbSys = 0;
                     mycity.setProducer(true);
-
                 break;
+
+                case "powersystem":
+
+
+                case "powerplantend":
+                    mycity.getCityProd().getListInj().add(new InjectionPoint("powerplant",nbSys,listSys));
 
                 case "cityend":
                    network.getListCities().add(mycity);
                 break;
+
+
 
                     
             }
