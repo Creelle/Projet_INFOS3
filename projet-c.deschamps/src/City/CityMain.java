@@ -17,7 +17,7 @@ public class CityMain {
         myCityTest.compare(1);
         myCityTest.displayCSVDay(1);
         // Sur l'année
-        //myCityTest.displayCSVYear();
+        myCityTest.displayCSVYear();
 
         /*
          * Affichage de la consommation (0), de la production (1) et du différentiel (2)
