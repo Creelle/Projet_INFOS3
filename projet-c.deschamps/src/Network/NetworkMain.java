@@ -1,10 +1,10 @@
 package Network;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class NetworkMain {
-    public static void main(String[] args) throws FileNotFoundException {
-        Network network = new Network(15);
+    public static void main(String[] args) throws IOException {
+        Network network = new Network(5);
         network.displayListCities();
         network.displayListLinks();
         network.plotGraphNetwork();

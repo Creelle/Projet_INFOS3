@@ -5,7 +5,8 @@ import Consumption.Consumption;
 import Production.Production;
 
 import java.util.ArrayList;
-import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import ptolemy.plot.Plot;
 import javax.swing.JFrame;
@@ -575,9 +576,9 @@ public class Network {
      * 
      * @return ArrayList des production et consommation moyennes sur le jour J des
      *         villes
-     * @throws FileNotFoundException
+     * @throws IOException
      */
-    public ArrayList<double[]> simulation(int j, boolean wantPlotOfDay) throws FileNotFoundException {
+    public ArrayList<double[]> simulation(int j, boolean wantPlotOfDay) throws IOException {
 
         // Initialisation des résultats :
         // res sera composé de meanProd et meanCons
@@ -588,6 +589,9 @@ public class Network {
         // Création des listes de tableaux
         ArrayList<double[]> listTableProd = new ArrayList<>();
         ArrayList<double[]> listTableCons = new ArrayList<>();
+
+        //création de la liste des chemins entre ville productrices et non productrices
+        ArrayList<Path> listOfPathsNoProd = new ArrayList<>();
 
         // Création des tableaux pour chaque ville de la liste et ajout aux listes
         for (City city : listOfCities) {
@@ -621,6 +625,7 @@ public class Network {
                         numCityProd = cityProd.getNumber();
                     }
                 }
+                listOfPathsNoProd.add(path);
                 path.injectPower(getCityInList(numCityProd, listCityProd), cityNoProd, listTableProd,
                         maxNecessaryPower);
             }
@@ -659,16 +664,17 @@ public class Network {
         res.add(meanProd);
         res.add(meanCons);
 
-        //CSVNetworkDay(j, listTableCons, listTableProd);
+        
+        CSVNetworkDay(j, listTableCons, listTableProd, listOfPathsNoProd);
 
         return res;
     }
 
     /**
      * Simulation pour l'année
-     * @throws FileNotFoundException
+     * @throws IOException
      */
-    public void simulateOnAYear() throws FileNotFoundException {
+    public void simulateOnAYear() throws IOException {
 
         // Création des listes de tableaux
         ArrayList<double[]> listTableMeanProd = new ArrayList<>();
@@ -720,12 +726,61 @@ public class Network {
 
     //***********************************************************************************\\
 
+
+    //Partie obtention des tableaux généraux pour un réseau entier ou un cluster
+
+    public ArrayList<double[]> getNetworkTables(ArrayList<double[]> listTableCons, ArrayList<double[]> listTableProd){
+        //Le résutat sera composé du tableau de production totale, puis de celui de consommation
+        // puis de celui de toutes les pertes du réseau
+        ArrayList<double[]> networkTables = new ArrayList<>();
+        double[] networkProd = new double[listTableProd.get(0).length];
+        double[] networkCons = new double[listTableCons.get(0).length];
+        for(int k=0; k<listTableCons.get(0).length; k++){
+            for(int i=0; i<listTableCons.size(); i++){
+                networkProd[k]+=listTableProd.get(i)[k];
+                networkCons[k]+=listTableCons.get(i)[k];
+            }
+        }
+        networkTables.add(networkProd);
+        networkTables.add(networkCons);
+        return networkTables;
+    }
+
+    public double[] getLossTable(ArrayList<Path> listOfPaths){
+        double[] res = new double[1440];
+
+        return res;
+    }
+
+    //***********************************************************************************\\
+
     //Partie écriture des CSV
 
-    public void CSVNetworkDay(int j, ArrayList<double[]> listTableCons, ArrayList<double[]> listTableProd) throws FileNotFoundException{
-        PrintWriter out = new PrintWriter("src/Network/CSV_Of_Network_Day"+j+".csv");
-        out.println("Texte File for the Network on Day "+ j);
-        out.println("Second line content");
+    public void CSVNetworkDay(int j, ArrayList<double[]> listTableCons, ArrayList<double[]> listTableProd,
+                     ArrayList<Path> listPathToNoProd) throws IOException{
+
+        //Obtention des tableaux nécessaires
+        ArrayList<double[]> listTablesOfNetwork = getNetworkTables(listTableCons, listTableProd);
+        double[] tableLoss = getLossTable(listPathToNoProd);
+
+        //Introduction du fichier
+        PrintWriter out = new PrintWriter(new FileWriter("projet-c.deschamps/src/Network/CSV_Of_Network/CSV_Of_Network_Day"+j+".csv"));
+        out.println("CSV File for the Network on Day "+ j);
+        out.println(" ");
+        
+        double energyProduced = 0;
+        double energyConsummed = 0;
+        double energyLost = 0;
+
+        //Ecriture du fichier
+        for(int k=0; k<listTableCons.get(0).length; k++){
+            out.println(k+ " ; " + listTablesOfNetwork.get(1)[k] + " ; " + listTablesOfNetwork.get(0)[k] +
+             " ; " + energyConsummed + " ; " + energyProduced + " ; " + energyLost);
+             energyProduced += listTablesOfNetwork.get(0)[k];
+             energyConsummed += listTablesOfNetwork.get(1)[k];
+             energyLost += tableLoss[k];
+        }
+
         out.close();
     }
 }
