@@ -16,7 +16,6 @@ public class Eolian extends ProductionSystem{
     }
 
     public void addProd(double[] prod, int day){
-
         double SpeedMaxWindDay = 0.5 * SpeedWindMax + 0.5 * SpeedWindMax / Math.E * Math.exp(-Math.cos((1/58.2)*(day+240)))*Math.cos((1/29.1)*(day+240));
         double SpeedMinWindDay = 0.108*Math.E*SpeedWindMin+ 0.7*SpeedWindMin / Math.E * Math.exp(-Math.cos((1/58.2)*(day+240)))*Math.cos((1/29.1)*(day+240));
 

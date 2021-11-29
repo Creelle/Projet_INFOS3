@@ -12,10 +12,6 @@ public class Solar extends ProductionSystem{
         this.PowerSunMax = PowerSunMaxR;
     }
 
-    public String getName(){
-        return("Solar");
-    }
-
     public void addProd(double[] prod, int day){
         double acumulate = 0;
         double diff=0;
@@ -26,14 +22,14 @@ public class Solar extends ProductionSystem{
         PowerDay = BasicModels.genCosDay(PowerSunMin,PowerSunMax,day, 365, (216.5/365)*2*Math.PI);
 
         if(day>33 && day<=218){
-            SunRise = BasicModels.genLinear(33, 218, 8.5, 5, day);
-            SunSet = BasicModels.genLinear(33, 218, 17, 20, day);
+            SunRise = BasicModels.genLinearDay(33, 218, 8.5, 5, day);
+            SunSet = BasicModels.genLinearDay(33, 218, 17, 20, day);
         } else if(day>218 || day<=33){
             if(day<=33){
                 day = day+365;
             }
-            SunRise = BasicModels.genLinear(218, 398, 5, 8.5, day);
-            SunSet = BasicModels.genLinear(218, 398, 20, 17, day);
+            SunRise = BasicModels.genLinearDay(218, 398, 5, 8.5, day);
+            SunSet = BasicModels.genLinearDay(218, 398, 20, 17, day);
         }
         
         ArrayList<Double> prodSun = BasicModels.genQuadratic(PowerDay, SunRise, SunSet);
@@ -46,7 +42,7 @@ public class Solar extends ProductionSystem{
 
             if(diff>0){
                 acumulate+=diff;
-                acumulate = Math.min(acumulate, getPowerMax()*20);
+                acumulate = Math.min(acumulate, getPowerMax()*30);
             }
 
             if(diff<0 && acumulate>0){

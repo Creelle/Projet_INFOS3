@@ -70,6 +70,36 @@ public class BasicModels {
         return genList;
     }
 
+    public static ArrayList<Double> genTanH(double PowerMax, int nTimes){
+        ArrayList<Double> genList = new ArrayList<Double>();
+
+        int Period = 1440/nTimes;
+
+        int contTH = 0;
+
+        for(int i=0; i<1440; i++){
+            genList.add(0.5*PowerMax*(Math.tanh(0.1*contTH-3)-Math.tanh(0.1*contTH-Period*0.1+3)));
+            contTH+=1;
+            if(contTH>=Period){
+                contTH=0;
+            }
+        }
+
+        return genList;
+    }
+
+    public static ArrayList<Double> genLinear(double PowerMin, double PowerMax, double tMax){
+        ArrayList<Double> genList = new ArrayList<Double>();
+        double genRet;
+
+        for(int i=0; i<tMax; i++){
+            genRet = (PowerMax - PowerMin)/tMax * i + PowerMin;
+            genList.add(genRet);
+        }
+
+        return genList;
+    }
+    
     public static double genCosDay(double PowerMin, double PowerMax, int day, double Period, double Phase){
         double genRet;
 
@@ -78,12 +108,11 @@ public class BasicModels {
         return genRet;
     }
 
-    public static double genLinear(int day1, int day2, double hour1, double hour2, int day){
+    public static double genLinearDay(int day1, int day2, double hour1, double hour2, int day){
         double genRet;
 
         genRet = (hour2*60 - hour1*60)/(day2 - day1) * (day - day1) + hour1*60;
 
         return genRet;
     }
-
 }
