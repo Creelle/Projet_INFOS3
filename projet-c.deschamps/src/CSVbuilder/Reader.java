@@ -56,6 +56,7 @@ public class Reader {
         int nbDevice = 0;
         int nbSys = 0;
         ArrayList<ProductionSystem> listSys = new ArrayList<ProductionSystem>(0);
+        ProductionSystem solarpanel = new Solar(0,0,0);
         
 		while(bin.ready()) {
 			String line = bin.readLine();
@@ -93,12 +94,24 @@ public class Reader {
                     listSys = new ArrayList<ProductionSystem>(0);
                     nbSys = 0;
                     mycity.setProducer(true);
+                break;
 
-                case
+                case "solarpanel":
+                    solarpanel = new Solar(Double.parseDouble(tokens[1].trim()),Double.parseDouble(tokens[2].trim()),Double.parseDouble(tokens[3].trim()));
+                    listSys.add(solarpanel);
+                    nbSys++;
+                break;
+
+
+                case "powerplantend":
+                    mycity.getCityProd().getListInj().add(new InjectionPoint("powerplant",nbSys,listSys));
+                break;
 
                 case "cityend":
                    network.getListCities().add(mycity);
                 break;
+
+
 
                     
             }
