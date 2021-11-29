@@ -3,6 +3,7 @@ package Production;
 import java.util.ArrayList;
 
 public class Nuclear extends ProductionSystem {
+    
     private double PowerMaxFis, tauFis, tMaxFis;
 
     public Nuclear(double PowerMaxR, double PowerMaxFisR, double tauFisR, int nFis) {
