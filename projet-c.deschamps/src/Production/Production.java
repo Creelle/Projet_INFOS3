@@ -114,53 +114,62 @@ public class Production implements Energy {
         InjectionPoint IP2 = new InjectionPoint("FermeEolienne", k, listWindTurbine);
         listIP.add(IP2);
 
-        /** 
-
-        // Création Centrale Hydraulique
-        if (5000 > nbHouses) {
-            ArrayList<ProductionSystem> listHydraulic = new ArrayList<>();
-            ProductionSystem s3 = new PeriodicSystem("TurbineHydraulique", 300000, "const", 720, 240, 360, 1440);
-            listHydraulic.add(s3);
-            k = 1;
-            InjectionPoint IP3 = new InjectionPoint("CentraleHydraulique", k, listHydraulic);
-            listIP.add(IP3);
-        } else if (5000 <= nbHouses && nbHouses < 10000) {
-            ArrayList<ProductionSystem> listHydraulic = new ArrayList<>();
-            ProductionSystem s3 = new PeriodicSystem("TurbineHydraulique", 6000000, "const", 720, 240, 360, 1440);
-            listHydraulic.add(s3);
-            k = 1;
-            InjectionPoint IP3 = new InjectionPoint("CentraleHydraulique", k, listHydraulic);
-            listIP.add(IP3);
-        } else {
-            ArrayList<ProductionSystem> listHydraulic = new ArrayList<>();
-            ProductionSystem s3a = new PeriodicSystem("TurbineHydraulique", 5000000, "const", 720, 240, 360, 1440);
-            ProductionSystem s3b = new PeriodicSystem("TurbineHydraulique", 5000000, "const", 720, 240, 360, 1440);
-            listHydraulic.add(s3a);
-            listHydraulic.add(s3b);
-            k = 2;
-            InjectionPoint IP3 = new InjectionPoint("CentraleHydraulique", k, listHydraulic);
-            listIP.add(IP3);
-        }
-        */ 
+        /**
+         * 
+         * // Création Centrale Hydraulique
+         * if (5000 > nbHouses) {
+         * ArrayList<ProductionSystem> listHydraulic = new ArrayList<>();
+         * ProductionSystem s3 = new PeriodicSystem("TurbineHydraulique", 300000,
+         * "const", 720, 240, 360, 1440);
+         * listHydraulic.add(s3);
+         * k = 1;
+         * InjectionPoint IP3 = new InjectionPoint("CentraleHydraulique", k,
+         * listHydraulic);
+         * listIP.add(IP3);
+         * } else if (5000 <= nbHouses && nbHouses < 10000) {
+         * ArrayList<ProductionSystem> listHydraulic = new ArrayList<>();
+         * ProductionSystem s3 = new PeriodicSystem("TurbineHydraulique", 6000000,
+         * "const", 720, 240, 360, 1440);
+         * listHydraulic.add(s3);
+         * k = 1;
+         * InjectionPoint IP3 = new InjectionPoint("CentraleHydraulique", k,
+         * listHydraulic);
+         * listIP.add(IP3);
+         * } else {
+         * ArrayList<ProductionSystem> listHydraulic = new ArrayList<>();
+         * ProductionSystem s3a = new PeriodicSystem("TurbineHydraulique", 5000000,
+         * "const", 720, 240, 360, 1440);
+         * ProductionSystem s3b = new PeriodicSystem("TurbineHydraulique", 5000000,
+         * "const", 720, 240, 360, 1440);
+         * listHydraulic.add(s3a);
+         * listHydraulic.add(s3b);
+         * k = 2;
+         * InjectionPoint IP3 = new InjectionPoint("CentraleHydraulique", k,
+         * listHydraulic);
+         * listIP.add(IP3);
+         * }
+         */
 
         // Création Centrale Fossile
-        //if (nbHouses < 10000) {
-        //    ArrayList<ProductionSystem> listFossil = new ArrayList<>();
-        //    ProductionSystem s4 = new ConstantSystem("RéacteurNucléaire", 95000000, "const");
-        //    listFossil.add(s4);
-        //    k = 1;
-        //    InjectionPoint IP4 = new InjectionPoint("CentraleFossile", k, listFossil);
-        //    listIP.add(IP4);
-        //} else if (nbHouses >= 10000) {
-            ArrayList<ProductionSystem> listFossil = new ArrayList<>();
-            ProductionSystem s4a = new Nuclear(20000000,35000000, 0.0023, 4);
-        //    ProductionSystem s4b = new ConstantSystem("TurbineCharbon", 250000000, "const");
-            listFossil.add(s4a);
-        //    listFossil.add(s4b);
-            k = 1;
-            InjectionPoint IP4 = new InjectionPoint("CentraleFossile", k, listFossil);
-            listIP.add(IP4);
-        //}
+        // if (nbHouses < 10000) {
+        // ArrayList<ProductionSystem> listFossil = new ArrayList<>();
+        // ProductionSystem s4 = new ConstantSystem("RéacteurNucléaire", 95000000,
+        // "const");
+        // listFossil.add(s4);
+        // k = 1;
+        // InjectionPoint IP4 = new InjectionPoint("CentraleFossile", k, listFossil);
+        // listIP.add(IP4);
+        // } else if (nbHouses >= 10000) {
+        ArrayList<ProductionSystem> listFossil = new ArrayList<>();
+        ProductionSystem s4a = new Nuclear(200000000, 200000000, 0.0023, 4);
+        // ProductionSystem s4b = new ConstantSystem("TurbineCharbon", 250000000,
+        // "const");
+        listFossil.add(s4a);
+        // listFossil.add(s4b);
+        k = 1;
+        InjectionPoint IP4 = new InjectionPoint("CentraleFossile", k, listFossil);
+        listIP.add(IP4);
+        // }
 
         return listIP;
     }
@@ -201,7 +210,7 @@ public class Production implements Energy {
      * Implémentation de l'intégration à partir d'un tableau de production
      * 
      * @param duration Entier de durée d'intégration
-     * @param prod  tableau de production
+     * @param prod     tableau de production
      * 
      * @return e énergie produite sur la durée considérée
      */

@@ -5,7 +5,8 @@ import Consumption.Consumption;
 import Production.Production;
 
 import java.util.ArrayList;
-
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import ptolemy.plot.Plot;
 import javax.swing.JFrame;
 
@@ -574,8 +575,9 @@ public class Network {
      * 
      * @return ArrayList des production et consommation moyennes sur le jour J des
      *         villes
+     * @throws FileNotFoundException
      */
-    public ArrayList<double[]> simulation(int j, boolean wantPlotOfDay) {
+    public ArrayList<double[]> simulation(int j, boolean wantPlotOfDay) throws FileNotFoundException {
 
         // Initialisation des résultats :
         // res sera composé de meanProd et meanCons
@@ -657,13 +659,16 @@ public class Network {
         res.add(meanProd);
         res.add(meanCons);
 
+        //CSVNetworkDay(j, listTableCons, listTableProd);
+
         return res;
     }
 
     /**
      * Simulation pour l'année
+     * @throws FileNotFoundException
      */
-    public void simulateOnAYear() {
+    public void simulateOnAYear() throws FileNotFoundException {
 
         // Création des listes de tableaux
         ArrayList<double[]> listTableMeanProd = new ArrayList<>();
@@ -711,5 +716,16 @@ public class Network {
                 System.out.println(e.getMessage());
             }
         }
+    }
+
+    //***********************************************************************************\\
+
+    //Partie écriture des CSV
+
+    public void CSVNetworkDay(int j, ArrayList<double[]> listTableCons, ArrayList<double[]> listTableProd) throws FileNotFoundException{
+        PrintWriter out = new PrintWriter("src/Network/CSV_Of_Network_Day"+j+".csv");
+        out.println("Texte File for the Network on Day "+ j);
+        out.println("Second line content");
+        out.close();
     }
 }
