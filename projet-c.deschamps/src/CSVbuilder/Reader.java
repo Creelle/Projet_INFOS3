@@ -129,6 +129,7 @@ public class Reader {
                     City cityToLink2 = network.getCityInList(Integer.parseInt(tokens[2].trim()), network.getListCities());
                     mylenght = network.calculateLength(cityToLink1,cityToLink2);
                     mylink = new Link(mylenght,Integer.parseInt(tokens[1].trim()),Integer.parseInt(tokens[2].trim()),Double.parseDouble(tokens[3].trim()));
+                    listLinks.add(mylink);
                 break;
 
 
