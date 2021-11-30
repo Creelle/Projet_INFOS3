@@ -666,10 +666,10 @@ public class Network {
         //Ecriture des fichiers CSV
 
         //Jour J
-        CSVNetworkDay(j, listTableCons, listTableProd, listOfPathsNoProd);
+        /*CSVNetworkDay(j, listTableCons, listTableProd, listOfPathsNoProd);
         for(City city : listOfCities){
             CSVCityDay(j, city, listTableCons, listTableProd, listOfPathsNoProd);
-        }
+        }*/
 
         //Année
         
