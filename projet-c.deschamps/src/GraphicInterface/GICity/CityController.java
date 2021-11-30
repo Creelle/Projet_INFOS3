@@ -30,6 +30,7 @@ public class CityController implements ActionListener {
 
         else if(s == "Check production for 1 day"){
             model.nbHouses = Integer.parseInt(view.nbHousesF.getText());
+            model.displayCity();
             model.checkCityProd(model.nbHouses);
         }
 

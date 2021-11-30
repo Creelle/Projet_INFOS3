@@ -42,20 +42,20 @@ public class ProdModel{
             s1 = new Eolian(400000, 10, 140);
             listSys1.add(s1);
         }
-        //for(int i = 0; i<number_of_hydraulic;i++){
-            //s1 = new PeriodicSystem("TurbineHydraulique", 5000000, "const", 720, 240, 360, 1440);
-            ///listSys1.add(s1);
-        //}
+        for(int i = 0; i<number_of_hydraulic;i++){
+            s1 = new Hydroeletric(5000000, 100);
+            listSys1.add(s1);
+        }
 
         listSys2 = new ArrayList<ProductionSystem>();
 
-        //for(int i = 0; i<number_of_coal;i++){
-            //s2 = new ConstantSystem("CentraleCharbon", 25000000, "const");
-            //listSys2.add(s2);
-        //}
+        for(int i = 0; i<number_of_coal;i++){
+            s2 = new Fossil(250000000, 5);
+            listSys2.add(s2);
+        }
 
         for(int i = 0; i<number_of_nuclear;i++){
-            s2 = new Nuclear(20000000,35000000, 0.0023, 4);// en W
+            s2 = new Nuclear(95000000,120000000, 0.0023, 4);// en W
             listSys2.add(s2);
         }
 
