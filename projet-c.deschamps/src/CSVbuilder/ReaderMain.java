@@ -5,7 +5,7 @@ import Network.*;
 public class ReaderMain {
     
     public static void main(String[] args) throws IOException {
-        Network network = Reader.read("data/network.csv");
+        Network network = Reader.read("data/network2.csv");
         network.displayListCities();
         network.displayListLinks();
         network.plotGraphNetwork();
