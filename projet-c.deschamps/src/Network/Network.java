@@ -764,7 +764,7 @@ public class Network {
         double[] tableLoss = getLossTable(listPathToNoProd);
 
         //Introduction du fichier
-        PrintWriter out = new PrintWriter(new FileWriter("projet-c.deschamps/src/Network/CSV_Of_Network/CSV_Of_Network_Day"+j+".csv"));
+        PrintWriter out = new PrintWriter(new FileWriter("../projet-c.deschamps/src/Network/CSV_Of_Network/CSV_Of_Network_Day"+j+".csv"));
         out.println("CSV File for the Network on Day "+ j);
         out.println(" ");
         
