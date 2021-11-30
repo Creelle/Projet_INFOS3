@@ -99,7 +99,7 @@ public class Reader {
         ArrayList<ProductionSystem> listSys = new ArrayList<ProductionSystem>(0);
         ProductionSystem constantsys = new ConstantSystem("constsys",0,"const");
         ProductionSystem periodicsys = new PeriodicSystem("periodicsys",0,"periodic",0,0,0,0);
-        ArrayList<Link> listLinks = new ArrayList<>();
+        //ArrayList<Link> listLinks = new ArrayList<>();
         Link mylink = new Link();
         double mylenght = 0;
         
@@ -171,7 +171,7 @@ public class Reader {
 
                 case "cityend":
                     System.out.println("ce");
-                   network.getListCities().add(mycity);
+                    network.getListCities().add(mycity);
                 break;
 
                 case "link":
@@ -180,7 +180,7 @@ public class Reader {
                     City cityToLink2 = network.getCityInList(Integer.parseInt(tokens[2].trim()), network.getListCities());
                     mylenght = network.calculateLength(cityToLink1,cityToLink2);
                     mylink = new Link(mylenght,Integer.parseInt(tokens[1].trim()),Integer.parseInt(tokens[2].trim()),Double.parseDouble(tokens[3].trim()));
-                    listLinks.add(mylink);
+                    network.getListLinks().add(mylink);
                 break;
 
                 default:
