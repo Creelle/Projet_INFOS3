@@ -174,9 +174,7 @@ public class Reader {
                 break;
 
                 default:
-                break;
-
-                    
+                break;  
             }
 			
 		}
