@@ -135,6 +135,7 @@ public class Reader {
                     perdevice = new PeriodicDevice("mydevice",Double.parseDouble(tokens[1].trim()),"periodic",Integer.parseInt(tokens[2].trim()),Integer.parseInt(tokens[3].trim()),Integer.parseInt(tokens[4].trim()),Integer.parseInt(tokens[5].trim()));
                     listDevices.add(perdevice);
                     nbDevice++;
+                break;
 
                 case "homeend":
                     System.out.println("homeend");
