@@ -51,7 +51,7 @@ public class ConstantSystem extends ProductionSystem {
      * @param prod Production existante sous forme de tableau
      * @return prod Production actualisée
      */
-    public double[] addProd(double[] prod, int j) {
+    public void addProd(double[] prod, int j) {
         double f;
         if (getNameFonc() == "sin") {
             f = 0.3 * Math.sin(2 * Math.PI * (j - 80) / 365) + 0.7; // Représente la fluctuation de puissance
@@ -71,6 +71,5 @@ public class ConstantSystem extends ProductionSystem {
         for (int i = 0; i < prod.length; i++) {
             prod[i] = prod[i] + getPowProd() * f;
         }
-        return prod;
     }
 }

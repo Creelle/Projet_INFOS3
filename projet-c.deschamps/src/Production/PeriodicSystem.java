@@ -100,7 +100,7 @@ public class PeriodicSystem extends ProductionSystem {
      * @return prod Production actualisée
      */
 
-    public double[] addProd(double[] prod, int j) {
+    public void addProd(double[] prod, int j) {
         double f;
         if (getNameFonc() == "sin") {
             f = 0.3 * Math.cos(2 * Math.PI * (j - 80) / 365) + 0.7; // Représente la fluctuation de puissance
@@ -135,6 +135,5 @@ public class PeriodicSystem extends ProductionSystem {
                 }
             }
         }
-        return prod;
     }
 }
