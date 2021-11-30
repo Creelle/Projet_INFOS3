@@ -660,12 +660,19 @@ public class Network {
         } catch (IndexOutOfBoundsException error) {
             System.out.println("Production of the network is not sufficient to provide power to all cities!");
         }
-
         res.add(meanProd);
         res.add(meanCons);
 
+        //Ecriture des fichiers CSV
+
+        //Jour J
+        /*CSVNetworkDay(j, listTableCons, listTableProd, listOfPathsNoProd);
+        for(City city : listOfCities){
+            CSVCityDay(j, city, listTableCons, listTableProd, listOfPathsNoProd);
+        }*/
+
+        //Année
         
-        //CSVNetworkDay(j, listTableCons, listTableProd, listOfPathsNoProd);
 
         return res;
     }
@@ -769,6 +776,25 @@ public class Network {
         return res;
     }
 
+    /**
+     * Calcule la perte d'énergie d'une ville : celle ci est constante 
+     *  car les pertes linéiques sont constantes dans le temps
+     * 
+     * @param listOfPaths tous les chemins depuis une ville productrice vers 
+     *                          les autres non productrices
+     * @param city Ville productrice dont on considère les pertes liées
+     * @return la valeur des pertes joules
+     */
+    public double getLossCityProd(City city, ArrayList<Path> listOfPaths){
+        double res = 0;
+        for(Path p : listOfPaths){
+            if(p.getListNumberCities().get(0) == city.getNumber()){
+                res+=p.lossPath;
+            }
+        }
+        return res;
+    }
+
     //***********************************************************************************\\
 
     //Partie écriture des CSV
@@ -778,15 +804,17 @@ public class Network {
 
         //Obtention des tableaux nécessaires
         ArrayList<double[]> listTablesOfNetwork = getNetworkTables(listTableCons, listTableProd);
+        
+        //Obtention des pertes de toutes les lignes
         double NetworkLoss = getLossNetwork(listPathToNoProd);
 
         //Introduction du fichier
         PrintWriter out = new PrintWriter(new FileWriter("../projet-c.deschamps/src/Network/CSV_Of_Network/CSV_Of_Network_Day"+j+".csv"));
         out.println("CSV File for the Network on Day "+ j);
         out.println("1 - Minute m ");
-        out.println("2 - Power Consummed at minute m ");
+        out.println("2 - Power Consumed at minute m ");
         out.println("3 - Power Produced at minute m ");
-        out.println("4 - Energy Consummed since the beginning of the day ");
+        out.println("4 - Energy Consumed since the beginning of the day ");
         out.println("5 - Energy Produced since the beginning of the day ");
         out.println("6 - Energy Lost since the beginning of the day ");
         out.println(" ");
@@ -814,8 +842,40 @@ public class Network {
     }
 
     public void CSVCityDay(int j, City city, ArrayList<double[]> listTableCons, ArrayList<double[]> listTableProd,
-                ArrayList<Path> listPathToNoProd){
-
+                ArrayList<Path> listPathToNoProd) throws IOException{
         
+        //Récupération des tableaux nécessaires
+        double[] cityProd = listTableProd.get(city.getNumber()-1);
+        double[] cityCons = listTableCons.get(city.getNumber()-1);
+
+        //Récupération de la perte des lignes partant de la ville
+        double cityLoss = getLossCityProd(city, listPathToNoProd);
+        
+        //Introduction du fichier CSV
+        PrintWriter out = new PrintWriter(new FileWriter("../projet-c.deschamps/src/Network/CSV_Of_Clusters/CSV_Of_Cluster"+city.getNumber()+"_Day"+j+".csv"));
+        out.println("CSV File for the City "+ city.getNumber()+ " on Day "+ j);
+        out.println("1 - Minute m ");
+        out.println("2 - Power Consumed at minute m ");
+        out.println("3 - Power Produced at minute m ");
+        out.println("4 - Energy Consumed since the beginning of the day ");
+        out.println("5 - Energy Produced since the beginning of the day ");
+        out.println("6 - Energy Lost since the beginning of the day on lines starting from the city");
+        out.println(" ");
+
+        //Initialisation des énergies
+        double energyProduced = 0;
+        double energyConsummed = 0;
+        double energyLost = 0;
+
+        //Ecriture du fichier
+        for(int k=0; k<cityProd.length; k++){
+            out.println(k+ " ; " + cityCons[k] + " ; " + cityProd[k] +
+             " ; " + energyConsummed + " ; " + energyProduced + " ; " + energyLost);
+             energyProduced += cityProd[k];
+             energyConsummed += cityCons[k];
+             energyLost += cityLoss;
+        }
+
+        out.close();
     }
 }
