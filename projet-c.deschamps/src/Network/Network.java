@@ -665,7 +665,7 @@ public class Network {
         res.add(meanCons);
 
         
-        CSVNetworkDay(j, listTableCons, listTableProd, listOfPathsNoProd);
+        //CSVNetworkDay(j, listTableCons, listTableProd, listOfPathsNoProd);
 
         return res;
     }
