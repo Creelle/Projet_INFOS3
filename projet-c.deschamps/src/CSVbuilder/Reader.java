@@ -110,17 +110,20 @@ public class Reader {
 
             switch(lineselector){
                 case "citystart":
+                    System.out.println("citystart");
                     number++;
                     mycity = new City(0, false, Double.parseDouble(tokens[1].trim()), Double.parseDouble(tokens[2].trim()), number);
                     network.getListCities().add(mycity);
                 break;
                 
                 case "homestart":
+                    System.out.println("homestrat");
                     listDevices = new ArrayList<Device>(0);
                     nbDevice = 0;
                 break;
 
                 case "constantdevice":
+                System.out.println("consdev");
                     consdevice = new ConstantDevice("mydevice",Double.parseDouble(tokens[1].trim()),"const");
                     listDevices.add(consdevice);
                     nbDevice++;
@@ -128,28 +131,33 @@ public class Reader {
                 break;
 
                 case "periodicdevice":
+                    System.out.println("perdiodicdev");
                     perdevice = new PeriodicDevice("mydevice",Double.parseDouble(tokens[1].trim()),"periodic",Integer.parseInt(tokens[2].trim()),Integer.parseInt(tokens[3].trim()),Integer.parseInt(tokens[4].trim()),Integer.parseInt(tokens[5].trim()));
                     listDevices.add(perdevice);
                     nbDevice++;
 
                 case "homeend":
+                    System.out.println("homeend");
                     mycity.setNbHouses(mycity.getNbHouses()+1);
                     mycity.getCityCons().getListDelivery().add(new DeliveryPoint("foyer",nbDevice,listDevices));
                 break;
 
                 case "powerplantstart":
+                    System.out.println("pps");
                     listSys = new ArrayList<ProductionSystem>(0);
                     nbSys = 0;
                     mycity.setProducer(true);
                 break;
                 
                 case "constantsystem":
+                    System.out.println("cs");
                     constantsys = new ConstantSystem("constsys",Double.parseDouble(tokens[1].trim()),"const");
                     listSys.add(constantsys);
                     nbSys++;
                 break;
 
                 case "periodicsystem":
+                    System.out.println("ps");
                     periodicsys = new PeriodicSystem("periodicsys",Double.parseDouble(tokens[1].trim()),"periodic",Integer.parseInt(tokens[2].trim()),Integer.parseInt(tokens[3].trim()),Integer.parseInt(tokens[4].trim()),Integer.parseInt(tokens[5].trim()));
                     listSys.add(periodicsys);
                     nbSys++;
@@ -157,15 +165,17 @@ public class Reader {
 
 
                 case "powerplantend":
+                    System.out.println("ppe");
                     mycity.getCityProd().getListInj().add(new InjectionPoint("powerplant",nbSys,listSys));
                 break;
 
                 case "cityend":
+                    System.out.println("ce");
                    network.getListCities().add(mycity);
                 break;
 
                 case "link":
-
+                    System.out.println("l");
                     City cityToLink1 = network.getCityInList(Integer.parseInt(tokens[1].trim()), network.getListCities());
                     City cityToLink2 = network.getCityInList(Integer.parseInt(tokens[2].trim()), network.getListCities());
                     mylenght = network.calculateLength(cityToLink1,cityToLink2);
