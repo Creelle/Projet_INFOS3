@@ -21,21 +21,61 @@ public class Reader {
 	 * <li> One object per line
 	 * <li> Each line must be in the format: 
 	 * <pre>
-	 * citystart;int nbHouses; double x0; double y0
+	 * citystart; double x0; double y0
      * homestart
-     * constantdevice;double power
-     * periodicdevice;double power,int period, int duration,int timestart,int timeend
+     * constantdevice; double power
+     * periodicdevice; double power; int period; int duration; int timestart; int timeend
      * homeend
-     * 
+     * powerplantstart
+     * constantsystem; double power
+     * periodicsystem; double power; int period; int duration; int timestart; int timeend
+     * powerplantend
      * cityend
+     * link, int numberCity1, int numberCity2, double lineicLoss
 	 * </pre>
 	 * </ul>
 	 * 
 	 * Here is an example file of CSV file content:
 	 * 
 	 * <pre>
-	 * Jean Dupont,33
-	 * Pierre Martin,55
+	 * citystart;0;0
+     * 
+     * homestart
+     * constantdevice; 2000
+     * constantdevice; 500
+     * periodicdevice; 2000; 10; 500; 0; 1440
+     * homeend
+     * 
+     * homestart
+     * constantdevice; 3000
+     * constantdevice; 100
+     * periodicdevice; 2000; 20; 1000; 0; 1440
+     * homeend
+     * 
+     * powerplantstart
+     * constantsystem;1000000
+     * powerplantend
+     * 
+     * cityend
+     * 
+     * citystart;2;2
+     * 
+     * homestart
+     * constantdevice; 2000
+     * constantdevice; 500
+     * periodicdevice; 2000; 10; 500; 0; 1440
+     * homeend
+     * 
+     * homestart
+     * constantdevice; 3000
+     * constantdevice;100
+     * periodicdevice;2000;20;1000;0;1440
+     * homeend
+     * 
+     * cityend
+     * 
+     * link;1;2;10
+     * 
 	 * </pre>
  	 * 
 	 * @param filename Path of the file to read, e.g. "data/persons.txt"
@@ -71,7 +111,7 @@ public class Reader {
             switch(lineselector){
                 case "citystart":
                     number++;
-                    mycity = new City(Integer.parseInt(tokens[1].trim()), false, Double.parseDouble(tokens[2].trim()), Double.parseDouble(tokens[3].trim()), number);
+                    mycity = new City(0, false, Double.parseDouble(tokens[1].trim()), Double.parseDouble(tokens[2].trim()), number);
                     network.getListCities().add(mycity);
                 break;
                 
@@ -93,6 +133,7 @@ public class Reader {
                     nbDevice++;
 
                 case "homeend":
+                    mycity.setNbHouses(mycity.getNbHouses()+1);
                     mycity.getCityCons().getListDelivery().add(new DeliveryPoint("foyer",nbDevice,listDevices));
                 break;
 
@@ -132,7 +173,8 @@ public class Reader {
                     listLinks.add(mylink);
                 break;
 
-
+                default:
+                break;
 
                     
             }
