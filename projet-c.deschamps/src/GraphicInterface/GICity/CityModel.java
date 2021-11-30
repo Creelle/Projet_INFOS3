@@ -41,7 +41,8 @@ public class CityModel{
 
     public void displayCity(){
         createCity();
-        myCity.displayCity();
+        System.out.println("Production :");
+        P.displaylistIP();
     }
 
     
