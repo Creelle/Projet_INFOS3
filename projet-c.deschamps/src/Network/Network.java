@@ -729,6 +729,13 @@ public class Network {
 
     //Partie obtention des tableaux généraux pour un réseau entier ou un cluster
 
+    /**
+     * Obtention des tableaux de puissance du réseau entier
+     * 
+     * @param listTableCons liste des tableaux de consommation de toutes les villes
+     * @param listTableProd liste des tableaux de production de toutes les villes
+     * @return la liste composée du tableau de production et du tableau de consommation du réseau
+     */
     public ArrayList<double[]> getNetworkTables(ArrayList<double[]> listTableCons, ArrayList<double[]> listTableProd){
         //Le résutat sera composé du tableau de production totale, puis de celui de consommation
         // puis de celui de toutes les pertes du réseau
@@ -746,9 +753,19 @@ public class Network {
         return networkTables;
     }
 
-    public double[] getLossTable(ArrayList<Path> listOfPaths){
-        double[] res = new double[1440];
-
+    /**
+     * Calcule la perte d'énergie du réseau entier : celle ci est constante 
+     *  car les pertes linéiques sont constantes dans le temps
+     * 
+     * @param listOfPaths tous les chemins depuis une ville productrice vers 
+     *                          les autres non productrices
+     * @return
+     */
+    public double getLossNetwork(ArrayList<Path> listOfPaths){
+        double res = 0;
+        for(Path p : listOfPaths){
+            res+=p.lossPath;
+        }
         return res;
     }
 
@@ -761,13 +778,20 @@ public class Network {
 
         //Obtention des tableaux nécessaires
         ArrayList<double[]> listTablesOfNetwork = getNetworkTables(listTableCons, listTableProd);
-        double[] tableLoss = getLossTable(listPathToNoProd);
+        double NetworkLoss = getLossNetwork(listPathToNoProd);
 
         //Introduction du fichier
-        PrintWriter out = new PrintWriter(new FileWriter("../projet-c.deschamps/src/Network/CSV_Of_Network/CSV_Of_Network_Day"+j+".csv"));
+        PrintWriter out = new PrintWriter(new FileWriter("projet-c.deschamps/src/Network/CSV_Of_Network/CSV_Of_Network_Day"+j+".csv"));
         out.println("CSV File for the Network on Day "+ j);
+        out.println("1 - Minute m ");
+        out.println("2 - Power Consummed at minute m ");
+        out.println("3 - Power Produced at minute m ");
+        out.println("4 - Energy Consummed since the beginning of the day ");
+        out.println("5 - Energy Produced since the beginning of the day ");
+        out.println("6 - Energy Lost since the beginning of the day ");
         out.println(" ");
         
+        //Initialisation des énergies
         double energyProduced = 0;
         double energyConsummed = 0;
         double energyLost = 0;
@@ -778,9 +802,20 @@ public class Network {
              " ; " + energyConsummed + " ; " + energyProduced + " ; " + energyLost);
              energyProduced += listTablesOfNetwork.get(0)[k];
              energyConsummed += listTablesOfNetwork.get(1)[k];
-             energyLost += tableLoss[k];
+             energyLost += NetworkLoss;
         }
 
         out.close();
+    }
+
+    public void CSVNetworkYear(){
+        //Stratégie : aller lire la dernière ligne de chaque autre CSV pour récupérer 
+        // les valeurs d'énergie produite, consommée et perdue
+    }
+
+    public void CSVCityDay(int j, City city, ArrayList<double[]> listTableCons, ArrayList<double[]> listTableProd,
+                ArrayList<Path> listPathToNoProd){
+
+        
     }
 }

@@ -146,7 +146,7 @@ public class Production implements Energy {
         // Création Centrale Fossile
         if (nbHouses < 10000) {
             ArrayList<ProductionSystem> listFossil = new ArrayList<>();
-            ProductionSystem s4 = new Nuclear(95000000,120000000, 0.0023, 4);
+            ProductionSystem s4 = new Nuclear(200000000, 240000000, 0.0023, 4);
             listFossil.add(s4);
             k = 1;
             InjectionPoint IP4 = new InjectionPoint("CentraleFossile", k, listFossil);
