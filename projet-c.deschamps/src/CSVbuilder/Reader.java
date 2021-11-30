@@ -9,7 +9,7 @@ import City.City;
 import Production.*;
 import Consumption.*;
 
-/**Porvides a method to built a city from a CSV file
+/**Porvides a method to built a network from a CSV file
  * @author m.forte
  */
 
@@ -56,7 +56,8 @@ public class Reader {
         int nbDevice = 0;
         int nbSys = 0;
         ArrayList<ProductionSystem> listSys = new ArrayList<ProductionSystem>(0);
-        ProductionSystem solarpanel = new Solar(0,0,0);
+        ProductionSystem constantsys = new ConstantSystem("constsys",0,"const");
+        ProductionSystem periodicsys = new PeriodicSystem("periodicsys",0,"periodic",0,0,0,0);
         
 		while(bin.ready()) {
 			String line = bin.readLine();
@@ -95,10 +96,16 @@ public class Reader {
                     nbSys = 0;
                     mycity.setProducer(true);
                 break;
+                
+                case "constantsystem":
+                    constantsys = new ConstantSystem("constsys",Double.parseDouble(tokens[1].trim()),"const");
+                    listSys.add(constantsys);
+                    nbSys++;
+                break;
 
-                case "solarpanel":
-                    solarpanel = new Solar(Double.parseDouble(tokens[1].trim()),Double.parseDouble(tokens[2].trim()),Double.parseDouble(tokens[3].trim()));
-                    listSys.add(solarpanel);
+                case "periodicsystem":
+                    periodicsys = new PeriodicSystem("periodicsys",Double.parseDouble(tokens[1].trim()),"periodic",Integer.parseInt(tokens[2].trim()),Integer.parseInt(tokens[3].trim()),Integer.parseInt(tokens[4].trim()),Integer.parseInt(tokens[5].trim()));
+                    listSys.add(periodicsys);
                     nbSys++;
                 break;
 
@@ -110,6 +117,8 @@ public class Reader {
                 case "cityend":
                    network.getListCities().add(mycity);
                 break;
+
+                
 
 
 
