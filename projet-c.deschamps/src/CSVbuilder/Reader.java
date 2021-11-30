@@ -61,6 +61,7 @@ public class Reader {
         ProductionSystem periodicsys = new PeriodicSystem("periodicsys",0,"periodic",0,0,0,0);
         ArrayList<Link> listLinks = new ArrayList<>();
         Link mylink = new Link();
+        double mylenght = 0;
         
 		while(bin.ready()) {
 			String line = bin.readLine();
@@ -126,8 +127,8 @@ public class Reader {
 
                     City cityToLink1 = network.getCityInList(Integer.parseInt(tokens[1].trim()), network.getListCities());
                     City cityToLink2 = network.getCityInList(Integer.parseInt(tokens[2].trim()), network.getListCities());
-                    calculateLength(cityToLink1,cityToLink2);
-                    Link()
+                    mylenght = network.calculateLength(cityToLink1,cityToLink2);
+                    mylink = new Link(mylenght,Integer.parseInt(tokens[1].trim()),Integer.parseInt(tokens[2].trim()),Double.parseDouble(tokens[3].trim()));
                 break;
 
 
