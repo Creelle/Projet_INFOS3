@@ -666,10 +666,10 @@ public class Network {
         //Ecriture des fichiers CSV
 
         //Jour J
-        /*CSVNetworkDay(j, listTableCons, listTableProd, listOfPathsNoProd);
+        CSVNetworkDay(j, listTableCons, listTableProd, listOfPathsNoProd);
         for(City city : listOfCities){
             CSVCityDay(j, city, listTableCons, listTableProd, listOfPathsNoProd);
-        }*/
+        }
 
         //Année
         
@@ -799,6 +799,14 @@ public class Network {
 
     //Partie écriture des CSV
 
+    /**
+     * Ecriture CSV Jour J pour le réseau entier
+     * @param j numéro du jour
+     * @param listTableCons liste des tableaux de consommation des villes
+     * @param listTableProd liste des tableaux de production des villes
+     * @param listPathToNoProd liste des chemins entre les villes productrices et les autres
+     * @throws IOException
+     */
     public void CSVNetworkDay(int j, ArrayList<double[]> listTableCons, ArrayList<double[]> listTableProd,
                      ArrayList<Path> listPathToNoProd) throws IOException{
 
@@ -839,8 +847,19 @@ public class Network {
     public void CSVNetworkYear(){
         //Stratégie : aller lire la dernière ligne de chaque autre CSV pour récupérer 
         // les valeurs d'énergie produite, consommée et perdue
+
     }
 
+
+    /**
+     * Ecriture CSV pour une ville le jour J
+     * @param j numéro du jour
+     * @param city ville considérée
+     * @param listTableCons liste des tableaux de consommation des villes
+     * @param listTableProd liste des tableaux de production des villes
+     * @param listPathToNoProd liste des chemins entre les villes productrices et les autres
+     * @throws IOException
+     */
     public void CSVCityDay(int j, City city, ArrayList<double[]> listTableCons, ArrayList<double[]> listTableProd,
                 ArrayList<Path> listPathToNoProd) throws IOException{
         
