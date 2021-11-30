@@ -4,8 +4,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import Network.Network;
-import City.City;
+import Network.*;
+import City.*;
 import Production.*;
 import Consumption.*;
 
@@ -52,12 +52,15 @@ public class Reader {
         ConstantDevice consdevice = new ConstantDevice("mydevice",0,"const");
         PeriodicDevice perdevice = new PeriodicDevice("mydevice",0,"periodic",0,0,0,0);
         City mycity = new City();
+        int number =0;
         ArrayList<Device> listDevices = new ArrayList<Device>(0);
         int nbDevice = 0;
         int nbSys = 0;
         ArrayList<ProductionSystem> listSys = new ArrayList<ProductionSystem>(0);
         ProductionSystem constantsys = new ConstantSystem("constsys",0,"const");
         ProductionSystem periodicsys = new PeriodicSystem("periodicsys",0,"periodic",0,0,0,0);
+        ArrayList<Link> listLinks = new ArrayList<>();
+        Link mylink = new Link();
         
 		while(bin.ready()) {
 			String line = bin.readLine();
@@ -66,7 +69,8 @@ public class Reader {
 
             switch(lineselector){
                 case "citystart":
-                    mycity = new City(Integer.parseInt(tokens[1].trim()), false, Double.parseDouble(tokens[2].trim()), Double.parseDouble(tokens[3].trim()), 0);
+                    number++;
+                    mycity = new City(Integer.parseInt(tokens[1].trim()), false, Double.parseDouble(tokens[2].trim()), Double.parseDouble(tokens[3].trim()), number);
                     network.getListCities().add(mycity);
                 break;
                 
@@ -118,7 +122,13 @@ public class Reader {
                    network.getListCities().add(mycity);
                 break;
 
-                
+                case "link":
+
+                    City cityToLink1 = network.getCityInList(Integer.parseInt(tokens[1].trim()), network.getListCities());
+                    City cityToLink2 = network.getCityInList(Integer.parseInt(tokens[2].trim()), network.getListCities());
+                    calculateLength(cityToLink1,cityToLink2);
+                    Link()
+                break;
 
 
 
