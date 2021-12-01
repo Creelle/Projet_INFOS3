@@ -2,6 +2,9 @@ package Consumption;
 
 public class ConstantDevice extends Device {
 
+    private boolean flag; // booléen représentant le caractère constant ou non
+    private String nameFonc; // nom de la fonction de forme annuelle
+
     /**
      * Constructeur avec initialisation des attributs de la classe Point de
      * Livraison
@@ -11,13 +14,23 @@ public class ConstantDevice extends Device {
      * @param nameFonc
      */
     public ConstantDevice(String name, double powCons, String nameFonc) {
-        super(name, powCons, false, nameFonc); // flag = false car Production constante du point
+        super(powCons, name); 
+        this.flag = false; // flag = false car Production constante du point
+        this.nameFonc = nameFonc;
+    }
+
+    public boolean getFlag(){
+        return flag;
+    }
+
+    public String getNameFonc(){
+        return nameFonc;
     }
 
     // méthode toString
     @Override
     public String toString() {
-        return "{" + "Name : " + getName() + ", Periodic : " + getFlag() + ", " + "Power : " + getPowCons()
+        return "{" + "Name : " + getName() + ", Periodic : " + getFlag() + ", " + "Power : " + getPowerMax()
                 + ", NameFonc : " + getNameFonc() + "}";
     }
 
@@ -27,7 +40,7 @@ public class ConstantDevice extends Device {
      * @param cons Consommation existante sous forme de tableau
      * @return cons Consommation actualisée
      */
-    public double[] addCons(double[] cons, int j) {
+    public void addCons(double[] cons, int j) {
         double f;
         if (getNameFonc() == "sin") {
             f = 0.3 * Math.sin(2 * Math.PI * (j - 80) / 365) + 0.7; // Représente la fluctuation de puissance
@@ -45,8 +58,7 @@ public class ConstantDevice extends Device {
             f = 1;
         }
         for (int i = 0; i < cons.length; i++) {
-            cons[i] = cons[i] + getPowCons() * f;
+            cons[i] = cons[i] + getPowerMax() * f;
         }
-        return cons;
     }
 }

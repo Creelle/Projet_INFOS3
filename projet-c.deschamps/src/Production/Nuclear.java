@@ -2,6 +2,8 @@ package Production;
 
 import java.util.ArrayList;
 
+import Models.BasicModels;
+
 public class Nuclear extends ProductionSystem {
     
     private double PowerMaxFis, tauFis, tMaxFis;

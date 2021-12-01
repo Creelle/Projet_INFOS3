@@ -2,6 +2,8 @@ package Production;
 
 import java.util.ArrayList;
 
+import Models.BasicModels;
+
 public class Hydroeletric extends ProductionSystem{
     private double levelWaterMin, levelWaterMax;
 

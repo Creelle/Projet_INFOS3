@@ -1,4 +1,4 @@
-package Production;
+package Models;
 
 import java.util.ArrayList;
 
@@ -33,7 +33,7 @@ public class BasicModels {
     public static ArrayList<Double> genDelay(ArrayList<Double> listRef, int tau){
         ArrayList<Double> genList = new ArrayList<Double>();
 
-        for(int i=0;i<1440;i++){
+        for(int i=0;i<listRef.size();i++){
             if(i<tau){
                 genList.add(listRef.get(listRef.size()-tau+i));
             } else {
@@ -88,13 +88,23 @@ public class BasicModels {
         return genList;
     }
 
-    public static ArrayList<Double> genLinear(double PowerMin, double PowerMax, double tMax){
+    public static ArrayList<Double> genLinear(double P1, double P2, double tMax){
         ArrayList<Double> genList = new ArrayList<Double>();
         double genRet;
 
         for(int i=0; i<tMax; i++){
-            genRet = (PowerMax - PowerMin)/tMax * i + PowerMin;
+            genRet = (P2 - P1)/tMax * i + P1;
             genList.add(genRet);
+        }
+
+        return genList;
+    }
+
+    public static ArrayList<Double> genWhiteNoise(double Power){
+        ArrayList<Double> genList = new ArrayList<Double>();
+        
+        for(int i=0; i<1440; i++){
+            genList.add(Power*Math.random()-Power/2);
         }
 
         return genList;

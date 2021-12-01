@@ -2,6 +2,8 @@ package Production;
 
 import java.util.ArrayList;
 
+import Models.BasicModels;
+
 public class Solar extends ProductionSystem{
     
     private double PowerSunMin, PowerSunMax;

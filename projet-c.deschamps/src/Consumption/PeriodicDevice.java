@@ -3,6 +3,8 @@ package Consumption;
 public class PeriodicDevice extends Device {
 
     // Attributs
+    private boolean flag; // booléen représentant le caractère constant ou non
+    private String nameFonc; // nom de la fonction de forme annuelle
     private int periode; // Période de consommation en min
     private int duration; // Durée de consommation en min (durée sur laquelle la conso vaut son max)
     private int t1; // Instant de début de consommation
@@ -20,11 +22,21 @@ public class PeriodicDevice extends Device {
      * @param t2
      */
     public PeriodicDevice(String name, double powCons, String nameFonc, int periode, int duration, int t1, int t2) {
-        super(name, powCons, true, nameFonc); // flag = true car Consommation périodique du point
+        super(powCons, name); 
+        this.flag = true; // flag = true car Consommation périodique du point
+        this.nameFonc = nameFonc;
         this.periode = periode;
         this.duration = duration;
         this.t1 = t1;
         this.t2 = t2;
+    }
+
+    public boolean getFlag(){
+        return flag;
+    }
+
+    public String getNameFonc(){
+        return nameFonc;
     }
 
     // Setters et Getters
@@ -63,7 +75,7 @@ public class PeriodicDevice extends Device {
     // Méthode toString
     @Override
     public String toString() {
-        return "{" + "name : " + getName() + ", Périodique :" + getFlag() + ", Puissance = " + getPowCons()
+        return "{" + "name : " + getName() + ", Périodique :" + getFlag() + ", Puissance = " + getPowerMax()
                 + ", nameFonc : " + getNameFonc() + ", Periode=" + getPeriode() + ", duree=" + getDuration() + ", t1="
                 + getT1() + ", t2=" + getT2() + "}";
     }
@@ -74,7 +86,7 @@ public class PeriodicDevice extends Device {
      * @param cons Consommation existante sous forme de tableau
      * @return cons Consommation actualisée
      */
-    public double[] addCons(double[] cons, int j) {
+    public void addCons(double[] cons, int j) {
         double f = 0;
         if (getNameFonc() == "sin") {
             f = 0.3 * Math.sin(2 * Math.PI * (j - 80) / 365) + 0.7; // Représente la fluctuation de puissance
@@ -117,7 +129,6 @@ public class PeriodicDevice extends Device {
                 }
             }
         }
-        return cons;
     }
 
 }
