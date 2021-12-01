@@ -54,25 +54,25 @@ public class ConsModel{
         }
 
         for(int i = 0; i<number_model1;i++){
-            dev1= new Model1("Model1", 500, 100, 10);
+            dev1= new Model1("PhoneCharger",30, 250, 60)
             //dev1 = newModel1(String name, double PowerMax, double tCharge, double Period);
             listDevice1.add(dev1);
         }
 
         for(int i = 0; i<number_model2;i++){
-            dev1= new Model2(500,"Model2",100,1000,10,5);
+            dev1= new Model2(1000, "Heater", 200, 2000, 33, 5);
             //Model2(double PowerMax, String name, double PowerMinRequest, double PowerMaxRequest, int dayMax, int hMax);
             listDevice1.add(dev1);
         }
 
         for(int i = 0; i<number_model3;i++){
-            dev1= new Model3(100,500,"Model3",2,10,2);
+            dev1= new Model3(50,200,"Frigo",5,100,0.2);
             //double PowerMin, double PowerMax, String name, int nCycles, int dayMax, double factMin
             listDevice1.add(dev1);
         }
 
         for(int i = 0; i<number_model4;i++){
-            dev1= new Model4(100,500,"Model4",10.0,2.0,2);
+            dev1= new Model4(20, 700, "Grille-pain", 4, 0.5, 6);
             //double PowerMin, double PowerMax, String name, double coefLin, double tau, int cycles
             listDevice1.add(dev1);
         }

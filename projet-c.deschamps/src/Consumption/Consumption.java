@@ -85,7 +85,7 @@ public class Consumption implements Energy {
             Device d1 = new PeriodicDevice("Lumière", 400, "const", 780, 120, 360, 1440);
             Device d2 = new Model3(20,100,"Frigo",5,33,0.2);
             Device d3 = new ConstantDevice("Cumulus", 100, "const");
-            Device d4 = new Model4(10, 500, "PlaquesElectriques", 2, 0.5, 4);
+            Device d4 = new Model4(10, 500, "PlaquesElectriques", 2, 0.5, 4, 0.3);
             Device d5 = new Model1("BoxInternet",50, 400, 100);
             listDevice.add(d1);
             listDevice.add(d2);
@@ -111,7 +111,7 @@ public class Consumption implements Energy {
             }
             // La maison a-t-elle un grille-pain?
             if (Math.random() < 0.5) {
-                Device d8 = new Model4(20, 700, "Grille-pain", 4, 0.5, 6);
+                Device d8 = new Model4(20, 700, "Grille-pain", 4, 0.5, 4, 0.3);
                 listDevice.add(d8);
                 k += 1;
             }
