@@ -96,8 +96,8 @@ public class Consumption implements Energy {
 
             // Phone chargers
 
-            double nb = 2 + Math.floor(Math.random() * (6));
-            for (int m = 0; m < nb; m++) {
+            double npc = 2 + Math.floor(Math.random() * (6));
+            for (int m = 0; m < npc; m++) {
                 Device d6 = new Model1("PhoneCharger",30, 300, 100);
                 listDevice.add(d6);
                 k += 1;
