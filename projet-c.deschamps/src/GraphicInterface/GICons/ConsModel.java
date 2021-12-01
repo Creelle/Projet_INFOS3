@@ -54,7 +54,7 @@ public class ConsModel{
         }
 
         for(int i = 0; i<number_model1;i++){
-            dev1= new Model1("PhoneCharger",30, 250, 60)
+            dev1= new Model1("PhoneCharger",30, 250, 60);
             //dev1 = newModel1(String name, double PowerMax, double tCharge, double Period);
             listDevice1.add(dev1);
         }
@@ -72,7 +72,7 @@ public class ConsModel{
         }
 
         for(int i = 0; i<number_model4;i++){
-            dev1= new Model4(20, 700, "Grille-pain", 4, 0.5, 6);
+            dev1= new Model4(20, 700, "Grille-pain", 4, 0.5, 4, 0.3);
             //double PowerMin, double PowerMax, String name, double coefLin, double tau, int cycles
             listDevice1.add(dev1);
         }
