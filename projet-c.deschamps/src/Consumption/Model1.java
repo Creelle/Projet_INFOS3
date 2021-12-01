@@ -21,7 +21,7 @@ public class Model1 extends Device{
         int contSin=0;
 
         for(int i=0; i<1440; i++){
-            if(i<Period/2 || (i>tCharge && i<(1440-2*tCharge))){
+            if(i<Period/2 || (i>tCharge && i<(1440-3*tCharge))){
                 prod[i] = prod[i] + Math.max(genSin.get(contSin) + genNoise.get(i),0);
                 contSin+=1;
             } else if(i>=Period/2 && i<=tCharge){

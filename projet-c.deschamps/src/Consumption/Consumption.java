@@ -83,10 +83,10 @@ public class Consumption implements Energy {
             int k = 0; // Compteur du nombre d'appareils dans le foyer
             // Appareils présents dans toutes les maisons
             Device d1 = new PeriodicDevice("Lumière", 400, "const", 780, 120, 360, 1440);
-            Device d2 = new ConstantDevice("Frigo", 10, "const");
+            Device d2 = new Model3(20,100,"Frigo",5,33,0.2);
             Device d3 = new ConstantDevice("Cumulus", 100, "const");
-            Device d4 = new PeriodicDevice("PlaquesElectriques", 500, "const", 1440, 60, 1140, 1440);
-            Device d5 = new ConstantDevice("BoxInternet", 50, "const");
+            Device d4 = new Model4(10, 500, "PlaquesElectriques", 2, 0.5, 4);
+            Device d5 = new Model1("BoxInternet",50, 400, 100);
             listDevice.add(d1);
             listDevice.add(d2);
             listDevice.add(d3);
@@ -94,35 +94,44 @@ public class Consumption implements Energy {
             listDevice.add(d5);
             k = 5;
 
+            // Phone chargers
+
+            double nb = 2 + Math.floor(Math.random() * (6));
+            for (int m = 0; m < nb; m++) {
+                Device d6 = new Model1("PhoneCharger",30, 300, 100);
+                listDevice.add(d6);
+                k += 1;
+            }
+
             // La maison a-t-elle une télé?
             if (Math.random() < 0.5) {
-                Device d6 = new PeriodicDevice("Télévision", 20, "const", 240, 180, 1170, 1440);
-                listDevice.add(d6);
+                Device d7 = new Model3(20,300,"Télévision",6,33,1);
+                listDevice.add(d7);
                 k += 1;
             }
             // La maison a-t-elle un grille-pain?
             if (Math.random() < 0.5) {
-                Device d7 = new PeriodicDevice("GrillePain", 700, "const", 60, 10, 480, 540);
-                listDevice.add(d7);
+                Device d8 = new Model4(20, 700, "Grille-pain", 4, 0.5, 6);
+                listDevice.add(d8);
                 k += 1;
             }
             // La maison a-t-elle un congélateur?
             if (Math.random() < 0.5) {
-                Device d8 = new ConstantDevice("Congélateur", 50, "const");
-                listDevice.add(d8);
+                Device d9 = new Model3(50,250,"Frigo",5,33,0.2);
+                listDevice.add(d9);
                 k += 1;
             }
             // Combien la maison a-t-elle de radiateurs?
             double nb = 4 + Math.floor(Math.random() * (10));
             for (int m = 0; m < nb; m++) {
-                Device d9 = new ConstantDevice("Radiateur", 1000, "hiver");
-                listDevice.add(d9);
+                Device d10 = new Model2(1000, "Radiateur", 200, 2000, 33, 0);
+                listDevice.add(d10);
                 k += 1;
             }
             // La maison a-t-elle une climatisation?
             if (Math.random() < 0.8) {
-                Device d10 = new PeriodicDevice("Climatisation", 2000, "ete", 300, 300, 720, 1020);
-                listDevice.add(d10);
+                Device d11 = new Model2(2000, "Climatisation", 400, 4000, 217, 12);
+                listDevice.add(d11);
                 k += 1;
             }
             DeliveryPoint Foyer = new DeliveryPoint("Foyer", k, listDevice);
