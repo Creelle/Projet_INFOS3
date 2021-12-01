@@ -20,8 +20,6 @@ public class Model2 extends Device {
     public void addCons(double[] prod, int day){
         double PowerDayMax = BasicModels.genCosDay(0, PowerMaxRequest, day, 365, 2*Math.PI*dayMax/365);
         double PowerDayMin = BasicModels.genCosDay(0, PowerMinRequest, day, 365, 2*Math.PI*dayMax/365);
-        System.out.println(PowerDayMax);
-        System.out.println(PowerDayMin);
 
         ArrayList<Double> genList = BasicModels.genLinear(PowerDayMax, PowerDayMin, 720);
         genList.addAll(BasicModels.genLinear(PowerDayMin, PowerDayMax, 720));
