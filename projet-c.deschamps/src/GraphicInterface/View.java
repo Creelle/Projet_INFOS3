@@ -36,6 +36,12 @@ public class View {
     //Textfields pane3 
     public JTextField textField3;
     public JTextField nbHousesF;
+
+    //Textfields pane4
+    public JTextField textField4;
+    public JTextField CityNbHousesF;
+    public JTextField CityIndexF;
+    public JTextField nCitiesF;
     
    // Buttons
     
@@ -65,6 +71,18 @@ public class View {
     private JButton displayCSVyearB;
     private JButton plotDayB;
     private JButton plotYearB;
+
+    //Buttons pane 4
+    private JButton nCitiesB;
+    private JButton submitB4;
+    private JButton cityIndexB;
+    private JButton CityNbHousesB;
+    private JButton changePopB;
+    private JButton displayCitiesB;
+    private JButton displayLinksB;
+    private JButton plotNetGraphB;
+    private JButton plotCityB;
+    private JButton plotNetB;
 
     //Labels
     JLabel label;
@@ -114,6 +132,19 @@ public class View {
         displayCSVyearB = new JButton("Display production vs consumption per day");
         plotDayB = new JButton("Plot over 1 day");
         plotYearB = new JButton("Plot over 1 year");
+
+        //pane4
+        
+        nCitiesB= new JButton("Number of cities");
+        submitB4= new JButton("Number of days");
+        cityIndexB= new JButton("City index");
+        CityNbHousesB= new JButton("nB Houses in the city at the index");
+        changePopB= new JButton("Change nB Houses of the city at the index");
+        displayCitiesB= new JButton("Display the list of cities");
+        displayLinksB= new JButton("Display the links between the cities");
+        plotNetGraphB= new JButton("Plot the graph of the network");
+        plotCityB= new JButton("Plot the city at the index consumption/production");
+        plotNetB= new JButton("Plot the consumption / production of the network");
        
 
         //Textfields
@@ -153,6 +184,18 @@ public class View {
         nbHousesF =  new JTextField(20);
         nbHousesF.setText("6000");
 
+        // pane 4 
+        textField4 = new JTextField(20);
+        textField4.setText("365");
+
+        CityNbHousesF = new JTextField(20);
+        CityNbHousesF.setText("6000");
+
+        nCitiesF = new JTextField(20);
+        nCitiesF.setText("5");
+
+        CityIndexF = new JTextField(20);
+        CityIndexF.setText("0");
 
         
         // pane creator
@@ -166,7 +209,7 @@ public class View {
         pane3.setLayout(new GridLayout(2,5));
 
         pane4= new JPanel();
-        pane4.setLayout(new GridLayout(2,2));
+        pane4.setLayout(new GridLayout(3,6));
 
         //tabs creator
         tabs = new JTabbedPane();
@@ -184,10 +227,6 @@ public class View {
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainWindow.setSize(300,300);
         mainWindow.add(tabs);
-
-
-        
-        
 
         //pane1 filling
         label = new JLabel("Hello welcolme in the consummer simulator");
@@ -248,7 +287,20 @@ public class View {
 
         // pane 4 filling
         pane4.add(exitButton4);
-
+        pane4.add(submitB4);
+        pane4.add(textField4);
+        pane4.add(nCitiesB);
+        pane4.add(nCitiesF);
+        pane4.add(cityIndexB);
+        pane4.add(CityIndexF);
+        pane4.add(CityNbHousesB);
+        pane4.add(CityNbHousesF);
+        pane4.add(changePopB);
+        pane4.add(displayCitiesB);
+        pane4.add(displayLinksB);
+        pane4.add(plotNetGraphB);
+        pane4.add(plotCityB);
+        pane4.add(plotNetB);
         
         
      }
@@ -282,6 +334,17 @@ public class View {
         displayCSVyearB.addActionListener(citycontroller);;
         plotDayB.addActionListener(citycontroller);;
         plotYearB.addActionListener(citycontroller);;
+
+        nCitiesB.addActionListener(netcontroller);
+        submitB4.addActionListener(netcontroller);
+        cityIndexB.addActionListener(netcontroller);
+        CityNbHousesB.addActionListener(netcontroller);
+        changePopB.addActionListener(netcontroller);
+        displayCitiesB.addActionListener(netcontroller);
+        displayLinksB.addActionListener(netcontroller);
+        plotNetGraphB.addActionListener(netcontroller);
+        plotCityB.addActionListener(netcontroller);
+        plotNetB.addActionListener(netcontroller);
         
       }
 

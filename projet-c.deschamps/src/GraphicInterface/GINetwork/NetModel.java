@@ -1,71 +1,141 @@
 package GraphicInterface.GINetwork;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import ptolemy.plot.Plot;
 
 
+
+import Network.*;
+import City.*;
+import Consumption.*;
+import Production.*;
+
 public class NetModel{
 
-    public int number_of_days = 365;
+    // Buttons- textFields :number_of_days, number_of_cities, index of city, nbHouses ==4
+    // textFields : number_of_days, number_of_citites, index_of_city, nbHouses ==4
+    // funcction B : changePop, displayListCities, display Links, plot Graphed Network, plot SimulationofCity
+    // plot, 3 CSV ==9
+    //--> 13 buttons 4 textFields
 
-    public int number_of_constant_device = 1;
-    public int number_of_periodic_device = 1;
+    public int number_of_days = 365;
+    public int number_of_cities = 5;
+    int index = 0;
+    int nbHouses = 6000;
+
+    Network net;
+    ArrayList<City> cities;
+    ArrayList<Link> links;
 
     
-    public void plotCons(){
+    public NetModel(){
 
-        // Création des consommations
-        Consumption.Device dev1;
-        ArrayList<Consumption.Device> listDevice1 = new ArrayList<Consumption.Device>();
-
-        for(int i = 0; i<number_of_constant_device;i++){
-            dev1= new Consumption.PeriodicDevice("Climatisation", 2000, "ete", 300, 300, 720, 1020);
-            listDevice1.add(dev1);
-        }
-        
-        ArrayList<Consumption.Device> listDevice2 = new ArrayList<Consumption.Device>();
-       
-        Consumption.Device dev2;
-        for(int i = 0; i<number_of_periodic_device;i++){
-            dev2 = new Consumption.ConstantDevice("Radiateur", 500, "hiver");
-            listDevice2.add(dev2);
-        }
-        
-      
-        // Création des Points de Livraison et listes associées
-        Consumption.DeliveryPoint DP1 = new Consumption.DeliveryPoint("ConstantFoyer", 1, listDevice1);
-        Consumption.DeliveryPoint DP2 = new Consumption.DeliveryPoint("PeriodicFoyer", 1, listDevice2);
-        ArrayList<Consumption.DeliveryPoint> listOfDeliv1 = new ArrayList<Consumption.DeliveryPoint>();
-        listOfDeliv1.add(DP1);
-        ArrayList<Consumption.DeliveryPoint> listOfDeliv2 = new ArrayList<Consumption.DeliveryPoint>();
-        listOfDeliv2.add(DP2);
-
-        Consumption.Consumption C1 = new Consumption.Consumption(listOfDeliv1);
-        Consumption.Consumption C2 = new Consumption.Consumption(listOfDeliv2);
-        
-        Plot plot1 = new Plot();
-        
-        double pConsMoy1;
-        double pConsMoy2;
-        double[] cons1;
-        double[] cons2;
-
-        for (int j = 0; j < number_of_days; j++) {
-            cons1 = C1.generate(j);
-            cons2 = C2.generate(j);
-            pConsMoy1 = Math.round(C1.integrate(cons1.length - 1, cons1) * 60 * 10.0 / 1440) / 10.0;
-            pConsMoy2 = Math.round(C2.integrate(cons2.length - 1, cons2) * 60 * 10.0 / 1440) / 10.0;
-            plot1.addPoint(0, j, pConsMoy1, true);
-            plot1.addPoint(1, j, pConsMoy2, true);
-        }
-        plot1.addLegend(0, "Constant");
-        plot1.addLegend(1, "Periodic");
-        JFrame frame1 = new JFrame("Consommation moyenne");
-        frame1.add(plot1);
-        frame1.pack();
-        frame1.setVisible(true);
-        frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        net = new Network(number_of_cities);
+        cities = net.getListCities();
+        links = net.getListLinks();
     }
+
+    public void ChangePop(int index, int nbHouses){
+        cities.set(index, new City(nbHouses));
+        net = new Network(number_of_cities,cities, links);
+        cities = net.getListCities();
+        links = net.getListLinks();
+        net.displayListCities();
+    }
+
+    public void ChangeCities(){
+        net = new Network(number_of_cities);
+        cities=net.getListCities();
+        links = net.getListLinks();
+    }
+
+    public void displayListCities(){
+        net.displayListCities();
+    }
+
+    public void displayListLinks(){
+        net.displayListLinks();
+    }
+
+    public void plotGraphNetworks(){
+        net.plotGraphNetwork();
+    }
+
+    public void plotSimulationOfCity(int index,int day){
+        City c = net.getCityInList(index, cities);
+        Production p = c.getCityProd();
+        Consumption cons = c.getCityCons();
+        net.plotSimulationOfCity(p.generate(day), cons.generate(day), c);
+    }
+
+    public void plotNet(){
+
+        // Création des listes de tableaux
+        ArrayList<double[]> listTableMeanProd = new ArrayList<>();
+        ArrayList<double[]> listTableMeanCons = new ArrayList<>();
+
+        // Initialisation des tableaux vides
+        for (int k = 0; k < cities.size(); k++) {
+            double[] prod = new double[number_of_days];
+            double[] cons = new double[number_of_days];
+            listTableMeanProd.add(prod);
+            listTableMeanCons.add(cons);
+        }
+
+        // Mise à jour des tableaux moyens
+        for (int j = 0; j < number_of_days; j++) {
+            ArrayList<double[]> listMeanTables;
+			try {
+				listMeanTables = net.simulation(j + 1, false);
+                for (int k = 0; k < cities.size(); k++) {
+                    // Mise à jour de ces tableaux
+                    listTableMeanProd.get(k)[j] = listMeanTables.get(0)[k];
+                    listTableMeanCons.get(k)[j] = listMeanTables.get(1)[k];
+                }
+            } catch (IOException e) {
+				
+				e.printStackTrace();
+                break;
+			}
+            
+        }
+        // Impression des graphes
+        for (int k = 0; k < listTableMeanCons.size(); k++) {
+            City city = cities.get(k);
+            double[] meanCons = listTableMeanCons.get(k);
+            double[] meanProd = listTableMeanProd.get(k);
+            Plot plot = new Plot();
+            for (int i = 0; i < meanCons.length; i++) {
+                plot.addPoint(0, i, meanCons[i], true);
+                plot.addPoint(1, i, meanProd[i], true);
+            }
+            plot.addLegend(0, "Consumption");
+            plot.addLegend(1, "Production");
+            String nameFrame = "Ville n°" + city.getNumber() + ", Producer : " + city.getProducer()
+                    + ", Number of Houses : " + city.getNbHouses();
+            JFrame frame = new JFrame(nameFrame);
+            frame.add(plot);
+            frame.pack();
+            frame.setVisible(true);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            try {
+                Thread.sleep(200);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        
+
+    }
+
+    //public void CSVNetworkDay(int day){};
+    //public void CSVCityDay(int index,int day){};
+    //public void CSVNewtworkYear(int day);
+
+
+
+
     
 }
