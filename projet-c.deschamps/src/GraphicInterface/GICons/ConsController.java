@@ -23,31 +23,54 @@ public class ConsController implements ActionListener{
         if(s=="Number of days"){
             
             model.number_of_days = Integer.parseInt(view.textField.getText());
-
-            //view.textField.setText("   ");
-       
         }
 
-        else if(s=="Number of constant devices"){
+       
+        else if(s=="Plot the consumption over 1 day"){
             model.number_of_constant_device = Integer.parseInt(view.nConstantF.getText());
-        }
-
-        else if(s=="Number of periodic devices"){
             model.number_of_periodic_device = Integer.parseInt(view.nPeriodicF.getText());
-        }
-       
-        
-        else if(s=="Plot button"){
-            PlotActivation();
+            model.number_model1 = Integer.parseInt(view.nModel1F.getText());
+            model.number_model2 = Integer.parseInt(view.nModel2F.getText());
+            model.number_model3 = Integer.parseInt(view.nModel3F.getText());
+            model.number_model4 = Integer.parseInt(view.nModel4F.getText());
+            model.number_of_days = Integer.parseInt(view.textField.getText());
+            
+            model.plotCons();
 
         }
 
-        
-    }
+        else if(s=="Plot the consumption over several days"){
+            model.number_of_constant_device = Integer.parseInt(view.nConstantF.getText());
+            model.number_of_periodic_device = Integer.parseInt(view.nPeriodicF.getText());
+            model.number_model1 = Integer.parseInt(view.nModel1F.getText());
+            model.number_model2 = Integer.parseInt(view.nModel2F.getText());
+            model.number_model3 = Integer.parseInt(view.nModel3F.getText());
+            model.number_model4 = Integer.parseInt(view.nModel4F.getText());
+            model.number_of_days = Integer.parseInt(view.textField.getText());
+            
+            model.plotProdYear();
 
-    public void PlotActivation(){
-        model.plotCons();
-    }
+        }
 
-    
+        else if(s=="Display the consumption devices"){
+            model.number_of_constant_device = Integer.parseInt(view.nConstantF.getText());
+            model.number_of_periodic_device = Integer.parseInt(view.nPeriodicF.getText());
+            model.number_model1 = Integer.parseInt(view.nModel1F.getText());
+            model.number_model2 = Integer.parseInt(view.nModel2F.getText());
+            model.number_model3 = Integer.parseInt(view.nModel3F.getText());
+            model.number_model4 = Integer.parseInt(view.nModel4F.getText());
+            model.number_of_days = Integer.parseInt(view.textField.getText());
+            
+            model.displaylistDP();
+
+        }
+
+        else if(s=="Plot the consumption of NbHouses"){
+           
+            model.number_of_days = Integer.parseInt(view.textField.getText());
+            model.nbHouses = Integer.parseInt(view.nbHousesconsF.getText());
+            model.plotConsNbHouses();
+
+        }   
+    }  
 }

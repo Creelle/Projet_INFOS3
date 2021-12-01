@@ -24,6 +24,11 @@ public class View {
     public JTextField textField;
     public JTextField nConstantF;
     public JTextField nPeriodicF;
+    public JTextField nModel1F; 
+    public JTextField nModel2F;
+    public JTextField nModel3F;
+    public JTextField nModel4F;
+    public JTextField nbHousesconsF;
 
     //Textfiles pane2
     public JTextField textField2;
@@ -53,8 +58,11 @@ public class View {
    // Buttons pane 1 
     private JButton plotButton1;
     private JButton submitB;
-    private JButton nConstantB;
-    private JButton nPeriodicB;
+    //private JButton nConstantB;
+    //private JButton nPeriodicB;
+    private JButton plotProdYearB;
+    private JButton displaylistDP;
+    private JButton plotConsNbHousesB;
 
     //Buttons pane 2
 
@@ -85,7 +93,17 @@ public class View {
     private JButton plotNetB;
 
     //Labels
+
+    //label pane1
     JLabel label;
+    JLabel nbHousesL;
+    JLabel nModel1L;
+    JLabel nModel2L;
+    JLabel nModel3L;
+    JLabel nModel4L;
+    JLabel nPeriodicL;
+    JLabel nConstantL;
+
 
     //label pane2
     public JLabel nsolarL;
@@ -108,16 +126,21 @@ public class View {
     public View(){
         
         //Buttons creation
-        plotButton1 = new JButton("Plot button");
+        
         exitButton1 = new JButton("EXIT");
         exitButton2 = new JButton("EXIT");
         exitButton3 = new JButton("EXIT");
         exitButton4 = new JButton("EXIT");
 
         //pane1
+        
         submitB = new JButton("Number of days");
-        nConstantB = new JButton("Number of constant devices");
-        nPeriodicB = new JButton("Number of periodic devices");
+        plotButton1 = new JButton("Plot the consumption over 1 day");
+        plotProdYearB = new JButton("Plot the consumption over several days");
+        displaylistDP = new JButton("Display the consumption devices");
+        plotConsNbHousesB = new JButton("Plot the consumption of NbHouses");
+       
+        
 
         //pane2
         mainB = new JButton("Day production plot");
@@ -157,6 +180,21 @@ public class View {
         
         nPeriodicF = new JTextField(20);
         nPeriodicF.setText("1");
+
+        nModel1F = new JTextField(20);
+        nModel1F.setText("0");
+
+        nModel2F = new JTextField(20);
+        nModel2F.setText("0");
+
+        nModel3F = new JTextField(20);
+        nModel3F.setText("0");
+
+        nModel4F = new JTextField(20);
+        nModel4F.setText("0");
+
+        nbHousesconsF = new JTextField(20);
+        nbHousesconsF.setText("1");
 
         //textF pane2
         textField2 = new JTextField(20);
@@ -200,7 +238,7 @@ public class View {
         
         // pane creator
         pane1 = new JPanel();
-        pane1.setLayout(new GridLayout(2,2));
+        pane1.setLayout(new GridLayout(3,5));
         
         pane2= new JPanel();
         pane2.setLayout(new GridLayout(2,2));
@@ -233,14 +271,44 @@ public class View {
         label.setForeground(Color.BLUE);
 
         pane1.add(label);
-        pane1.add(plotButton1);
         pane1.add(exitButton1);
         pane1.add(submitB);
         pane1.add(textField);
-        pane1.add(nConstantB);
+
+        nbHousesL = new JLabel("Number of Houses");
+        pane1.add(nbHousesL);
+        pane1.add(nbHousesconsF);
+
+        nConstantL = new JLabel("Number of Constant devices");
+        pane1.add(nConstantL);
         pane1.add(nConstantF);
-        pane1.add(nPeriodicB);
+
+        nPeriodicL = new JLabel("Number of Periodic devices");
+        pane1.add(nPeriodicL);
         pane1.add(nPeriodicF);
+
+        nModel1L = new JLabel("Number of Model1 devices");
+        pane1.add(nModel1L);
+        pane1.add(nModel1F);
+
+        nModel2L = new JLabel("Number of Model2 devices");
+        pane1.add(nModel2L);
+        pane1.add(nModel2F);
+
+        nModel3L = new JLabel("Number of Model3 devices");
+        pane1.add(nModel3L);
+        pane1.add(nModel3F);
+
+        nModel4L = new JLabel("Number of Model4 devices");
+        pane1.add(nModel4L);
+        pane1.add(nModel4F);
+       
+        
+        pane1.add(plotButton1);
+        pane1.add(plotProdYearB);
+        pane1.add(plotProdYearB);
+        pane1.add(displaylistDP);
+        pane1.add(plotConsNbHousesB);
         
 
         //pane 2 filling
@@ -313,19 +381,20 @@ public class View {
         this.netcontroller = netcontrol;
         
 
-        exitButton1.addActionListener(this.controller);
-        exitButton2.addActionListener(this.controller);
-        exitButton3.addActionListener(this.controller);
-        exitButton4.addActionListener(this.controller);
+        exitButton1.addActionListener(controller);
+        exitButton2.addActionListener(controller);
+        exitButton3.addActionListener(controller);
+        exitButton4.addActionListener(controller);
 
-        plotButton1.addActionListener(this.conscontroller);
-        submitB.addActionListener(this.conscontroller);
-        nConstantB.addActionListener(this.conscontroller);
-        nPeriodicB.addActionListener(this.conscontroller);
+        plotButton1.addActionListener(conscontroller);
+        submitB.addActionListener(conscontroller);
+        plotProdYearB.addActionListener(conscontroller);
+        displaylistDP.addActionListener(conscontroller);
+        plotConsNbHousesB.addActionListener(conscontroller); 
 
-        mainB.addActionListener(this.prodcontroller);
-        mainBYear.addActionListener(this.prodcontroller);
-        submitB2.addActionListener(this.prodcontroller);
+        mainB.addActionListener(prodcontroller);
+        mainBYear.addActionListener(prodcontroller);
+        submitB2.addActionListener(prodcontroller);
 
         nbHousesB.addActionListener(citycontroller);;
         submitB3.addActionListener(citycontroller);;

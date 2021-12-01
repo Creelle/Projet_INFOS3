@@ -12,6 +12,10 @@ public class ConsModel{
     public int number_of_days = 365;
     public int nbHouses = 1;
 
+    // label and textfields : model1,2,3,4
+    //label and textfield nbHouses
+    // 3 buttons
+
     public int number_of_constant_device = 1;
     public int number_of_periodic_device = 1;
     public int number_model1 = 1;
@@ -39,6 +43,9 @@ public class ConsModel{
     public void ConsCreation(){
         listDevice1 = new ArrayList<Device>();
         listDevice2 = new ArrayList<Device>();
+
+        listOfDeliv1 = new ArrayList<DeliveryPoint>();
+        listOfDeliv2 = new ArrayList<DeliveryPoint>();
 
         // Création des consommations
         
@@ -144,6 +151,7 @@ public class ConsModel{
     }
 
     public void displaylistDP(){
+        ConsCreation();
         C1.displaylistDP();
         C2.displaylistDP();
     }
@@ -151,11 +159,7 @@ public class ConsModel{
     public void plotConsNbHouses(){
         C3 = new Consumption(nbHouses);
 
-        System.out.print("[");
-        for (DeliveryPoint DP : C3.getListDelivery()) {
-            System.out.print(DP.getName() + "; ");
-        }
-        System.out.println("]");
+        
 
         Plot plot1 = new Plot();
         
