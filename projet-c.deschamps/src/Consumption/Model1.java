@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 import Models.BasicModels;
 
-public class Modele1 extends Device{
+public class Model1 extends Device{
 
     private double tCharge, Period;
 
-    public Modele1(String name, double PowerMax, double tCharge, double Period){
+    public Model1(String name, double PowerMax, double tCharge, double Period){
         super(PowerMax,name);
         this.tCharge = tCharge;
         this.Period = Period;
