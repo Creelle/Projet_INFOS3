@@ -5,6 +5,8 @@ import Consumption.Consumption;
 import Production.Production;
 
 import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -86,7 +88,6 @@ public class Network {
                 return city;
             }
         }
-        // System.out.println("City not in the list !");
         City cityEmpty = new City();
         return cityEmpty;
     }
@@ -666,10 +667,10 @@ public class Network {
         //Ecriture des fichiers CSV
 
         //Jour J
-        /*CSVNetworkDay(j, listTableCons, listTableProd, listOfPathsNoProd);
+        CSVNetworkDay(j, listTableCons, listTableProd, listOfPathsNoProd);
         for(City city : listOfCities){
             CSVCityDay(j, city, listTableCons, listTableProd, listOfPathsNoProd);
-        }*/
+        }
 
         //Année
         
@@ -702,6 +703,7 @@ public class Network {
                 // Mise à jour de ces tableaux
                 listTableMeanProd.get(k)[j] = listMeanTables.get(0)[k];
                 listTableMeanCons.get(k)[j] = listMeanTables.get(1)[k];
+                
             }
         }
         // Impression des graphes
@@ -728,6 +730,9 @@ public class Network {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
+
+            //CSV annuel
+            CSVNetworkYear();
         }
     }
 
@@ -800,6 +805,79 @@ public class Network {
     //Partie écriture des CSV
 
     /**
+     * Méthode auxiliaire de réxupération de la dernière ligne d'un fichier csv
+     * 
+     * @param nameFile nom du fichier
+     * @returnla dernière ligne
+     * @throws IOException
+     */
+    public String getLastLineOfCSV(String nameFile) throws IOException{
+        //Initialisation résultat
+        String res = null;
+        //Chargement du fichier
+        BufferedReader in = new BufferedReader(new FileReader(nameFile));
+        //Lecture des lignes
+        String line = in.readLine();
+        while(line != null){
+            res = line;
+            line = in.readLine();
+        }
+        in.close();
+        return res;
+    }
+
+    /**
+     * Méthode auxiliaire pour obtenir le nombre à la colonne i du csv de la ligne str
+     * 
+     * @param i numéro de la colonne
+     * @param str string de la ligne du csv 
+     * @return
+     */
+    public String getStringInColumn(int i, String str){
+        String res = null;
+        char c = str.charAt(0);
+        int k = 0;
+
+        //Si on demande la première colonne
+        if(i == 1){
+            res = ""+c;
+            while(c!=' ' && k<str.length()-1){
+                k+=1;
+                c=str.toCharArray()[k];
+                res+=""+c;
+            }
+            return res;
+        }
+
+        //Sinon on va compter les ';'
+        int semicolonCounter = 0;
+        while(semicolonCounter<i-1 && k<str.length()){
+            c=str.toCharArray()[k];
+            if(c==';'){
+                semicolonCounter+=1;
+            }
+            k+=1;
+        }
+        //Le rang du caractère actuel correspond soit à " " soit à rien (fin de ligne)
+
+        //Si arrivée en fin de ligne
+        if(k == str.length()){
+            System.out.println("No column number "+i);
+            return res;
+        }
+        //Sinon: on prend le caractère après l'espace pour initialisation
+        k+=1;
+        res = ""+str.toCharArray()[k];
+        while(c!=' ' && k<str.length()-1){
+            k+=1;
+            c=str.toCharArray()[k];
+            res += c;
+        }
+
+        return res;
+    }
+
+    /**
      * Ecriture CSV Jour J pour le réseau entier
      * @param j numéro du jour
      * @param listTableCons liste des tableaux de consommation des villes
@@ -844,10 +922,46 @@ public class Network {
         out.close();
     }
 
-    public void CSVNetworkYear(){
+    public void CSVNetworkYear() throws IOException{
         //Stratégie : aller lire la dernière ligne de chaque autre CSV pour récupérer 
         // les valeurs d'énergie produite, consommée et perdue
+        
+        //Introduction fichier
+        PrintWriter out = new PrintWriter(new FileWriter("../projet-c.deschamps/src/Network/CSV_Of_Network/CSV_Of_Network_Year.csv"));
+        out.println("CSV File for the Network on the year");
+        out.println("1 - Day D ");
+        out.println("2 - Energy Consumed on the Day D ");
+        out.println("3 - Energy Produced on the Day D ");
+        out.println("4 - Energy Consumed since the beginning of the year ");
+        out.println("5 - Energy Produced since the beginning of the year ");
+        out.println("6 - Energy Lost since the beginning of the year on lines");
+        out.println(" ");
 
+        //Initialisation des energies cumulées
+        double energyProducedYear = 0;
+        double energyConsummedYear = 0;
+        double energyLostYear = 0;
+
+        //Boucle sur les jours
+        for(int j=1; j<366; j++){
+            //Récupération des String nécessaires
+            String lastline = getLastLineOfCSV("../projet-c.deschamps/src/Network/CSV_Of_Network/CSV_Of_Network_Day"+j+".csv");
+            String str1 = getStringInColumn(4, lastline);
+            String str2 = getStringInColumn(5, lastline);
+            String str3 = getStringInColumn(6, lastline);
+
+            //Ecriture de la ligne dans le CSV
+            out.println(j+" ; "+str1+" ; "+str2+" ; "+energyConsummedYear+" ; "+
+                    energyProducedYear+" ; "+ energyLostYear);
+
+            //Mise à jour des énergies cumulées
+            energyConsummedYear+=Double.valueOf(str1);
+            energyProducedYear+=Double.valueOf(str2);
+            energyLostYear+=Double.valueOf(str3);
+
+        }
+        
+        out.close();
     }
 
 

@@ -11,6 +11,5 @@ public class NetworkMain {
         network.plotGraphNetwork();
         network.simulation(1, true);        
         network.simulateOnAYear();
-
     }
 }
