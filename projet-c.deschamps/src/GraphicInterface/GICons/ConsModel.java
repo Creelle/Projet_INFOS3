@@ -10,6 +10,7 @@ import Consumption.*;
 public class ConsModel{
 
     public int number_of_days = 365;
+    public int nbHouses = 1;
 
     public int number_of_constant_device = 1;
     public int number_of_periodic_device = 1;
@@ -32,6 +33,8 @@ public class ConsModel{
     
     Consumption C1;
     Consumption C2;
+
+    Consumption C3; // for the nbHouses
     
     public void ConsCreation(){
         listDevice1 = new ArrayList<Device>();
@@ -139,5 +142,41 @@ public class ConsModel{
         frame1.setVisible(true);
         frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+
+    public void displaylistDP(){
+        C1.displaylistDP();
+        C2.displaylistDP();
+    }
+
+    public void plotConsNbHouses(){
+        C3 = new Consumption(nbHouses);
+
+        System.out.print("[");
+        for (DeliveryPoint DP : C3.getListDelivery()) {
+            System.out.print(DP.getName() + "; ");
+        }
+        System.out.println("]");
+
+        Plot plot1 = new Plot();
+        
+        double pConsMoy3;
+        double[] cons3;
+        
+
+        for (int j = 0; j < number_of_days; j++) {
+            cons3 = C3.generate(j);
+            pConsMoy3 = Math.round(C3.integrate(cons3.length - 1, cons3) * 60 * 10.0 / 1440) / 10.0;
+            plot1.addPoint(0, j, pConsMoy3, true);
+           
+        }
+        plot1.addLegend(0, "Consumption of " + nbHouses + "Houses");
+        JFrame frame1 = new JFrame("Consumption of houses");
+        frame1.add(plot1);
+        frame1.pack();
+        frame1.setVisible(true);
+        frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+
     
 }
