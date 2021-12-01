@@ -41,10 +41,6 @@ public class PeriodicSystem extends ProductionSystem {
         return this.name;
     }
 
-    public double getPowProd() {
-        return getPowerMax();
-    }
-
     public boolean getFlag() {
         return this.flag;
     }
@@ -88,7 +84,7 @@ public class PeriodicSystem extends ProductionSystem {
     // Méthode toString
     @Override
     public String toString() {
-        return "{" + "Name : " + getName() + ", Periodic :" + getFlag() + ", Puissance = " + getPowProd()
+        return "{" + "Name : " + getName() + ", Periodic :" + getFlag() + ", Puissance = " + getPowerMax()
                 + ", NameFonc : " + getNameFonc() + ", Periode=" + getPeriode() + ", Duration=" + getDuration() + ", t1="
                 + getT1() + ", t2=" + getT2() + "}";
     }
@@ -131,7 +127,7 @@ public class PeriodicSystem extends ProductionSystem {
             for (int i = t1 + k * periode; i < t1 + k * periode + duration; i++) {
                 // Prévention d'écriture hors limite
                 if (i < 1440) {
-                    prod[i] = prod[i] + getPowProd() * f;
+                    prod[i] = prod[i] + getPowerMax() * f;
                 }
             }
         }

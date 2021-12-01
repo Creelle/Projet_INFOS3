@@ -24,10 +24,6 @@ public class ConstantSystem extends ProductionSystem {
         return this.name;
     }
 
-    public double getPowProd() {
-        return getPowerMax();
-    }
-
     public boolean getFlag() {
         return this.flag;
     }
@@ -41,7 +37,7 @@ public class ConstantSystem extends ProductionSystem {
      */
     @Override
     public String toString() {
-        return "{" + "Name : " + getName() + ", Periodic : " + getFlag() + ", " + "Puissance : " + getPowProd()
+        return "{" + "Name : " + getName() + ", Periodic : " + getFlag() + ", " + "Puissance : " + getPowerMax()
                 + ", nameFonc : " + getNameFonc() + "}";
     }
 
@@ -69,7 +65,7 @@ public class ConstantSystem extends ProductionSystem {
             f = 1;
         }
         for (int i = 0; i < prod.length; i++) {
-            prod[i] = prod[i] + getPowProd() * f;
+            prod[i] = prod[i] + getPowerMax() * f;
         }
     }
 }

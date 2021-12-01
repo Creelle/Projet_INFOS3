@@ -125,7 +125,7 @@ public class PeriodicDevice extends Device {
             // Boucle sur la durée duree
             for (int i = t1 + k * periode; i < t1 + k * periode + duration; i++) {
                 if (i < 1440) {
-                    cons[i] = cons[i] + getPowCons() * f;
+                    cons[i] = cons[i] + getPowerMax() * f;
                 }
             }
         }
