@@ -179,9 +179,9 @@ public class Network {
                     y = 100 * Math.random();
                 }
             }
-            int nbHouses = (int) Math.round(Math.random() * 2000);
+            int nbHouses = (int) Math.round(Math.random() * 200);
             boolean producer = false;
-            if (Math.random() < 0.5) {
+            if (Math.random() < 0.4) {
                 producer = true;
             }
             City city = new City(nbHouses, producer, x, y, k);
@@ -727,9 +727,11 @@ public class Network {
                 System.out.println(e.getMessage());
             }
 
-            //CSV annuel
-            //CSVNetworkYear();
+            //CSV annuel de la ville
+            //CSVCityYear(city);
         }
+        //CSV annuel Réseau
+        //CSVNetworkYear();
     }
 
     //***********************************************************************************\\
@@ -801,7 +803,7 @@ public class Network {
     //Partie écriture des CSV
 
     /**
-     * Méthode auxiliaire de réxupération de la dernière ligne d'un fichier csv
+     * Méthode auxiliaire de récupération de la dernière ligne d'un fichier csv
      * 
      * @param nameFile nom du fichier
      * @returnla dernière ligne
@@ -919,8 +921,6 @@ public class Network {
     }
 
     public void CSVNetworkYear() throws IOException{
-        //Stratégie : aller lire la dernière ligne de chaque autre CSV pour récupérer 
-        // les valeurs d'énergie produite, consommée et perdue
         
         //Introduction fichier
         PrintWriter out = new PrintWriter(new FileWriter("../projet-c.deschamps/src/Network/CSV_Of_Network/CSV_Of_Network_Year.csv"));
@@ -1005,6 +1005,46 @@ public class Network {
              energyLost += cityLoss;
         }
 
+        out.close();
+    }
+
+    public void CSVCityYear(City city) throws IOException{
+
+        //Introduction fichier
+        PrintWriter out = new PrintWriter(new FileWriter("../projet-c.deschamps/src/Network/CSV_Of_Clusters/CSV_Of_Cluster"+city.getNumber()+"_Year.csv"));
+        out.println("CSV File for the City"+ city.getNumber()+" on the year");
+        out.println("1 - Day D ");
+        out.println("2 - Energy Consumed on the Day D ");
+        out.println("3 - Energy Produced on the Day D ");
+        out.println("4 - Energy Consumed since the beginning of the year ");
+        out.println("5 - Energy Produced since the beginning of the year ");
+        out.println("6 - Energy Lost since the beginning of the year on lines starting from the city");
+        out.println(" ");
+
+        //Initialisation des energies cumulées
+        double energyProducedYear = 0;
+        double energyConsummedYear = 0;
+        double energyLostYear = 0;
+
+        //Boucle sur les jours
+        for(int j=1; j<366; j++){
+            //Récupération des String nécessaires
+            String lastline = getLastLineOfCSV("../projet-c.deschamps/src/Network/CSV_Of_Clusters/CSV_Of_Cluster"+city.getNumber()+"_Day"+j+".csv");
+            String str1 = getStringInColumn(4, lastline);
+            String str2 = getStringInColumn(5, lastline);
+            String str3 = getStringInColumn(6, lastline);
+
+            //Ecriture de la ligne dans le CSV
+            out.println(j+" ; "+str1+" ; "+str2+" ; "+energyConsummedYear+" ; "+
+                    energyProducedYear+" ; "+ energyLostYear);
+
+            //Mise à jour des énergies cumulées
+            energyConsummedYear+=Double.valueOf(str1);
+            energyProducedYear+=Double.valueOf(str2);
+            energyLostYear+=Double.valueOf(str3);
+
+        }
+        
         out.close();
     }
 }
