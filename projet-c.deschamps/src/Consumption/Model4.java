@@ -8,6 +8,7 @@ public class Model4 extends Device {
 
     private double coefLin, tau, PowerMin, fPause;
     private int nCycles;
+    private ArrayList<Double> ConsDay;
 
     public Model4(double PowerMin, double PowerMax, String name, double coefLin, double tau, int cycles, double fPause){
         super(PowerMax, name);
@@ -16,13 +17,50 @@ public class Model4 extends Device {
         this.nCycles = cycles;
         this.PowerMin = PowerMin;
         this.fPause = fPause;
+        this.ConsDay = addConsDay();
     }
 
-    public void addCons(double[] prod, int day){
+    public Model4(Model4 ModRef){
+        super(ModRef.getPowerMax(),ModRef.getName());
+        this.coefLin = ModRef.getCoefLin();
+        this.tau = ModRef.getTau();
+        this.nCycles = ModRef.getNCycles();
+        this.PowerMin = ModRef.getPowerMin();
+        this.fPause = ModRef.getFPause();
+        int tauDelay = Math.round(Math.round(1440*Math.random()));
+        this.ConsDay = BasicModels.genDelay(ModRef.getConsDay(), tauDelay);
+    }
+
+    public double getCoefLin(){
+        return this.coefLin;
+    }
+
+    public double getTau(){
+        return this.tau;
+    }
+
+    public int getNCycles(){
+        return this.nCycles;
+    }
+
+    public double getPowerMin(){
+        return this.PowerMin;
+    }
+
+    public double getFPause(){
+        return this.fPause;
+    }
+
+    public ArrayList<Double> getConsDay(){
+        return this.ConsDay;
+    }
+
+    public ArrayList<Double> addConsDay(){
         ArrayList<Double> genExp = BasicModels.genExp(1, tau, (1-fPause)*1440/nCycles);
         ArrayList<Double> genLin = BasicModels.genLinear(coefLin*1440/nCycles, 0, (1-fPause)*1440/nCycles);
-        ArrayList<Double> genNoise = BasicModels.genWhiteNoise(0.5*PowerMin);
         ArrayList<Double> genCons = BasicModels.genConstant(getPowerMax());
+
+        ArrayList<Double> genRet = new ArrayList<Double>();
 
         int contLin = 0;
         double minExpLin=0;
@@ -30,9 +68,9 @@ public class Model4 extends Device {
         for(int i=0; i<1440; i++){
             if(contLin<(1-fPause)*1440/nCycles){
                 minExpLin = Math.min(genExp.get(contLin), genLin.get(contLin));
-                prod[i] = prod[i] + Math.min(genCons.get(i), minExpLin) + genNoise.get(i) + PowerMin;
+                genRet.add(Math.min(genCons.get(i), minExpLin) + PowerMin);
             } else{
-                prod[i] = prod[i] + genNoise.get(i) + PowerMin;;
+                genRet.add(PowerMin);
             }
             
             contLin+=1;
@@ -40,6 +78,16 @@ public class Model4 extends Device {
                 contLin=0;
             }
         }
-        
+        return genRet;
+    }
+
+    public void addCons(double[] prod, int day){
+        double PowerNoise = PowerMin*0.75;
+        double Noise = 0;
+
+        for(int i=0; i<1440; i++){
+            Noise = PowerNoise*Math.random()-PowerNoise/2;
+            prod[i] = prod[i] + ConsDay.get(i) + Noise;
+        }
     }
 }

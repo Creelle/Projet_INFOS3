@@ -78,15 +78,26 @@ public class Consumption implements Energy {
      */
     public ArrayList<DeliveryPoint> creerSysConso(int nbHouses) {
         ArrayList<DeliveryPoint> listDP = new ArrayList<>();
+
+        Model3 d2Ref = new Model3(20,100,"Frigo",5,33,0.2);
+        Model4 d4Ref = new Model4(10, 500, "PlaquesElectriques", 2, 0.5, 4, 0.3);
+        Model1 d5Ref = new Model1("BoxInternet",50, 400, 100);
+        Model1 d6Ref = new Model1("PhoneCharger",30, 300, 100);
+        Model3 d7Ref = new Model3(20,300,"Télévision",6,33,1);
+        Model4 d8Ref = new Model4(20, 700, "Grille-pain", 4, 0.5, 4, 0.3);
+        Model3 d9Ref = new Model3(50,250,"Frigo",5,33,0.2);
+        Model2 d10Ref = new Model2(1000, "Radiateur", 200, 2000, 33, 0);
+        Model2 d11Ref = new Model2(2000, "Climatisation", 400, 4000, 217, 12);
+
         for (int i = 1; i <= nbHouses; i++) {
             ArrayList<Device> listDevice = new ArrayList<>();
             int k = 0; // Compteur du nombre d'appareils dans le foyer
             // Appareils présents dans toutes les maisons
             Device d1 = new PeriodicDevice("Lumière", 400, "const", 780, 120, 360, 1440);
-            Device d2 = new Model3(20,100,"Frigo",5,33,0.2);
+            Device d2 = new Model3(d2Ref);
             Device d3 = new ConstantDevice("Cumulus", 100, "const");
-            Device d4 = new Model4(10, 500, "PlaquesElectriques", 2, 0.5, 4, 0.3);
-            Device d5 = new Model1("BoxInternet",50, 400, 100);
+            Device d4 = new Model4(d4Ref);
+            Device d5 = new Model1(d5Ref);
             listDevice.add(d1);
             listDevice.add(d2);
             listDevice.add(d3);
@@ -98,39 +109,39 @@ public class Consumption implements Energy {
 
             double npc = 2 + Math.floor(Math.random() * (6));
             for (int m = 0; m < npc; m++) {
-                Device d6 = new Model1("PhoneCharger",30, 300, 100);
+                Device d6 = new Model1(d6Ref);
                 listDevice.add(d6);
                 k += 1;
             }
 
             // La maison a-t-elle une télé?
             if (Math.random() < 0.5) {
-                Device d7 = new Model3(20,300,"Télévision",6,33,1);
+                Device d7 = new Model3(d7Ref);
                 listDevice.add(d7);
                 k += 1;
             }
             // La maison a-t-elle un grille-pain?
             if (Math.random() < 0.5) {
-                Device d8 = new Model4(20, 700, "Grille-pain", 4, 0.5, 4, 0.3);
+                Device d8 = new Model4(d8Ref);
                 listDevice.add(d8);
                 k += 1;
             }
             // La maison a-t-elle un congélateur?
             if (Math.random() < 0.5) {
-                Device d9 = new Model3(50,250,"Frigo",5,33,0.2);
+                Device d9 = new Model3(d9Ref);
                 listDevice.add(d9);
                 k += 1;
             }
             // Combien la maison a-t-elle de radiateurs?
             double nb = 4 + Math.floor(Math.random() * (10));
             for (int m = 0; m < nb; m++) {
-                Device d10 = new Model2(1000, "Radiateur", 200, 2000, 33, 0);
+                Device d10 = new Model2(d10Ref);
                 listDevice.add(d10);
                 k += 1;
             }
             // La maison a-t-elle une climatisation?
             if (Math.random() < 0.8) {
-                Device d11 = new Model2(2000, "Climatisation", 400, 4000, 217, 12);
+                Device d11 = new Model2(d11Ref);
                 listDevice.add(d11);
                 k += 1;
             }
