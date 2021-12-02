@@ -17,7 +17,7 @@ public class Model4 extends Device {
         this.nCycles = cycles;
         this.PowerMin = PowerMin;
         this.fPause = fPause;
-        this.ConsDay = addConsDay();
+        this.ConsDay = this.addConsDay();
     }
 
     public Model4(Model4 ModRef){

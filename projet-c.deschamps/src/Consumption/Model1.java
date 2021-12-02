@@ -13,7 +13,7 @@ public class Model1 extends Device{
         super(PowerMax,name);
         this.tCharge = tCharge;
         this.Period = Period;
-        this.DayConsumption = addConsDay();
+        this.DayConsumption = this.addConsDay();
     }
 
     public Model1(Model1 ModRef){
