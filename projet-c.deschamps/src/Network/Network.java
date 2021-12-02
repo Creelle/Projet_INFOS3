@@ -664,16 +664,12 @@ public class Network {
         res.add(meanProd);
         res.add(meanCons);
 
-        //Ecriture des fichiers CSV
-
-        //Jour J
-        CSVNetworkDay(j, listTableCons, listTableProd, listOfPathsNoProd);
+        //Ecriture des fichiers CSV au jour J
+        /*CSVNetworkDay(j, listTableCons, listTableProd, listOfPathsNoProd);
         for(City city : listOfCities){
             CSVCityDay(j, city, listTableCons, listTableProd, listOfPathsNoProd);
-        }
-
-        //Année
-        
+        }*/
+       
 
         return res;
     }
@@ -697,14 +693,14 @@ public class Network {
         }
 
         // Mise à jour des tableaux moyens
-        for (int j = 0; j < 365; j++) {
-            ArrayList<double[]> listMeanTables = simulation(j + 1, false);
+        for (int j = 1; j < 366; j++) {
+            ArrayList<double[]> listMeanTables = simulation(j, false);
             for (int k = 0; k < listOfCities.size(); k++) {
                 // Mise à jour de ces tableaux
-                listTableMeanProd.get(k)[j] = listMeanTables.get(0)[k];
-                listTableMeanCons.get(k)[j] = listMeanTables.get(1)[k];
-                
+                listTableMeanProd.get(k)[j-1] = listMeanTables.get(0)[k];
+                listTableMeanCons.get(k)[j-1] = listMeanTables.get(1)[k];
             }
+            System.out.println("Day currently computed : "+ j);
         }
         // Impression des graphes
         for (int k = 0; k < listTableMeanCons.size(); k++) {
@@ -732,7 +728,7 @@ public class Network {
             }
 
             //CSV annuel
-            CSVNetworkYear();
+            //CSVNetworkYear();
         }
     }
 
@@ -1010,5 +1006,4 @@ public class Network {
         }
 
         out.close();
-    }
-}
+    
