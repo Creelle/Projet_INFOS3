@@ -25,10 +25,19 @@ public class Reader {
      * homestart
      * constantdevice; double power
      * periodicdevice; double power; int period; int duration; int timestart; int timeend
+     * model1; double power; double charge; double period;
+     * model2; double power; double PowerMinRequest; double PowerMaxRequest; int dayMax; int hMax;
+     * model3; double PowerMin; double PowerMax; int nCycles; int dayMax; double factMin;
+     * model4; double PowerMin; double PowerMax; double coefLin; double tau; int cycles; double fPause;
      * homeend
      * powerplantstart
      * constantsystem; double power
      * periodicsystem; double power; int period; int duration; int timestart; int timeend
+     * eolian; double PowerMaxP, double SpeedWindMinP, double SpeedWindMaxP;
+     * fossil; double PowerMaxR, int dayCycles;
+     * hydroelectric; double PowerMax, double levelWaterMax; //levelmax must be in [30;150]
+     * nuclear; double PowerMaxR, double PowerMaxFisR, double tauFisR, int nFis; //nFis must be >0
+     * solar; double PowerMaxR; double PowerSunMinR; double PowerSunMaxR;
      * powerplantend
      * cityend
      * link, int numberCity1, int numberCity2, double lineicLoss
@@ -86,10 +95,13 @@ public class Reader {
 
     static public Network read(String filename) throws IOException {
 
-        //initialisation des variables
+        
 		FileReader in = new FileReader(filename);
 		BufferedReader bin = new BufferedReader(in);
         String lineselector;
+
+
+        //initialisation des variables
 		Network network = new Network();
         City mycity = new City();
         int number =0;
@@ -99,32 +111,35 @@ public class Reader {
         Device perdevice = new PeriodicDevice("mydevice",0,"periodic",0,0,0,0);
         Device model1 = new Model1("model1",0,0,0);
         Device model2 = new Model2(0,"model2",0,0,0,0);
-        Device model3 = new Model3(0,0,"model2",0,0,0);
-        Device model4 = new Model4(0,0,"model2",0,0,0,0);        
+        Device model3 = new Model3(0,0,"model3",1,0,0);
+        Device model4 = new Model4(0,0,"model4",0,0,1,0);        
         int nbSys = 0;
         ArrayList<ProductionSystem> listSys = new ArrayList<ProductionSystem>(0);
         ProductionSystem constantsys = new ConstantSystem("constsys",0,"const");
         ProductionSystem periodicsys = new PeriodicSystem("periodicsys",0,"periodic",0,0,0,0);
         ProductionSystem eolian = new Eolian(0,0,0);
-        ProductionSystem dam = new Hydroeletric(0,0);
+        ProductionSystem dam = new Hydroeletric(0,31);
         ProductionSystem fossil = new Fossil(0,0);
-        ProductionSystem nuclear = new Nuclear(0,0,0,0);
+        ProductionSystem nuclear = new Nuclear(0,0,0,1);
         ProductionSystem solar = new Solar(0,0,0);
         Link mylink = new Link();
         double mylenght = 0;
+        //DEBUG:int numberline = 0;
         
 
 		while(bin.ready()) {
+            //DEBUG:numberline++;
+            //DEBUG:System.out.println(numberline);
 			String line = bin.readLine();
 			String[] tokens = line.split(";");
-            lineselector=tokens[0].trim();
+            lineselector=tokens[0].trim().toLowerCase();
 
             switch(lineselector){
                 case "citystart":
                     //DEGUG:System.out.println("citystart");
                     number++;
                     mycity = new City(0, false, Double.parseDouble(tokens[1].trim()), Double.parseDouble(tokens[2].trim()), number);
-                    network.getListCities().add(mycity);
+                    mycity.setNbLinks(0);
                 break;
                 
                 case "homestart":
@@ -231,11 +246,13 @@ public class Reader {
 
                 case "powerplantend":
                     //DEGUG:System.out.println("ppe");
+                    
                     mycity.getCityProd().getListInj().add(new InjectionPoint("powerplant",nbSys,listSys));
                 break;
 
                 case "cityend":
                     //DEGUG:System.out.println("ce");
+                    network.setNbCities(network.getNbCities()+1);
                     network.getListCities().add(mycity);
                 break;
 
@@ -245,6 +262,8 @@ public class Reader {
                     City cityToLink2 = network.getCityInList(Integer.parseInt(tokens[2].trim()), network.getListCities());
                     mylenght = network.calculateLength(cityToLink1,cityToLink2);
                     mylink = new Link(mylenght,Integer.parseInt(tokens[1].trim()),Integer.parseInt(tokens[2].trim()),Double.parseDouble(tokens[3].trim()));
+                    cityToLink1.setNbLinks(cityToLink1.getNbLinks()+1);
+                    cityToLink2.setNbLinks(cityToLink2.getNbLinks()+1);
                     network.getListLinks().add(mylink);
                 break;
 
