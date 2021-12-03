@@ -152,11 +152,6 @@ powerplantstart
 hydroeletric;40000;149;0.0023,4
 powerplantend
 
-powerplantstart
-solar;2500000;15000;40000
-Eolian;40000;10;140
-
-powerplantend
 
 cityend
 
@@ -414,7 +409,10 @@ model2;1000;200;2000;33;0
 model2;2000;400;4000;217;12
 homeend
 
-
+powerplantstart
+solar;2500000;15000;40000
+eolian;40000;10;140
+powerplantend
 
 cityend
 

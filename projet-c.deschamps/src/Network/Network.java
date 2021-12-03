@@ -441,11 +441,9 @@ public class Network {
             intermediateListCities.add(city);
             totalLoss[city.getNumber() - 1] = Double.MAX_VALUE;
         }
-
         // Initialisation du programme : on démarre à la ville désirée
         City cityStart = getCityInList(start, listOfCities);
         totalLoss[cityStart.getNumber() - 1] = 0.0;
-
         // Boucle jusqu'a ce qu'il n'y ait plus de villes à visiter
         while (intermediateListCities.isEmpty() == false) {
             City cityToTry = cityWithMinTotLoss(totalLoss, intermediateListCities);
@@ -467,14 +465,24 @@ public class Network {
 
             }
         }
-
+        //System.out.println("debug");
+        //for (int i : pred){
+        //    System.out.println(i);
+        //} 
+        //System.out.println("debug");
+        
         // Ecriture de la liste des noeuds du chemin
         listToFollow.add(end);
         int number = end;
+        //System.out.println("debug2");
         while (number != start) {
+            //System.out.println(number);
+            
             listToFollow.add(0, pred[number - 1]);
+            //System.out.println("debug5");
             number = pred[number - 1];
         }
+        //System.out.println("debug6");
         // Calcul de la longueur totale
         double length = 0;
         for (int index = 0; index < listToFollow.size() - 1; index++) {
@@ -618,10 +626,13 @@ public class Network {
                 // Sélection de la ville productrice qui permet de fournir de l'énergie avec
                 // peu de pertes
                 for (City cityProd : listCityProd) {
+                    //System.out.println(cityProd.getNumber()+ "..." + cityNoProd.getNumber());
                     Path newPath = bestPath(cityProd.getNumber(), cityNoProd.getNumber());
+                    //System.out.println("cityprod");
                     // Il faut que la ville productrice soit en capacité de fournir de l'énergie
                     if (path.lenPath > newPath.lenPath && canProvidePower(maxNecessaryPower,
                             listTableProd.get(cityProd.getNumber() - 1)) == true) {
+                                //System.out.println(cityProd.getNumber());
                         path = newPath;
                         numCityProd = cityProd.getNumber();
                     }
