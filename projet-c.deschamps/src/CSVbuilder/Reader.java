@@ -226,7 +226,7 @@ public class Reader {
                     nbSys++;
                 break;
 
-                case "hydroeletric":
+                case "hydroelectric":
                     dam = new Hydroeletric(Double.parseDouble(tokens[1].trim()),Double.parseDouble(tokens[2].trim()));
                     listSys.add(dam);
                     nbSys++;

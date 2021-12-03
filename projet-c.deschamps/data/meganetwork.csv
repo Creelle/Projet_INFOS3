@@ -149,7 +149,7 @@ homeend
 
 
 powerplantstart
-fossil;200000000;240000000;0.0023,4
+hydroelectric;50000;149
 powerplantend
 
 
@@ -410,7 +410,7 @@ model2;2000;400;4000;217;12
 homeend
 
 powerplantstart
-solar;2500000;1500000;4000000
+solar;2500000;15000;40000
 eolian;40000;10;140
 powerplantend
 
