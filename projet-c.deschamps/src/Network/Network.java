@@ -669,10 +669,10 @@ public class Network {
 
         // Ecriture des fichiers CSV au jour J
 
-        CSVNetworkDay(j, listTableCons, listTableProd, listOfPathsNoProd);
-        for(City city : listOfCities){
-        CSVCityDay(j, city, listTableCons, listTableProd, listOfPathsNoProd);
-        }
+        //CSVNetworkDay(j, listTableCons, listTableProd, listOfPathsNoProd);
+        //for(City city : listOfCities){
+        //CSVCityDay(j, city, listTableCons, listTableProd, listOfPathsNoProd);
+        //}
 
         return res;
     }
