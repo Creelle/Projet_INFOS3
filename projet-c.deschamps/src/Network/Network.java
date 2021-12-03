@@ -466,24 +466,14 @@ public class Network {
 
             }
         }
-        System.out.println("debug");
-        for (int i : pred){
-            System.out.println(i);
-        } 
-        System.out.println("debug2");
-        
+
         // Ecriture de la liste des noeuds du chemin
         listToFollow.add(end);
         int number = end;
-        //System.out.println("debug2");
         while (number != start) {
-            //System.out.println(number);
-            
             listToFollow.add(0, pred[number - 1]);
-            //System.out.println("debug5");
             number = pred[number - 1];
         }
-        //System.out.println("debug6");
         // Calcul de la longueur totale
         double length = 0;
         for (int index = 0; index < listToFollow.size() - 1; index++) {
@@ -600,7 +590,7 @@ public class Network {
         ArrayList<double[]> listTableProd = new ArrayList<>();
         ArrayList<double[]> listTableCons = new ArrayList<>();
 
-        //création de la liste des chemins entre ville productrices et non productrices
+        // création de la liste des chemins entre ville productrices et non productrices
         ArrayList<Path> listOfPathsNoProd = new ArrayList<>();
 
         // Création des tableaux pour chaque ville de la liste et ajout aux listes
@@ -618,7 +608,7 @@ public class Network {
         ArrayList<City> listCityNoProd = getNoProdCities();
 
         // Simulation
-//        try {
+        try {
             for (City cityNoProd : listCityNoProd) {
                 ArrayList<Integer> listNumCities = new ArrayList<>();
                 int numCityProd = 0;
@@ -627,13 +617,13 @@ public class Network {
                 // Sélection de la ville productrice qui permet de fournir de l'énergie avec
                 // peu de pertes
                 for (City cityProd : listCityProd) {
-                    //System.out.println(cityProd.getNumber()+ "..." + cityNoProd.getNumber());
+                    // System.out.println(cityProd.getNumber()+ "..." + cityNoProd.getNumber());
                     Path newPath = bestPath(cityProd.getNumber(), cityNoProd.getNumber());
-                    //System.out.println("cityprod");
+                    // System.out.println("cityprod");
                     // Il faut que la ville productrice soit en capacité de fournir de l'énergie
                     if (path.lenPath > newPath.lenPath && canProvidePower(maxNecessaryPower,
                             listTableProd.get(cityProd.getNumber() - 1)) == true) {
-                                //System.out.println(cityProd.getNumber());
+                        // System.out.println(cityProd.getNumber());
                         path = newPath;
                         numCityProd = cityProd.getNumber();
                     }
@@ -669,30 +659,28 @@ public class Network {
                         System.out.println(e.getMessage());
                     }
                 }
-                System.out.println("list of Path from Prod to No Prod :");
-                for(Path p : listOfPathsNoProd){
-                    p.displayPath();
-                }
             }
-//        } catch (IndexOutOfBoundsException error) {
-//            System.out.println("Production of the network is not sufficient to provide power to all cities!");
-//            System.out.println(error.getMessage());
-//        }
+        } catch (IndexOutOfBoundsException error) {
+            System.out.println("Production of the network is not sufficient to provide power to all cities!");
+            System.out.println(error.getMessage());
+        }
         res.add(meanProd);
         res.add(meanCons);
 
-        //Ecriture des fichiers CSV au jour J
-        /*CSVNetworkDay(j, listTableCons, listTableProd, listOfPathsNoProd);
-        for(City city : listOfCities){
-            CSVCityDay(j, city, listTableCons, listTableProd, listOfPathsNoProd);
-        }*/
-       
+        // Ecriture des fichiers CSV au jour J
+        /*
+         * CSVNetworkDay(j, listTableCons, listTableProd, listOfPathsNoProd);
+         * for(City city : listOfCities){
+         * CSVCityDay(j, city, listTableCons, listTableProd, listOfPathsNoProd);
+         * }
+         */
 
         return res;
     }
 
     /**
      * Simulation pour l'année
+     * 
      * @throws IOException
      */
     public void simulateOnAYear() throws IOException {
@@ -714,10 +702,10 @@ public class Network {
             ArrayList<double[]> listMeanTables = simulation(j, false);
             for (int k = 0; k < listOfCities.size(); k++) {
                 // Mise à jour de ces tableaux
-                listTableMeanProd.get(k)[j-1] = listMeanTables.get(0)[k];
-                listTableMeanCons.get(k)[j-1] = listMeanTables.get(1)[k];
+                listTableMeanProd.get(k)[j - 1] = listMeanTables.get(0)[k];
+                listTableMeanCons.get(k)[j - 1] = listMeanTables.get(1)[k];
             }
-            System.out.println("Day currently computed : "+ j);
+            System.out.println("Day currently computed : " + j);
         }
         // Impression des graphes
         for (int k = 0; k < listTableMeanCons.size(); k++) {
@@ -744,35 +732,36 @@ public class Network {
                 System.out.println(e.getMessage());
             }
 
-            //CSV annuel de la ville
-            //CSVCityYear(city);
+            // CSV annuel de la ville
+            // CSVCityYear(city);
         }
-        //CSV annuel Réseau
-        //CSVNetworkYear();
+        // CSV annuel Réseau
+        // CSVNetworkYear();
     }
 
-    //***********************************************************************************\\
+    // ***********************************************************************************\\
 
-
-    //Partie obtention des tableaux généraux pour un réseau entier ou un cluster
+    // Partie obtention des tableaux généraux pour un réseau entier ou un cluster
 
     /**
      * Obtention des tableaux de puissance du réseau entier
      * 
      * @param listTableCons liste des tableaux de consommation de toutes les villes
      * @param listTableProd liste des tableaux de production de toutes les villes
-     * @return la liste composée du tableau de production et du tableau de consommation du réseau
+     * @return la liste composée du tableau de production et du tableau de
+     *         consommation du réseau
      */
-    public ArrayList<double[]> getNetworkTables(ArrayList<double[]> listTableCons, ArrayList<double[]> listTableProd){
-        //Le résutat sera composé du tableau de production totale, puis de celui de consommation
+    public ArrayList<double[]> getNetworkTables(ArrayList<double[]> listTableCons, ArrayList<double[]> listTableProd) {
+        // Le résutat sera composé du tableau de production totale, puis de celui de
+        // consommation
         // puis de celui de toutes les pertes du réseau
         ArrayList<double[]> networkTables = new ArrayList<>();
         double[] networkProd = new double[listTableProd.get(0).length];
         double[] networkCons = new double[listTableCons.get(0).length];
-        for(int k=0; k<listTableCons.get(0).length; k++){
-            for(int i=0; i<listTableCons.size(); i++){
-                networkProd[k]+=listTableProd.get(i)[k];
-                networkCons[k]+=listTableCons.get(i)[k];
+        for (int k = 0; k < listTableCons.get(0).length; k++) {
+            for (int i = 0; i < listTableCons.size(); i++) {
+                networkProd[k] += listTableProd.get(i)[k];
+                networkCons[k] += listTableCons.get(i)[k];
             }
         }
         networkTables.add(networkProd);
@@ -781,43 +770,43 @@ public class Network {
     }
 
     /**
-     * Calcule la perte d'énergie du réseau entier : celle ci est constante 
-     *  car les pertes linéiques sont constantes dans le temps
+     * Calcule la perte d'énergie du réseau entier : celle ci est constante
+     * car les pertes linéiques sont constantes dans le temps
      * 
-     * @param listOfPaths tous les chemins depuis une ville productrice vers 
-     *                          les autres non productrices
+     * @param listOfPaths tous les chemins depuis une ville productrice vers
+     *                    les autres non productrices
      * @return
      */
-    public double getLossNetwork(ArrayList<Path> listOfPaths){
+    public double getLossNetwork(ArrayList<Path> listOfPaths) {
         double res = 0;
-        for(Path p : listOfPaths){
-            res+=p.lossPath;
+        for (Path p : listOfPaths) {
+            res += p.lossPath;
         }
         return res;
     }
 
     /**
-     * Calcule la perte d'énergie d'une ville : celle ci est constante 
-     *  car les pertes linéiques sont constantes dans le temps
+     * Calcule la perte d'énergie d'une ville : celle ci est constante
+     * car les pertes linéiques sont constantes dans le temps
      * 
-     * @param listOfPaths tous les chemins depuis une ville productrice vers 
-     *                          les autres non productrices
-     * @param city Ville productrice dont on considère les pertes liées
+     * @param listOfPaths tous les chemins depuis une ville productrice vers
+     *                    les autres non productrices
+     * @param city        Ville productrice dont on considère les pertes liées
      * @return la valeur des pertes joules
      */
-    public double getLossCityProd(City city, ArrayList<Path> listOfPaths){
+    public double getLossCityProd(City city, ArrayList<Path> listOfPaths) {
         double res = 0;
-        for(Path p : listOfPaths){
-            if(p.getListNumberCities().get(0) == city.getNumber()){
-                res+=p.lossPath;
+        for (Path p : listOfPaths) {
+            if (p.getListNumberCities().get(0) == city.getNumber()) {
+                res += p.lossPath;
             }
         }
         return res;
     }
 
-    //***********************************************************************************\\
+    // ***********************************************************************************\\
 
-    //Partie écriture des CSV
+    // Partie écriture des CSV
 
     /**
      * Méthode auxiliaire de récupération de la dernière ligne d'un fichier csv
@@ -826,14 +815,14 @@ public class Network {
      * @returnla dernière ligne
      * @throws IOException
      */
-    public String getLastLineOfCSV(String nameFile) throws IOException{
-        //Initialisation résultat
+    public String getLastLineOfCSV(String nameFile) throws IOException {
+        // Initialisation résultat
         String res = null;
-        //Chargement du fichier
+        // Chargement du fichier
         BufferedReader in = new BufferedReader(new FileReader(nameFile));
-        //Lecture des lignes
+        // Lecture des lignes
         String line = in.readLine();
-        while(line != null){
+        while (line != null) {
             res = line;
             line = in.readLine();
         }
@@ -842,50 +831,51 @@ public class Network {
     }
 
     /**
-     * Méthode auxiliaire pour obtenir le nombre à la colonne i du csv de la ligne str
+     * Méthode auxiliaire pour obtenir le nombre à la colonne i du csv de la ligne
+     * str
      * 
-     * @param i numéro de la colonne
-     * @param str string de la ligne du csv 
+     * @param i   numéro de la colonne
+     * @param str string de la ligne du csv
      * @return
      */
-    public String getStringInColumn(int i, String str){
+    public String getStringInColumn(int i, String str) {
         String res = null;
         char c = str.charAt(0);
         int k = 0;
 
-        //Si on demande la première colonne
-        if(i == 1){
-            res = ""+c;
-            while(c!=' ' && k<str.length()-1){
-                k+=1;
-                c=str.toCharArray()[k];
-                res+=""+c;
+        // Si on demande la première colonne
+        if (i == 1) {
+            res = "" + c;
+            while (c != ' ' && k < str.length() - 1) {
+                k += 1;
+                c = str.toCharArray()[k];
+                res += "" + c;
             }
             return res;
         }
 
-        //Sinon on va compter les ';'
+        // Sinon on va compter les ';'
         int semicolonCounter = 0;
-        while(semicolonCounter<i-1 && k<str.length()){
-            c=str.toCharArray()[k];
-            if(c==';'){
-                semicolonCounter+=1;
+        while (semicolonCounter < i - 1 && k < str.length()) {
+            c = str.toCharArray()[k];
+            if (c == ';') {
+                semicolonCounter += 1;
             }
-            k+=1;
+            k += 1;
         }
-        //Le rang du caractère actuel correspond soit à " " soit à rien (fin de ligne)
+        // Le rang du caractère actuel correspond soit à " " soit à rien (fin de ligne)
 
-        //Si arrivée en fin de ligne
-        if(k == str.length()){
-            System.out.println("No column number "+i);
+        // Si arrivée en fin de ligne
+        if (k == str.length()) {
+            System.out.println("No column number " + i);
             return res;
         }
-        //Sinon: on prend le caractère après l'espace pour initialisation
-        k+=1;
-        res = ""+str.toCharArray()[k];
-        while(c!=' ' && k<str.length()-1){
-            k+=1;
-            c=str.toCharArray()[k];
+        // Sinon: on prend le caractère après l'espace pour initialisation
+        k += 1;
+        res = "" + str.toCharArray()[k];
+        while (c != ' ' && k < str.length() - 1) {
+            k += 1;
+            c = str.toCharArray()[k];
             res += c;
         }
 
@@ -894,24 +884,27 @@ public class Network {
 
     /**
      * Ecriture CSV Jour J pour le réseau entier
-     * @param j numéro du jour
-     * @param listTableCons liste des tableaux de consommation des villes
-     * @param listTableProd liste des tableaux de production des villes
-     * @param listPathToNoProd liste des chemins entre les villes productrices et les autres
+     * 
+     * @param j                numéro du jour
+     * @param listTableCons    liste des tableaux de consommation des villes
+     * @param listTableProd    liste des tableaux de production des villes
+     * @param listPathToNoProd liste des chemins entre les villes productrices et
+     *                         les autres
      * @throws IOException
      */
     public void CSVNetworkDay(int j, ArrayList<double[]> listTableCons, ArrayList<double[]> listTableProd,
-                     ArrayList<Path> listPathToNoProd) throws IOException{
+            ArrayList<Path> listPathToNoProd) throws IOException {
 
-        //Obtention des tableaux nécessaires
+        // Obtention des tableaux nécessaires
         ArrayList<double[]> listTablesOfNetwork = getNetworkTables(listTableCons, listTableProd);
-        
-        //Obtention des pertes de toutes les lignes
+
+        // Obtention des pertes de toutes les lignes
         double NetworkLoss = getLossNetwork(listPathToNoProd);
 
-        //Introduction du fichier
-        PrintWriter out = new PrintWriter(new FileWriter("../projet-c.deschamps/src/Network/CSV_Of_Network/CSV_Of_Network_Day"+j+".csv"));
-        out.println("CSV File for the Network on Day "+ j);
+        // Introduction du fichier
+        PrintWriter out = new PrintWriter(
+                new FileWriter("../projet-c.deschamps/src/Network/CSV_Of_Network/CSV_Of_Network_Day" + j + ".csv"));
+        out.println("CSV File for the Network on Day " + j);
         out.println("1 - Minute m ");
         out.println("2 - Power Consumed at minute m ");
         out.println("3 - Power Produced at minute m ");
@@ -919,28 +912,29 @@ public class Network {
         out.println("5 - Energy Produced since the beginning of the day ");
         out.println("6 - Energy Lost since the beginning of the day ");
         out.println(" ");
-        
-        //Initialisation des énergies
+
+        // Initialisation des énergies
         double energyProduced = 0;
         double energyConsummed = 0;
         double energyLost = 0;
 
-        //Ecriture du fichier
-        for(int k=0; k<listTableCons.get(0).length; k++){
-            out.println(k+ " ; " + listTablesOfNetwork.get(1)[k] + " ; " + listTablesOfNetwork.get(0)[k] +
-             " ; " + energyConsummed + " ; " + energyProduced + " ; " + energyLost);
-             energyProduced += listTablesOfNetwork.get(0)[k];
-             energyConsummed += listTablesOfNetwork.get(1)[k];
-             energyLost += NetworkLoss;
+        // Ecriture du fichier
+        for (int k = 0; k < listTableCons.get(0).length; k++) {
+            out.println(k + " ; " + listTablesOfNetwork.get(1)[k] + " ; " + listTablesOfNetwork.get(0)[k] +
+                    " ; " + energyConsummed + " ; " + energyProduced + " ; " + energyLost);
+            energyProduced += listTablesOfNetwork.get(0)[k];
+            energyConsummed += listTablesOfNetwork.get(1)[k];
+            energyLost += NetworkLoss;
         }
 
         out.close();
     }
 
-    public void CSVNetworkYear() throws IOException{
-        
-        //Introduction fichier
-        PrintWriter out = new PrintWriter(new FileWriter("../projet-c.deschamps/src/Network/CSV_Of_Network/CSV_Of_Network_Year.csv"));
+    public void CSVNetworkYear() throws IOException {
+
+        // Introduction fichier
+        PrintWriter out = new PrintWriter(
+                new FileWriter("../projet-c.deschamps/src/Network/CSV_Of_Network/CSV_Of_Network_Year.csv"));
         out.println("CSV File for the Network on the year");
         out.println("1 - Day D ");
         out.println("2 - Energy Consumed on the Day D ");
@@ -950,56 +944,60 @@ public class Network {
         out.println("6 - Energy Lost since the beginning of the year on lines");
         out.println(" ");
 
-        //Initialisation des energies cumulées
+        // Initialisation des energies cumulées
         double energyProducedYear = 0;
         double energyConsummedYear = 0;
         double energyLostYear = 0;
 
-        //Boucle sur les jours
-        for(int j=1; j<366; j++){
-            //Récupération des String nécessaires
-            String lastline = getLastLineOfCSV("../projet-c.deschamps/src/Network/CSV_Of_Network/CSV_Of_Network_Day"+j+".csv");
+        // Boucle sur les jours
+        for (int j = 1; j < 366; j++) {
+            // Récupération des String nécessaires
+            String lastline = getLastLineOfCSV(
+                    "../projet-c.deschamps/src/Network/CSV_Of_Network/CSV_Of_Network_Day" + j + ".csv");
             String str1 = getStringInColumn(4, lastline);
             String str2 = getStringInColumn(5, lastline);
             String str3 = getStringInColumn(6, lastline);
 
-            //Ecriture de la ligne dans le CSV
-            out.println(j+" ; "+str1+" ; "+str2+" ; "+energyConsummedYear+" ; "+
-                    energyProducedYear+" ; "+ energyLostYear);
+            // Ecriture de la ligne dans le CSV
+            out.println(j + " ; " + str1 + " ; " + str2 + " ; " + energyConsummedYear + " ; " +
+                    energyProducedYear + " ; " + energyLostYear);
 
-            //Mise à jour des énergies cumulées
-            energyConsummedYear+=Double.valueOf(str1);
-            energyProducedYear+=Double.valueOf(str2);
-            energyLostYear+=Double.valueOf(str3);
+            // Mise à jour des énergies cumulées
+            energyConsummedYear += Double.valueOf(str1);
+            energyProducedYear += Double.valueOf(str2);
+            energyLostYear += Double.valueOf(str3);
 
         }
-        
+
         out.close();
     }
 
-
     /**
      * Ecriture CSV pour une ville le jour J
-     * @param j numéro du jour
-     * @param city ville considérée
-     * @param listTableCons liste des tableaux de consommation des villes
-     * @param listTableProd liste des tableaux de production des villes
-     * @param listPathToNoProd liste des chemins entre les villes productrices et les autres
+     * 
+     * @param j                numéro du jour
+     * @param city             ville considérée
+     * @param listTableCons    liste des tableaux de consommation des villes
+     * @param listTableProd    liste des tableaux de production des villes
+     * @param listPathToNoProd liste des chemins entre les villes productrices et
+     *                         les autres
      * @throws IOException
      */
     public void CSVCityDay(int j, City city, ArrayList<double[]> listTableCons, ArrayList<double[]> listTableProd,
-                ArrayList<Path> listPathToNoProd) throws IOException{
-        
-        //Récupération des tableaux nécessaires
-        double[] cityProd = listTableProd.get(city.getNumber()-1);
-        double[] cityCons = listTableCons.get(city.getNumber()-1);
+            ArrayList<Path> listPathToNoProd) throws IOException {
 
-        //Récupération de la perte des lignes partant de la ville
+        // Récupération des tableaux nécessaires
+        double[] cityProd = listTableProd.get(city.getNumber() - 1);
+        double[] cityCons = listTableCons.get(city.getNumber() - 1);
+
+        // Récupération de la perte des lignes partant de la ville
         double cityLoss = getLossCityProd(city, listPathToNoProd);
-        
-        //Introduction du fichier CSV
-        PrintWriter out = new PrintWriter(new FileWriter("../projet-c.deschamps/src/Network/CSV_Of_Clusters/CSV_Of_Cluster"+city.getNumber()+"_Day"+j+".csv"));
-        out.println("CSV File for the City "+ city.getNumber()+ " on Day "+ j);
+
+        // Introduction du fichier CSV
+        PrintWriter out = new PrintWriter(
+                new FileWriter("../projet-c.deschamps/src/Network/CSV_Of_Clusters/CSV_Of_Cluster" + city.getNumber()
+                        + "_Day" + j + ".csv"));
+        out.println("CSV File for the City " + city.getNumber() + " on Day " + j);
         out.println("1 - Minute m ");
         out.println("2 - Power Consumed at minute m ");
         out.println("3 - Power Produced at minute m ");
@@ -1008,28 +1006,29 @@ public class Network {
         out.println("6 - Energy Lost since the beginning of the day on lines starting from the city");
         out.println(" ");
 
-        //Initialisation des énergies
+        // Initialisation des énergies
         double energyProduced = 0;
         double energyConsummed = 0;
         double energyLost = 0;
 
-        //Ecriture du fichier
-        for(int k=0; k<cityProd.length; k++){
-            out.println(k+ " ; " + cityCons[k] + " ; " + cityProd[k] +
-             " ; " + energyConsummed + " ; " + energyProduced + " ; " + energyLost);
-             energyProduced += cityProd[k];
-             energyConsummed += cityCons[k];
-             energyLost += cityLoss;
+        // Ecriture du fichier
+        for (int k = 0; k < cityProd.length; k++) {
+            out.println(k + " ; " + cityCons[k] + " ; " + cityProd[k] +
+                    " ; " + energyConsummed + " ; " + energyProduced + " ; " + energyLost);
+            energyProduced += cityProd[k];
+            energyConsummed += cityCons[k];
+            energyLost += cityLoss;
         }
 
         out.close();
     }
 
-    public void CSVCityYear(City city) throws IOException{
+    public void CSVCityYear(City city) throws IOException {
 
-        //Introduction fichier
-        PrintWriter out = new PrintWriter(new FileWriter("../projet-c.deschamps/src/Network/CSV_Of_Clusters/CSV_Of_Cluster"+city.getNumber()+"_Year.csv"));
-        out.println("CSV File for the City"+ city.getNumber()+" on the year");
+        // Introduction fichier
+        PrintWriter out = new PrintWriter(new FileWriter(
+                "../projet-c.deschamps/src/Network/CSV_Of_Clusters/CSV_Of_Cluster" + city.getNumber() + "_Year.csv"));
+        out.println("CSV File for the City" + city.getNumber() + " on the year");
         out.println("1 - Day D ");
         out.println("2 - Energy Consumed on the Day D ");
         out.println("3 - Energy Produced on the Day D ");
@@ -1038,30 +1037,31 @@ public class Network {
         out.println("6 - Energy Lost since the beginning of the year on lines starting from the city");
         out.println(" ");
 
-        //Initialisation des energies cumulées
+        // Initialisation des energies cumulées
         double energyProducedYear = 0;
         double energyConsummedYear = 0;
         double energyLostYear = 0;
 
-        //Boucle sur les jours
-        for(int j=1; j<366; j++){
-            //Récupération des String nécessaires
-            String lastline = getLastLineOfCSV("../projet-c.deschamps/src/Network/CSV_Of_Clusters/CSV_Of_Cluster"+city.getNumber()+"_Day"+j+".csv");
+        // Boucle sur les jours
+        for (int j = 1; j < 366; j++) {
+            // Récupération des String nécessaires
+            String lastline = getLastLineOfCSV("../projet-c.deschamps/src/Network/CSV_Of_Clusters/CSV_Of_Cluster"
+                    + city.getNumber() + "_Day" + j + ".csv");
             String str1 = getStringInColumn(4, lastline);
             String str2 = getStringInColumn(5, lastline);
             String str3 = getStringInColumn(6, lastline);
 
-            //Ecriture de la ligne dans le CSV
-            out.println(j+" ; "+str1+" ; "+str2+" ; "+energyConsummedYear+" ; "+
-                    energyProducedYear+" ; "+ energyLostYear);
+            // Ecriture de la ligne dans le CSV
+            out.println(j + " ; " + str1 + " ; " + str2 + " ; " + energyConsummedYear + " ; " +
+                    energyProducedYear + " ; " + energyLostYear);
 
-            //Mise à jour des énergies cumulées
-            energyConsummedYear+=Double.valueOf(str1);
-            energyProducedYear+=Double.valueOf(str2);
-            energyLostYear+=Double.valueOf(str3);
+            // Mise à jour des énergies cumulées
+            energyConsummedYear += Double.valueOf(str1);
+            energyProducedYear += Double.valueOf(str2);
+            energyLostYear += Double.valueOf(str3);
 
         }
-        
+
         out.close();
     }
 }
