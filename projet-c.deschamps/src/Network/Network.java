@@ -88,6 +88,7 @@ public class Network {
                 return city;
             }
         }
+        System.out.println("City Not in List!");
         City cityEmpty = new City();
         return cityEmpty;
     }
@@ -465,11 +466,11 @@ public class Network {
 
             }
         }
-        //System.out.println("debug");
-        //for (int i : pred){
-        //    System.out.println(i);
-        //} 
-        //System.out.println("debug");
+        System.out.println("debug");
+        for (int i : pred){
+            System.out.println(i);
+        } 
+        System.out.println("debug2");
         
         // Ecriture de la liste des noeuds du chemin
         listToFollow.add(end);
@@ -617,7 +618,7 @@ public class Network {
         ArrayList<City> listCityNoProd = getNoProdCities();
 
         // Simulation
-        try {
+//        try {
             for (City cityNoProd : listCityNoProd) {
                 ArrayList<Integer> listNumCities = new ArrayList<>();
                 int numCityProd = 0;
@@ -668,10 +669,15 @@ public class Network {
                         System.out.println(e.getMessage());
                     }
                 }
+                System.out.println("list of Path from Prod to No Prod :");
+                for(Path p : listOfPathsNoProd){
+                    p.displayPath();
+                }
             }
-        } catch (IndexOutOfBoundsException error) {
-            System.out.println("Production of the network is not sufficient to provide power to all cities!");
-        }
+//        } catch (IndexOutOfBoundsException error) {
+//            System.out.println("Production of the network is not sufficient to provide power to all cities!");
+//            System.out.println(error.getMessage());
+//        }
         res.add(meanProd);
         res.add(meanCons);
 

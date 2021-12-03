@@ -10,6 +10,6 @@ public class NetworkMain {
         network.displayListLinks();
         network.plotGraphNetwork();
         network.simulation(1, true);        
-        network.simulateOnAYear();
+        //network.simulateOnAYear();
     }
 }
