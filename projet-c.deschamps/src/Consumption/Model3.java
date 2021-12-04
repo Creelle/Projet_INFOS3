@@ -4,12 +4,30 @@ import java.util.ArrayList;
 
 import Models.BasicModels;
 
+/** Class of the third model of devices */
+
 public class Model3 extends Device {
 
+    /**
+     * nCycles is the number of cycles of consummation this device makes in a day
+     * dayMax is the day that the maximum power is requested
+     * PowerMin is the power of the device in stand-by
+     * factMin is the minimum value of multiplying factor of the seasons. The value must be between 0 and 1
+     * ConsYear is a ArrayList that contains ArrayList with daily consummation of the device in one year
+     */
     private int nCycles, dayMax;
     private double PowerMin, factMin;
     private ArrayList<ArrayList<Double>> ConsYear;
     
+    /**
+     * Constructor
+     * @param PowerMin is the power of the device in stand-by
+     * @param PowerMax is the maximum power of the device
+     * @param name is the name of the device
+     * @param nCycles is the number of cycles of consummation this device makes in a day
+     * @param dayMax is the day that the maximum power is requested
+     * @param factMin is the minimum value of multiplying factor of the seasons
+     */
     public Model3(double PowerMin, double PowerMax, String name, int nCycles, int dayMax, double factMin){
         super(PowerMax, name);
         this.PowerMin = PowerMin;
@@ -19,6 +37,10 @@ public class Model3 extends Device {
         this.ConsYear = this.addConsYear();
     }
 
+    /**
+     * Constructor
+     * @param ModRef is a Model3 device that we want to copy
+     */
     public Model3(Model3 ModRef){
         super(ModRef.getPowerMax(),ModRef.getName());
         this.PowerMin = ModRef.getPowerMin();
@@ -28,26 +50,51 @@ public class Model3 extends Device {
         this.ConsYear = ModRef.getConsYear();
     }
 
+    /**
+     * Getter for PowerMin
+     * @return PowerMin
+     */
     public double getPowerMin(){
         return this.PowerMin;
     }
 
+    /**
+     * Getter for nCycles
+     * @return nCycles
+     */
     public int getNCycles(){
         return this.nCycles;
     }
 
+    /**
+     * Getter for dayMax
+     * @return dayMax
+     */
     public int getDayMax(){
         return this.dayMax;
     }
 
+    /**
+     * Getter for factMin
+     * @return factMin
+     */
     public double getFactMin(){
         return this.factMin;
     }
 
+    /**
+     * Getter for ConsYear
+     * @return ConsYear
+     */
     public ArrayList<ArrayList<Double>> getConsYear(){
         return this.ConsYear;
     }
 
+    /**
+     * Generates the consummation of all the year of this device
+     * It's private because we just want to call this in the constructor
+     * @return ArrayList with ArrayLists with daily consummation
+     */
     private ArrayList<ArrayList<Double>> addConsYear(){
         ArrayList<ArrayList<Double>> genRet = new ArrayList<>();
 
@@ -76,6 +123,12 @@ public class Model3 extends Device {
         return genRet;
     }
 
+    /**
+     * This will add the consummation of Model3 device in vector prod, with noise.
+     * 
+     * Make in this way instead of generates the same consummation for same the same model all de times helped
+     * a lot to reduce computational time.
+     */
     public void addCons(double[] prod, int day){
         double PowerNoise = PowerMin*0.75;
         double Noise = 0;

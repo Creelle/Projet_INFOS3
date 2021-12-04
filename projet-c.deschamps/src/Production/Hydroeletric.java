@@ -4,8 +4,21 @@ import java.util.ArrayList;
 
 import Models.BasicModels;
 
+/** Class of Hydroeletric producer */
+
 public class Hydroeletric extends ProductionSystem{
+
+    /** 
+     * levelWaterMin is the minimal level of water of the Hydroeletric
+     * levelWaterMin is the maximal level of water of the Hydroeletric
+     */
     private double levelWaterMin, levelWaterMax;
+
+    /**
+     * Constructor
+     * @param PowerMax maximum power of the producer
+     * @param levelWaterMax maximum level of water
+     */
 
     public Hydroeletric(double PowerMax, double levelWaterMax){
         super(PowerMax);
@@ -18,10 +31,19 @@ public class Hydroeletric extends ProductionSystem{
         this.levelWaterMax = levelWaterMax;
     }
 
+    /**
+     * Getter name
+     * @return name
+     */
     public String getName(){
         return("Hydroeletric");
     }
 
+    /**
+     * Generates the daily production and add it to vector prod
+     * @param prod is the vector that you want to add the production in
+     * @param day is the day of the year that are simulated
+     */
     public void addProd(double[] prod, int day){
 
         double levelDay = BasicModels.genCosDay(levelWaterMin, levelWaterMax, day, 365, 2*Math.PI*33.5/365);

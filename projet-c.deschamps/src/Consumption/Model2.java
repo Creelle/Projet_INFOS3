@@ -4,12 +4,30 @@ import java.util.ArrayList;
 
 import Models.BasicModels;
 
+/** Class of the second model of devices */
+
 public class Model2 extends Device {
 
+    /**
+     * dayMax is the day that the maximum power is requested
+     * hMax is the hour of the day that the maximum power is request
+     * PowerMinRequest is the peak of minimum power requested
+     * PowerMaxRequest is the peak of maximum power requested
+     * ConsYear is a ArrayList that contains ArrayList with daily consummation of the device in one year
+     */
     private int dayMax, hMax;
     private double PowerMinRequest, PowerMaxRequest;
     private ArrayList<ArrayList<Double>> ConsYear;
     
+    /**
+     * Constructor
+     * @param PowerMax is the maximum power of the device
+     * @param name is the name of the device
+     * @param PowerMinRequest is the peak of minimum power requested
+     * @param PowerMaxRequest is the peak of maximum power requested
+     * @param dayMax is the day that the maximum power is requested
+     * @param hMax is the hour of the day that maximum power is requested
+     */
     public Model2(double PowerMax, String name, double PowerMinRequest, double PowerMaxRequest, int dayMax, int hMax){
         super(PowerMax,name);
         this.PowerMinRequest = PowerMinRequest;
@@ -19,6 +37,10 @@ public class Model2 extends Device {
         this.ConsYear = this.addConsYear();
     }
 
+    /**
+     * Constructor
+     * @param ModRef is a Model2 device that we want to copy
+     */
     public Model2(Model2 ModRef){
         super(ModRef.getPowerMax(),ModRef.getName());
         this.PowerMinRequest = ModRef.getPowerMinRequest();
@@ -28,26 +50,51 @@ public class Model2 extends Device {
         this.ConsYear = ModRef.getConsYear();
     }
 
+    /**
+     * Getter for PowerMinRequest
+     * @return PowerMinRequest
+     */
     public double getPowerMinRequest(){
         return this.PowerMinRequest;
     }
 
+    /**
+     * Getter for PowerMaxRequest
+     * @return PowerMaxRequest
+     */
     public double getPowerMaxRequest(){
         return this.PowerMaxRequest;
     }
 
+    /**
+     * Getter for dayMax
+     * @return dayMax
+     */
     public int getDayMax(){
         return this.dayMax;
     }
 
+    /**
+     * Getter for hMax
+     * @return hMax
+     */
     public int getHMax(){
         return this.hMax;
     }
 
+    /**
+     * Getter for ConsYear
+     * @return ConsYear
+     */
     public ArrayList<ArrayList<Double>> getConsYear(){
         return this.ConsYear;
     }
 
+    /**
+     * Generates the consummation of all the year of this device
+     * It's private because we just want to call this in the constructor
+     * @return ArrayList with ArrayLists with daily consummation
+     */
     private ArrayList<ArrayList<Double>> addConsYear(){
         ArrayList<ArrayList<Double>> genRet = new ArrayList<>();
 
@@ -73,6 +120,12 @@ public class Model2 extends Device {
         return genRet;
     }
 
+    /**
+     * This will add the consummation of Model2 device in vector prod, with noise.
+     * 
+     * Make in this way instead of generates the same consummation for same the same model all de times helped
+     * a lot to reduce computational time.
+     */
     public void addCons(double[] prod, int day){
         double PowerNoise = getPowerMax()*0.05;
         double Noise = 0;
