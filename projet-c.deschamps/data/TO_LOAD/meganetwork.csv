@@ -149,7 +149,7 @@ homeend
 
 
 powerplantstart
-hydroelectric;50000;149
+hydroelectric;100000;149
 powerplantend
 
 
@@ -410,13 +410,237 @@ model2;2000;400;4000;217;12
 homeend
 
 powerplantstart
-solar;2500000;15000;40000
-eolian;40000;10;140
+solar;2500000;150000;400000
+eolian;400000;10;140
 powerplantend
 
 cityend
+
+_______________________________________________________________________________________________
+
+citystart;5;-20
+
+homestart
+------home appliance-----
+
+model4;10;500;2;0.5;4;0.3
+model1;50;400;100
+model1;30;300;100
+model4;20;700;4;0.5;4;0.3
+
+-----light---------
+periodicdevice;400;780;120;360;1440
+-----warm water--------
+constantdevice;100
+-----thermostat-------
+model2;1000;200;2000;33;0
+model2;2000;400;4000;217;12
+homeend
+
+homestart
+------home appliance-----
+
+model4;10;500;2;0.5;4;0.3
+model1;50;400;100
+model1;30;300;100
+model4;20;700;4;0.5;4;0.3
+
+-----light---------
+periodicdevice;400;780;120;360;1440
+-----warm water--------
+constantdevice;100
+-----thermostat-------
+model2;1000;200;2000;33;0
+model2;2000;400;4000;217;12
+homeend
+
+homestart
+------home appliance-----
+
+model4;10;500;2;0.5;4;0.3
+model1;50;400;100
+model1;30;300;100
+model4;20;700;4;0.5;4;0.3
+
+-----light---------
+periodicdevice;400;780;120;360;1440
+-----warm water--------
+constantdevice;100
+-----thermostat-------
+model2;1000;200;2000;33;0
+model2;2000;400;4000;217;12
+homeend
+
+homestart
+------home appliance-----
+
+model4;10;500;2;0.5;4;0.3
+model1;50;400;100
+model1;30;300;100
+model4;20;700;4;0.5;4;0.3
+
+-----light---------
+periodicdevice;400;780;120;360;1440
+-----warm water--------
+constantdevice;100
+-----thermostat-------
+model2;1000;200;2000;33;0
+model2;2000;400;4000;217;12
+homeend
+
+homestart
+------home appliance-----
+
+model4;10;500;2;0.5;4;0.3
+model1;50;400;100
+model1;30;300;100
+model4;20;700;4;0.5;4;0.3
+
+-----light---------
+periodicdevice;400;780;120;360;1440
+-----warm water--------
+constantdevice;100
+-----thermostat-------
+model2;1000;200;2000;33;0
+model2;2000;400;4000;217;12
+homeend
+
+homestart
+------home appliance-----
+
+model4;10;500;2;0.5;4;0.3
+model1;50;400;100
+model1;30;300;100
+model4;20;700;4;0.5;4;0.3
+
+-----light---------
+periodicdevice;400;780;120;360;1440
+-----warm water--------
+constantdevice;100
+-----thermostat-------
+model2;1000;200;2000;33;0
+model2;2000;400;4000;217;12
+homeend
+
+
+cityend
+
+_______________________________________________________________________________________________
+
+city;0;15
+
+
+homestart
+------home appliance-----
+
+model4;10;500;2;0.5;4;0.3
+model1;50;400;100
+model1;30;300;100
+model4;20;700;4;0.5;4;0.3
+
+-----light---------
+periodicdevice;400;780;120;360;1440
+-----warm water--------
+constantdevice;100
+-----thermostat-------
+model2;1000;200;2000;33;0
+model2;2000;400;4000;217;12
+homeend
+
+homestart
+------home appliance-----
+
+model4;10;500;2;0.5;4;0.3
+model1;50;400;100
+model1;30;300;100
+model4;20;700;4;0.5;4;0.3
+
+-----light---------
+periodicdevice;400;780;120;360;1440
+-----warm water--------
+constantdevice;100
+-----thermostat-------
+model2;1000;200;2000;33;0
+model2;2000;400;4000;217;12
+homeend
+
+homestart
+------home appliance-----
+
+model4;10;500;2;0.5;4;0.3
+model1;50;400;100
+model1;30;300;100
+model4;20;700;4;0.5;4;0.3
+
+-----light---------
+periodicdevice;400;780;120;360;1440
+-----warm water--------
+constantdevice;100
+-----thermostat-------
+model2;1000;200;2000;33;0
+model2;2000;400;4000;217;12
+homeend
+
+homestart
+------home appliance-----
+
+model4;10;500;2;0.5;4;0.3
+model1;50;400;100
+model1;30;300;100
+model4;20;700;4;0.5;4;0.3
+
+-----light---------
+periodicdevice;400;780;120;360;1440
+-----warm water--------
+constantdevice;100
+-----thermostat-------
+model2;1000;200;2000;33;0
+model2;2000;400;4000;217;12
+homeend
+
+homestart
+------home appliance-----
+
+model4;10;500;2;0.5;4;0.3
+model1;50;400;100
+model1;30;300;100
+model4;20;700;4;0.5;4;0.3
+
+-----light---------
+periodicdevice;400;780;120;360;1440
+-----warm water--------
+constantdevice;100
+-----thermostat-------
+model2;1000;200;2000;33;0
+model2;2000;400;4000;217;12
+homeend
+
+homestart
+------home appliance-----
+
+model4;10;500;2;0.5;4;0.3
+model1;50;400;100
+model1;30;300;100
+model4;20;700;4;0.5;4;0.3
+
+-----light---------
+periodicdevice;400;780;120;360;1440
+-----warm water--------
+constantdevice;100
+-----thermostat-------
+model2;1000;200;2000;33;0
+model2;2000;400;4000;217;12
+homeend
+
+
+cityend
+
+
 
 link;1;2;1
 link;2;1;1
 link;2;3;3
 link;3;2;3
+link;2;4;2
+link;4;2;2
+
