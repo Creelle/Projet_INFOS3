@@ -704,7 +704,6 @@ public class Network {
                 listTableMeanProd.get(k)[j - 1] = listMeanTables.get(0)[k];
                 listTableMeanCons.get(k)[j - 1] = listMeanTables.get(1)[k];
             }
-            System.out.println("Day currently computed : " + j);
         }
         // Impression des graphes
         for (int k = 0; k < listTableMeanCons.size(); k++) {
