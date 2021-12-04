@@ -47,6 +47,7 @@ public class View {
     public JTextField CityNbHousesF;
     public JTextField CityIndexF;
     public JTextField nCitiesF;
+    public JTextField CSVreadF;
     
    // Buttons
     
@@ -62,7 +63,7 @@ public class View {
     //private JButton nPeriodicB;
     private JButton plotProdYearB;
     private JButton displaylistDP;
-    private JButton plotConsNbHousesB;
+  
 
     //Buttons pane 2
 
@@ -72,8 +73,7 @@ public class View {
     
     //Buttons pane 3
 
-    private JButton nbHousesB;
-    private JButton submitB3;
+    
     private JButton CheckProdB;
     private JButton displayCSVdayB;
     private JButton displayCSVyearB;
@@ -82,15 +82,15 @@ public class View {
 
     //Buttons pane 4
     private JButton nCitiesB;
-    private JButton submitB4;
-    private JButton cityIndexB;
-    private JButton CityNbHousesB;
     private JButton changePopB;
     private JButton displayCitiesB;
     private JButton displayLinksB;
     private JButton plotNetGraphB;
     private JButton plotCityB;
     private JButton plotNetB;
+    private JButton CSVnet;
+    private JButton CSVcity;
+    private JButton CSVread;
 
     //Labels
 
@@ -135,40 +135,47 @@ public class View {
         //pane1
         
         submitB = new JButton("Number of days");
-        plotButton1 = new JButton("Plot the consumption over 1 day");
-        plotProdYearB = new JButton("Plot the consumption over several days");
-        displaylistDP = new JButton("Display the consumption devices");
-        plotConsNbHousesB = new JButton("Plot the consumption of NbHouses");
-       
-        
+        plotButton1 = new JButton("Plot 1 day");
+        plotProdYearB = new JButton("Plot year");
+        displaylistDP = new JButton("Display devices");
+        //String twoLines = "Plot consumption\n of NbHouses";
 
+        //plotConsNbHousesB = new JButton("<html>" + twoLines.replaceAll("\\n", "<br>") + "</html>");
+         
+       
         //pane2
         mainB = new JButton("Day production plot");
         submitB2 = new JButton("Number of days");
         mainBYear = new JButton("Year production plot");
 
         //pane3 
-        nbHousesB = new JButton("Number of houses");
-        submitB3 = new JButton("Number of days");
+        JLabel nbHousesL = new JLabel("Number of houses");
+        JLabel submitL3 = new JLabel("Number of days");
         CheckProdB = new JButton("Check production for 1 day");
-        displayCSVdayB = new JButton("Display production vs consumption for the last day");
-        displayCSVyearB = new JButton("Display production vs consumption per day");
-        plotDayB = new JButton("Plot over 1 day");
-        plotYearB = new JButton("Plot over 1 year");
+        displayCSVdayB = new JButton("Display day");
+        displayCSVyearB = new JButton("Display year");
+        plotDayB = new JButton("Plot day");
+        plotYearB = new JButton("Plot year");
 
         //pane4
         
         nCitiesB= new JButton("Number of cities");
-        submitB4= new JButton("Number of days");
-        cityIndexB= new JButton("City index");
-        CityNbHousesB= new JButton("nB Houses in the city at the index");
-        changePopB= new JButton("Change nB Houses of the city at the index");
+        JLabel submitL4= new JLabel("Number of days");
+        JLabel cityIndexL= new JLabel("City index");
+        JLabel CityNbHousesL= new JLabel("nB Houses in the city at the index");
+        
+        
+        
+        changePopB= new JButton("Change nBHouses of the index city");
         displayCitiesB= new JButton("Display the list of cities");
         displayLinksB= new JButton("Display the links between the cities");
         plotNetGraphB= new JButton("Plot the graph of the network");
-        plotCityB= new JButton("Plot the city at the index consumption/production");
+        plotCityB= new JButton("Plot the index city");
         plotNetB= new JButton("Plot the consumption / production of the network");
-       
+        CSVnet = new JButton("CSV year");
+        CSVcity = new JButton("CSV index city year");
+        CSVread = new JButton("CSV read");
+
 
         //Textfields
         //textF pane1
@@ -235,19 +242,22 @@ public class View {
         CityIndexF = new JTextField(20);
         CityIndexF.setText("0");
 
+        CSVreadF = new JTextField(50);
+        CSVreadF.setText("../projet-c.deschamps/data/TO_LOAD/network.csv");
+
         
         // pane creator
         pane1 = new JPanel();
-        pane1.setLayout(new GridLayout(3,5));
+        pane1.setLayout(new GridLayout(6,3));
         
         pane2= new JPanel();
-        pane2.setLayout(new GridLayout(2,2));
+        pane2.setLayout(new GridLayout(4,4));
 
         pane3= new JPanel();
-        pane3.setLayout(new GridLayout(2,5));
+        pane3.setLayout(new GridLayout(3,4));
 
         pane4= new JPanel();
-        pane4.setLayout(new GridLayout(3,6));
+        pane4.setLayout(new GridLayout(5,4));
 
         //tabs creator
         tabs = new JTabbedPane();
@@ -267,7 +277,7 @@ public class View {
         mainWindow.add(tabs);
 
         //pane1 filling
-        label = new JLabel("Hello welcolme in the consummer simulator");
+        label = new JLabel("Consummer simulator");
         label.setForeground(Color.BLUE);
 
         pane1.add(label);
@@ -302,24 +312,31 @@ public class View {
         nModel4L = new JLabel("Number of Model4 devices");
         pane1.add(nModel4L);
         pane1.add(nModel4F);
+
+        JLabel dummyL = new JLabel("");
+        pane1.add(dummyL);
+        JLabel dummyL2 = new JLabel("");
+        pane1.add(dummyL2);
+
        
         
         pane1.add(plotButton1);
         pane1.add(plotProdYearB);
         pane1.add(plotProdYearB);
         pane1.add(displaylistDP);
-        pane1.add(plotConsNbHousesB);
+        
         
 
         //pane 2 filling
+
+        label = new JLabel("Producer simulator");
+        label.setForeground(Color.RED);
+        pane2.add(label);
         pane2.add(exitButton2);
         pane2.add(mainB);
         pane2.add(mainBYear);
         pane2.add(submitB2);
         pane2.add(textField2);
-
-        JLabel fillLabel = new JLabel("");
-        pane2.add(fillLabel);
 
         nnuclearL = new JLabel("Number of nuclear plants");
         pane2.add(nnuclearL);
@@ -342,11 +359,15 @@ public class View {
         pane2.add(nwindF);
 
         // pane 3 filling
+
+        label = new JLabel("City simulator");
+        label.setForeground(Color.GREEN);
+        pane3.add(label);
         pane3.add(exitButton3);
-        pane3.add(nbHousesB);
-        pane3.add(nbHousesF);
-        pane3.add(submitB3);
+        pane3.add(submitL3);
         pane3.add(textField3);
+        pane3.add(nbHousesL);
+        pane3.add(nbHousesF);
         pane3.add(CheckProdB);
         pane3.add(displayCSVdayB);
         pane3.add(displayCSVyearB);
@@ -354,14 +375,17 @@ public class View {
         pane3.add(plotYearB);
 
         // pane 4 filling
+        label = new JLabel("Network simulator");
+        label.setForeground(Color.BLACK);
+        pane4.add(label);
         pane4.add(exitButton4);
-        pane4.add(submitB4);
+        pane4.add(submitL4);
         pane4.add(textField4);
         pane4.add(nCitiesB);
         pane4.add(nCitiesF);
-        pane4.add(cityIndexB);
+        pane4.add(cityIndexL);
         pane4.add(CityIndexF);
-        pane4.add(CityNbHousesB);
+        pane4.add(CityNbHousesL);
         pane4.add(CityNbHousesF);
         pane4.add(changePopB);
         pane4.add(displayCitiesB);
@@ -369,6 +393,10 @@ public class View {
         pane4.add(plotNetGraphB);
         pane4.add(plotCityB);
         pane4.add(plotNetB);
+        pane4.add(CSVnet);
+        pane4.add(CSVcity);
+        pane4.add(CSVread);
+        pane4.add(CSVreadF);
         
         
      }
@@ -390,14 +418,13 @@ public class View {
         submitB.addActionListener(conscontroller);
         plotProdYearB.addActionListener(conscontroller);
         displaylistDP.addActionListener(conscontroller);
-        plotConsNbHousesB.addActionListener(conscontroller); 
+        
 
         mainB.addActionListener(prodcontroller);
         mainBYear.addActionListener(prodcontroller);
         submitB2.addActionListener(prodcontroller);
 
-        nbHousesB.addActionListener(citycontroller);;
-        submitB3.addActionListener(citycontroller);;
+        
         CheckProdB.addActionListener(citycontroller);;
         displayCSVdayB.addActionListener(citycontroller);;
         displayCSVyearB.addActionListener(citycontroller);;
@@ -405,15 +432,15 @@ public class View {
         plotYearB.addActionListener(citycontroller);;
 
         nCitiesB.addActionListener(netcontroller);
-        submitB4.addActionListener(netcontroller);
-        cityIndexB.addActionListener(netcontroller);
-        CityNbHousesB.addActionListener(netcontroller);
         changePopB.addActionListener(netcontroller);
         displayCitiesB.addActionListener(netcontroller);
         displayLinksB.addActionListener(netcontroller);
         plotNetGraphB.addActionListener(netcontroller);
         plotCityB.addActionListener(netcontroller);
         plotNetB.addActionListener(netcontroller);
+        CSVnet.addActionListener(netcontroller);
+        CSVcity.addActionListener(netcontroller);
+        CSVread.addActionListener(netcontroller);
         
       }
 

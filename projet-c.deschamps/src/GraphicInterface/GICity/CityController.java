@@ -24,33 +24,33 @@ public class CityController implements ActionListener {
         
         String s = e.getActionCommand();
 
-        if(s== "Number of houses"){
-            model.nbHouses = Integer.parseInt(view.nbHousesF.getText());
-        }
+        
 
-        else if(s == "Check production for 1 day"){
+        if(s == "Check production for 1 day"){
             model.nbHouses = Integer.parseInt(view.nbHousesF.getText());
+            model.number_of_days = Integer.parseInt(view.textField3.getText());
             model.displayCity();
-            model.checkCityProd(model.nbHouses);
+            model.checkCityProd(model.number_of_days);
         }
 
-        else if(s == "Display production vs consumption for the last day"){
+        else if(s == "Display day"){
+            model.number_of_days = Integer.parseInt(view.textField3.getText());
             model.nbHouses = Integer.parseInt(view.nbHousesF.getText());
-            model.displayCSVDay(model.nbHouses);
+            model.displayCSVDay(model.number_of_days);
         }
 
-        else if(s == "Display production vs consumption per day"){
+        else if(s == "Display year"){
             model.nbHouses = Integer.parseInt(view.nbHousesF.getText());
             model.number_of_days = Integer.parseInt(view.textField3.getText());
             model.displayCSVYear();
         }
 
-        else if(s == "Plot over 1 day"){
+        else if(s == "Plot day"){
             model.nbHouses = Integer.parseInt(view.nbHousesF.getText());
             model.plotCityDay();
         }
 
-        else if(s == "Plot over 1 year"){
+        else if(s == "Plot year"){
             model.nbHouses = Integer.parseInt(view.nbHousesF.getText());
             model.number_of_days = Integer.parseInt(view.textField3.getText());
             model.plotCityYear();

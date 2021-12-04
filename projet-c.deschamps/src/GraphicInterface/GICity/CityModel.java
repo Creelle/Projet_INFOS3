@@ -91,7 +91,7 @@ public class CityModel{
         double pProdMoy;
         double diff;
 
-        for (int j = 0; j < number_of_days; j++) {
+        for (int j = 1; j < number_of_days; j++) {
             prod1 = P.generate(j);
             cons1 = C.generate(j);
             pConsMoy = Math.round(C.integrate(cons1.length - 1, cons1) / 1440 * 10.0 * 60) / 10.0;

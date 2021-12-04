@@ -6,11 +6,12 @@ import javax.swing.JFrame;
 import ptolemy.plot.Plot;
 
 
-
 import Network.*;
 import City.*;
 import Consumption.*;
 import Production.*;
+import CSVbuilder.*;
+//import java.io.IOException;
 
 public class NetModel{
 
@@ -29,6 +30,7 @@ public class NetModel{
     ArrayList<City> cities;
     ArrayList<Link> links;
 
+    String filepath = "../projet-c.deschamps/data/TO_LOAD/network.csv";
     
     public NetModel(){
 
@@ -85,7 +87,7 @@ public class NetModel{
         }
 
         // Mise à jour des tableaux moyens
-        for (int j = 0; j < number_of_days; j++) {
+        for (int j = 1; j < number_of_days; j++) {
             ArrayList<double[]> listMeanTables;
 			try {
 				listMeanTables = net.simulation(j + 1, false);
@@ -130,12 +132,41 @@ public class NetModel{
 
     }
 
-    //public void CSVNetworkDay(int day){};
-    //public void CSVCityDay(int index,int day){};
-    //public void CSVNewtworkYear(int day);
+    public void CSVNetworkYear(){
+        try{
+            net.CSVNetworkYear();
+        }
+        catch(IOException e){
+            System.out.println("wrong");
+        }
 
+    }
 
+   public void CSVCityYear(){
+       try{
+       net.CSVCityYear(cities.get(index));
+       }
+       catch(IOException e){
+           System.out.println("wrong");
+       }
+   }
 
+   public void read(String filepath){
+       try{
+        net= Reader.read(filepath);
+        number_of_cities = net.getNbCities();
+        net.displayListCities();
+        net.displayListLinks();
+        net.plotGraphNetwork();
+        net.simulation(1, true); 
 
-    
+       }
+       catch(IOException e){
+           System.out.println("didn't find the file path");
+           System.out.println("Here's an example of an accepted filepath : ");
+           System.out.println(filepath);
+       }
+   }
+
+   
 }

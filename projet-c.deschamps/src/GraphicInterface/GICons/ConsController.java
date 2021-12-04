@@ -26,7 +26,7 @@ public class ConsController implements ActionListener{
         }
 
        
-        else if(s=="Plot the consumption over 1 day"){
+        else if(s=="Plot 1 day"){
             model.number_of_constant_device = Integer.parseInt(view.nConstantF.getText());
             model.number_of_periodic_device = Integer.parseInt(view.nPeriodicF.getText());
             model.number_model1 = Integer.parseInt(view.nModel1F.getText());
@@ -39,7 +39,7 @@ public class ConsController implements ActionListener{
 
         }
 
-        else if(s=="Plot the consumption over several days"){
+        else if(s=="Plot year"){
             model.number_of_constant_device = Integer.parseInt(view.nConstantF.getText());
             model.number_of_periodic_device = Integer.parseInt(view.nPeriodicF.getText());
             model.number_model1 = Integer.parseInt(view.nModel1F.getText());
@@ -52,7 +52,7 @@ public class ConsController implements ActionListener{
 
         }
 
-        else if(s=="Display the consumption devices"){
+        else if(s=="Display devices"){
             model.number_of_constant_device = Integer.parseInt(view.nConstantF.getText());
             model.number_of_periodic_device = Integer.parseInt(view.nPeriodicF.getText());
             model.number_model1 = Integer.parseInt(view.nModel1F.getText());
@@ -64,13 +64,8 @@ public class ConsController implements ActionListener{
             model.displaylistDP();
 
         }
+        
 
-        else if(s=="Plot the consumption of NbHouses"){
-           
-            model.number_of_days = Integer.parseInt(view.textField.getText());
-            model.nbHouses = Integer.parseInt(view.nbHousesconsF.getText());
-            model.plotConsNbHouses();
-
-        }   
+        
     }  
 }

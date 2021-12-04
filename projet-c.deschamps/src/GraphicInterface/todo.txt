@@ -1,7 +1,0 @@
-IG 
-
-- rajoutez les boutons pour la consommations
-- rajoutez les CSV pour le network
-- travaillez la mise en page (ajouter des labels)
-
-- mettre des commentaires

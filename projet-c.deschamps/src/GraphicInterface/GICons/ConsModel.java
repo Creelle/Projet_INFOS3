@@ -133,7 +133,7 @@ public class ConsModel{
         double[] cons1;
         double[] cons2;
 
-        for (int j = 0; j < number_of_days; j++) {
+        for (int j = 1; j < number_of_days; j++) {
             cons1 = C1.generate(j);
             cons2 = C2.generate(j);
             pConsMoy1 = Math.round(C1.integrate(cons1.length - 1, cons1) * 60 * 10.0 / 1440) / 10.0;
@@ -167,10 +167,10 @@ public class ConsModel{
         double[] cons3;
         
 
-        for (int j = 0; j < number_of_days; j++) {
+        for (int j = 1; j < number_of_days; j++) {
             cons3 = C3.generate(j);
             pConsMoy3 = Math.round(C3.integrate(cons3.length - 1, cons3) * 60 * 10.0 / 1440) / 10.0;
-            plot1.addPoint(0, j, pConsMoy3, true);
+            plot1.addPoint(0, j, pConsMoy3, false);
            
         }
         plot1.addLegend(0, "Consumption of " + nbHouses + "Houses");
