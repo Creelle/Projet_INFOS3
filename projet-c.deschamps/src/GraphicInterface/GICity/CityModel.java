@@ -23,18 +23,27 @@ public class CityModel{
     }
    
     public void checkCityProd(int j){
+        /**
+         *  checks if the city consumption doesn't exceed city prod each minute for 1 day
+         */
         createCity();
-        // checks if the city consumption doesn't exceed city prod for 1 day
+       
         myCity.compare(j);
 
     }
 
     public void displayCSVDay(int j){
+        /**
+        * Displays in a CSV file the values for one day
+        */
         createCity();
         myCity.displayCSVDay(j);
     }
 
     public void displayCSVYear(){
+        /**
+         * Displays in a CSV file the values for one year or several days
+         */
         createCity();
         myCity.displayCSVYear();
     }
@@ -47,13 +56,13 @@ public class CityModel{
 
     
     public void plotCityDay(){
-        createCity();
-
         /*
          * Affichage de la consommation (0), de la production (1) et du différentiel (2)
          * sur une journée particulière (ex j=1)
          */
-        
+
+
+        createCity();
         double[] prod = P.generate(1);
         double[] cons = C.generate(1);
         Plot plot = new Plot();

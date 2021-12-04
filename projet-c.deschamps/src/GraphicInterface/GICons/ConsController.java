@@ -12,6 +12,9 @@ public class ConsController implements ActionListener{
     private View view;
     
     public ConsController(ConsModel model,View v){
+        /**
+         * Associates a view v and a consumption model to the controller
+         */
         this.model = model;
         this.view = v;
     }
@@ -21,12 +24,18 @@ public class ConsController implements ActionListener{
        
         String s = e.getActionCommand();
         if(s=="Number of days"){
+            /**
+             * Sets the number of days
+             */
             
             model.number_of_days = Integer.parseInt(view.textField.getText());
         }
 
        
         else if(s=="Plot 1 day"){
+            /**
+             * Plot the consumption over 1 day
+             */
             model.number_of_constant_device = Integer.parseInt(view.nConstantF.getText());
             model.number_of_periodic_device = Integer.parseInt(view.nPeriodicF.getText());
             model.number_model1 = Integer.parseInt(view.nModel1F.getText());
@@ -40,6 +49,9 @@ public class ConsController implements ActionListener{
         }
 
         else if(s=="Plot year"){
+            /**
+             * Plot the consumption over the number_of_days
+             */
             model.number_of_constant_device = Integer.parseInt(view.nConstantF.getText());
             model.number_of_periodic_device = Integer.parseInt(view.nPeriodicF.getText());
             model.number_model1 = Integer.parseInt(view.nModel1F.getText());
@@ -53,6 +65,9 @@ public class ConsController implements ActionListener{
         }
 
         else if(s=="Display devices"){
+            /**
+             * Displays the list of devices
+             */
             model.number_of_constant_device = Integer.parseInt(view.nConstantF.getText());
             model.number_of_periodic_device = Integer.parseInt(view.nPeriodicF.getText());
             model.number_model1 = Integer.parseInt(view.nModel1F.getText());
@@ -64,8 +79,6 @@ public class ConsController implements ActionListener{
             model.displaylistDP();
 
         }
-        
-
         
     }  
 }

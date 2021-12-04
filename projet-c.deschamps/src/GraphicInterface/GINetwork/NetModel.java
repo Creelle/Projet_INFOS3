@@ -11,15 +11,11 @@ import City.*;
 import Consumption.*;
 import Production.*;
 import CSVbuilder.*;
-//import java.io.IOException;
 
 public class NetModel{
-
-    // Buttons- textFields :number_of_days, number_of_cities, index of city, nbHouses ==4
-    // textFields : number_of_days, number_of_citites, index_of_city, nbHouses ==4
-    // funcction B : changePop, displayListCities, display Links, plot Graphed Network, plot SimulationofCity
-    // plot, 3 CSV ==9
-    //--> 13 buttons 4 textFields
+    /*
+    * Model for the network
+     */
 
     public int number_of_days = 365;
     public int number_of_cities = 5;
@@ -33,13 +29,17 @@ public class NetModel{
     String filepath = "../projet-c.deschamps/data/TO_LOAD/network.csv";
     
     public NetModel(){
-
         net = new Network(number_of_cities);
         cities = net.getListCities();
         links = net.getListLinks();
     }
 
     public void ChangePop(int index, int nbHouses){
+        /**
+         * Changes the nbHouses at the city at the specified index
+         * @ param : int index :  index of the city
+         * @ param : nbHouses : number of houses
+         */
         cities.set(index, new City(nbHouses));
         net = new Network(number_of_cities,cities, links);
         cities = net.getListCities();
@@ -48,24 +48,37 @@ public class NetModel{
     }
 
     public void ChangeCities(){
+        //updates the network
         net = new Network(number_of_cities);
         cities=net.getListCities();
         links = net.getListLinks();
     }
 
     public void displayListCities(){
+        /**
+         * Displays the list of cities
+         */
         net.displayListCities();
     }
 
     public void displayListLinks(){
+        /**
+         * Displays the links between the cities
+         */
         net.displayListLinks();
     }
 
     public void plotGraphNetworks(){
+        /**
+         * Plot the links between cities
+         */
         net.plotGraphNetwork();
     }
 
     public void plotSimulationOfCity(int index,int day){
+        /**
+         * Plot the simulation on the city at the specified index
+         */
         City c = net.getCityInList(index, cities);
         Production p = c.getCityProd();
         Consumption cons = c.getCityCons();
@@ -73,6 +86,9 @@ public class NetModel{
     }
 
     public void plotNet(){
+         /**
+         * Plot the simution of the whole network over the number of days
+         */
 
         // Création des listes de tableaux
         ArrayList<double[]> listTableMeanProd = new ArrayList<>();
@@ -133,25 +149,34 @@ public class NetModel{
     }
 
     public void CSVNetworkYear(){
+         /**
+         * Gives a csv file with the results over a year
+         */
         try{
             net.CSVNetworkYear();
         }
         catch(IOException e){
-            System.out.println("wrong");
+            System.out.println("Something went wrong");
         }
 
     }
 
    public void CSVCityYear(){
+        /**
+         * Gives a csv file with the results over a year for the city at specified index
+         */
        try{
        net.CSVCityYear(cities.get(index));
        }
        catch(IOException e){
-           System.out.println("wrong");
+           System.out.println("Something went wrong");
        }
    }
 
    public void read(String filepath){
+        /**
+         * Creates a network from a specified file 
+         */
        try{
         net= Reader.read(filepath);
         number_of_cities = net.getNbCities();

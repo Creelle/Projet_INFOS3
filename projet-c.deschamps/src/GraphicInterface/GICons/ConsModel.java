@@ -12,10 +12,6 @@ public class ConsModel{
     public int number_of_days = 365;
     public int nbHouses = 1;
 
-    // label and textfields : model1,2,3,4
-    //label and textfield nbHouses
-    // 3 buttons
-
     public int number_of_constant_device = 1;
     public int number_of_periodic_device = 1;
     public int number_model1 = 1;
@@ -41,13 +37,14 @@ public class ConsModel{
     Consumption C3; // for the nbHouses
     
     public void ConsCreation(){
+
+        // Creates a consumption model with the attributes above
+
         listDevice1 = new ArrayList<Device>();
         listDevice2 = new ArrayList<Device>();
 
         listOfDeliv1 = new ArrayList<DeliveryPoint>();
         listOfDeliv2 = new ArrayList<DeliveryPoint>();
-
-        // Création des consommations
         
         for(int i = 0; i<number_of_constant_device;i++){
             dev1= new PeriodicDevice("Climatisation", 2000, "ete", 300, 300, 720, 1020);
@@ -62,29 +59,24 @@ public class ConsModel{
 
         for(int i = 0; i<number_model1;i++){
             dev1= new Model1("PhoneCharger",30, 250, 60);
-            //dev1 = newModel1(String name, double PowerMax, double tCharge, double Period);
             listDevice1.add(dev1);
         }
 
         for(int i = 0; i<number_model2;i++){
             dev1= new Model2(1000, "Heater", 200, 2000, 33, 5);
-            //Model2(double PowerMax, String name, double PowerMinRequest, double PowerMaxRequest, int dayMax, int hMax);
             listDevice1.add(dev1);
         }
 
         for(int i = 0; i<number_model3;i++){
             dev1= new Model3(50,200,"Frigo",5,100,0.2);
-            //double PowerMin, double PowerMax, String name, int nCycles, int dayMax, double factMin
             listDevice1.add(dev1);
         }
 
         for(int i = 0; i<number_model4;i++){
             dev1= new Model4(20, 700, "Grille-pain", 4, 0.5, 4, 0.3);
-            //double PowerMin, double PowerMax, String name, double coefLin, double tau, int cycles
             listDevice1.add(dev1);
         }
         
-      
         // Création des Points de Livraison et listes associées
         DP1 = new DeliveryPoint("ConstantFoyer", 1, listDevice1);
         DP2 = new DeliveryPoint("PeriodicFoyer", 1, listDevice2);
@@ -98,13 +90,14 @@ public class ConsModel{
     }
 
     public void plotCons(){
+        /**
+        * Plot the consumption over 1 day
+        */
         ConsCreation();
 
         double[] prodPeriodic = C1.generate(1); // On prend le premier jour par ex
         double[] prodConstant = C2.generate(1);
         
-        
-       
         // Test affichage des productions sur une journée
         Plot plot = new Plot();
         for (int i = 0; i < prodConstant.length; i++) {
@@ -124,6 +117,9 @@ public class ConsModel{
     }
 
     public void plotProdYear(){
+        /**
+        * Plot the consumption over the number_of_days
+        */
 
         ConsCreation();
         Plot plot1 = new Plot();
@@ -151,6 +147,9 @@ public class ConsModel{
     }
 
     public void displaylistDP(){
+         /**
+        * Displays the list of devices
+        */
         ConsCreation();
         C1.displaylistDP();
         C2.displaylistDP();
@@ -158,8 +157,6 @@ public class ConsModel{
 
     public void plotConsNbHouses(){
         C3 = new Consumption(nbHouses);
-
-        
 
         Plot plot1 = new Plot();
         

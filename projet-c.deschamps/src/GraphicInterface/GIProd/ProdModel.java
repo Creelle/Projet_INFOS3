@@ -5,9 +5,10 @@ import javax.swing.JFrame;
 import ptolemy.plot.Plot;
 import Production.*;
 
-
-
 public class ProdModel{
+    /**
+     * A model for the production
+     */
 
     public int number_of_days = 365;
 
@@ -30,6 +31,7 @@ public class ProdModel{
     Production P2;
 
     public void ProdCreation(){
+
         // Création des Systèmes de Prod et listes associées
         
         listSys1= new ArrayList<ProductionSystem>();
@@ -59,8 +61,6 @@ public class ProdModel{
             listSys2.add(s2);
         }
 
-       
-        
 
         // Création des Points d'Injection et listes associées
         IP1 = new InjectionPoint("Centrale1", 1, listSys1);
@@ -72,19 +72,16 @@ public class ProdModel{
         // Création des Productions
         P1 = new Production(listOfInj1);
         P2 = new Production(listOfInj2);
-        
-
-
-
     }
 
     public void plotProd(){
+        /**
+         * Plot the production over a day
+         */
         ProdCreation();
         double[] prodPeriodic = P1.generate(1); // On prend le premier jour par ex
         double[] prodConstant = P2.generate(1);
         
-        
-       
         // Test affichage des productions sur une journée
         Plot plot = new Plot();
         for (int i = 0; i < prodConstant.length; i++) {
@@ -100,11 +97,13 @@ public class ProdModel{
         frame.pack();
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         
     }
 
     public void plotProdYear(){
+        /**
+         * Plot the production over a year
+         */
         ProdCreation();
 
         // Test affichage des production sur l'année

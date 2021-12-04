@@ -18,7 +18,7 @@ public class View {
     CityController citycontroller;
     NetController netcontroller;
 
-    //Textfields
+   //Textfields
 
    // Texfields pane1
     public JTextField textField;
@@ -30,7 +30,7 @@ public class View {
     public JTextField nModel4F;
     public JTextField nbHousesconsF;
 
-    //Textfiles pane2
+    //Textfields pane2
     public JTextField textField2;
     public JTextField nsolarF;
     public JTextField nwindF;
@@ -59,21 +59,15 @@ public class View {
    // Buttons pane 1 
     private JButton plotButton1;
     private JButton submitB;
-    //private JButton nConstantB;
-    //private JButton nPeriodicB;
     private JButton plotProdYearB;
     private JButton displaylistDP;
   
-
     //Buttons pane 2
-
     private JButton mainB;
     private JButton mainBYear;
     private JButton submitB2;
     
     //Buttons pane 3
-
-    
     private JButton CheckProdB;
     private JButton displayCSVdayB;
     private JButton displayCSVyearB;
@@ -104,7 +98,6 @@ public class View {
     JLabel nPeriodicL;
     JLabel nConstantL;
 
-
     //label pane2
     public JLabel nsolarL;
     public JLabel nwindL;
@@ -117,7 +110,6 @@ public class View {
     private JPanel pane2;
     private JPanel pane3;
     private JPanel pane4;
-
 
     private JTabbedPane tabs;
 
@@ -132,23 +124,19 @@ public class View {
         exitButton3 = new JButton("EXIT");
         exitButton4 = new JButton("EXIT");
 
-        //pane1
+        //Buttons pane1
         
         submitB = new JButton("Number of days");
         plotButton1 = new JButton("Plot 1 day");
         plotProdYearB = new JButton("Plot year");
         displaylistDP = new JButton("Display devices");
-        //String twoLines = "Plot consumption\n of NbHouses";
-
-        //plotConsNbHousesB = new JButton("<html>" + twoLines.replaceAll("\\n", "<br>") + "</html>");
-         
        
-        //pane2
+        //Buttons pane2
         mainB = new JButton("Day production plot");
         submitB2 = new JButton("Number of days");
         mainBYear = new JButton("Year production plot");
 
-        //pane3 
+        //Buttons pane3 
         JLabel nbHousesL = new JLabel("Number of houses");
         JLabel submitL3 = new JLabel("Number of days");
         CheckProdB = new JButton("Check production for 1 day");
@@ -157,15 +145,11 @@ public class View {
         plotDayB = new JButton("Plot day");
         plotYearB = new JButton("Plot year");
 
-        //pane4
-        
+        //Buttons pane4
         nCitiesB= new JButton("Number of cities");
         JLabel submitL4= new JLabel("Number of days");
         JLabel cityIndexL= new JLabel("City index");
         JLabel CityNbHousesL= new JLabel("nB Houses in the city at the index");
-        
-        
-        
         changePopB= new JButton("Change nBHouses of the index city");
         displayCitiesB= new JButton("Display the list of cities");
         displayLinksB= new JButton("Display the links between the cities");
@@ -248,7 +232,7 @@ public class View {
         
         // pane creator
         pane1 = new JPanel();
-        pane1.setLayout(new GridLayout(6,3));
+        pane1.setLayout(new GridLayout(6,3));//size and organisation of the panel
         
         pane2= new JPanel();
         pane2.setLayout(new GridLayout(4,4));
@@ -318,8 +302,6 @@ public class View {
         JLabel dummyL2 = new JLabel("");
         pane1.add(dummyL2);
 
-       
-        
         pane1.add(plotButton1);
         pane1.add(plotProdYearB);
         pane1.add(plotProdYearB);
@@ -402,35 +384,46 @@ public class View {
      }
 
      public void setController(Controller controller, ConsController conscontroller,ProdController prodcontrol, CityController citycontrol, NetController netcontrol){
+        /**
+         * set the controller for each button definesd in view
+         * 
+         * @param  : 5 controllers 1 for the exit , conumption, production,city and network
+         * 
+         * 
+         */
+
         this.controller = controller;
         this.conscontroller = conscontroller;
         this.prodcontroller = prodcontrol;
         this.citycontroller = citycontrol;
         this.netcontroller = netcontrol;
-        
 
+        
+        // Exit butttons
         exitButton1.addActionListener(controller);
         exitButton2.addActionListener(controller);
         exitButton3.addActionListener(controller);
         exitButton4.addActionListener(controller);
 
+        // Consumption buttons
         plotButton1.addActionListener(conscontroller);
         submitB.addActionListener(conscontroller);
         plotProdYearB.addActionListener(conscontroller);
         displaylistDP.addActionListener(conscontroller);
         
-
+        // Production buttons
         mainB.addActionListener(prodcontroller);
         mainBYear.addActionListener(prodcontroller);
         submitB2.addActionListener(prodcontroller);
 
-        
-        CheckProdB.addActionListener(citycontroller);;
-        displayCSVdayB.addActionListener(citycontroller);;
-        displayCSVyearB.addActionListener(citycontroller);;
-        plotDayB.addActionListener(citycontroller);;
-        plotYearB.addActionListener(citycontroller);;
-
+        // city buttons
+        CheckProdB.addActionListener(citycontroller);
+        displayCSVdayB.addActionListener(citycontroller);
+        displayCSVyearB.addActionListener(citycontroller);
+        plotDayB.addActionListener(citycontroller);
+        plotYearB.addActionListener(citycontroller);
+ 
+        // net buttons
         nCitiesB.addActionListener(netcontroller);
         changePopB.addActionListener(netcontroller);
         displayCitiesB.addActionListener(netcontroller);
@@ -445,13 +438,13 @@ public class View {
       }
 
      public void show(){
+        /**
+         * Plot the graphic view
+         */
         mainWindow.pack();
         mainWindow.setVisible(true);
      }
 
-     public void refresh(){
-         
-     }
 }
 
     
