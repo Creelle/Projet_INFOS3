@@ -26,7 +26,7 @@ public class NetModel{
     ArrayList<City> cities;
     ArrayList<Link> links;
 
-    String filepath = "../projet-c.deschamps/data/TO_LOAD/network.csv";
+    String filepath = "../projet-complet-r.creelle/data/TO_LOAD/network.csv";
     
     public NetModel(){
         net = new Network(number_of_cities);

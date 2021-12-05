@@ -227,7 +227,7 @@ public class View {
         CityIndexF.setText("0");
 
         CSVreadF = new JTextField(50);
-        CSVreadF.setText("../projet-c.deschamps/data/TO_LOAD/network.csv");
+        CSVreadF.setText("../projet-complet-r.creelle/data/TO_LOAD/network.csv");
 
         
         // pane creator
