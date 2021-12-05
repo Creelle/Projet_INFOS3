@@ -669,10 +669,10 @@ public class Network {
 
         // Ecriture des fichiers CSV au jour J
 
-        //CSVNetworkDay(j, listTableCons, listTableProd, listOfPathsNoProd);
-        //for(City city : listOfCities){
-        //CSVCityDay(j, city, listTableCons, listTableProd, listOfPathsNoProd);
-        //}
+        CSVNetworkDay(j, listTableCons, listTableProd, listOfPathsNoProd);
+        for(City city : listOfCities){
+        CSVCityDay(j, city, listTableCons, listTableProd, listOfPathsNoProd);
+        }
 
         return res;
     }
@@ -731,10 +731,12 @@ public class Network {
             }
 
             // CSV annuel de la ville
-            // CSVCityYear(city);
+            CSVCityYear(city);
         }
         // CSV annuel Réseau
-        // CSVNetworkYear();
+        CSVNetworkYear();
+
+        System.out.println("----- Simulation done ----");
     }
 
     // ***********************************************************************************\\
@@ -901,7 +903,7 @@ public class Network {
 
         // Introduction du fichier
         PrintWriter out = new PrintWriter(
-                new FileWriter("../projet-c.deschamps/data/CSV_Of_Network/CSV_Of_Network_Day" + j + ".csv"));
+                new FileWriter("../projet-complet-r.creelle/data/CSV_Of_Network/CSV_Of_Network_Day" + j + ".csv"));
         out.println("CSV File for the Network on Day " + j);
         out.println("1 - Minute m ");
         out.println("2 - Power Consumed at minute m ");
@@ -939,7 +941,7 @@ public class Network {
 
         // Introduction fichier
         PrintWriter out = new PrintWriter(
-                new FileWriter("../projet-c.deschamps/data/CSV_Of_Network/CSV_Of_Network_Year.csv"));
+                new FileWriter("../projet-complet-r.creelle/data/CSV_Of_Network/CSV_Of_Network_Year.csv"));
         out.println("CSV File for the Network on the year");
         out.println("1 - Day D ");
         out.println("2 - Energy Consumed on the Day D ");
@@ -958,7 +960,7 @@ public class Network {
         for (int j = 1; j < 366; j++) {
             // Récupération des String nécessaires
             String lastline = getLastLineOfCSV(
-                    "../projet-c.deschamps/data/CSV_Of_Network/CSV_Of_Network_Day" + j + ".csv");
+                    "../projet-complet-r.creelle/data/CSV_Of_Network/CSV_Of_Network_Day" + j + ".csv");
             String str1 = getStringInColumn(4, lastline);
             String str2 = getStringInColumn(5, lastline);
             String str3 = getStringInColumn(6, lastline);
@@ -1000,7 +1002,7 @@ public class Network {
 
         // Introduction du fichier CSV
         PrintWriter out = new PrintWriter(
-                new FileWriter("../projet-c.deschamps/data/CSV_Of_Clusters/CSV_Of_Cluster" + city.getNumber()
+                new FileWriter("../projet-complet-r.creelle/data/CSV_Of_Clusters/CSV_Of_Cluster" + city.getNumber()
                         + "_Day" + j + ".csv"));
         out.println("CSV File for the City " + city.getNumber() + " on Day " + j);
         out.println("1 - Minute m ");
@@ -1032,7 +1034,7 @@ public class Network {
 
         // Introduction fichier
         PrintWriter out = new PrintWriter(new FileWriter(
-                "../projet-c.deschamps/data/CSV_Of_Clusters/CSV_Of_Cluster" + city.getNumber() + "_Year.csv"));
+                "../projet-complet-r.creelle/data/CSV_Of_Clusters/CSV_Of_Cluster" + city.getNumber() + "_Year.csv"));
         out.println("CSV File for the City" + city.getNumber() + " on the year");
         out.println("1 - Day D ");
         out.println("2 - Energy Consumed on the Day D ");
@@ -1050,7 +1052,7 @@ public class Network {
         // Boucle sur les jours
         for (int j = 1; j < 366; j++) {
             // Récupération des String nécessaires
-            String lastline = getLastLineOfCSV("../projet-c.deschamps/data/CSV_Of_Clusters/CSV_Of_Cluster"
+            String lastline = getLastLineOfCSV("../projet-complet-r.creelle/data/CSV_Of_Clusters/CSV_Of_Cluster"
                     + city.getNumber() + "_Day" + j + ".csv");
             String str1 = getStringInColumn(4, lastline);
             String str2 = getStringInColumn(5, lastline);
