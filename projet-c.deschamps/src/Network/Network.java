@@ -911,6 +911,13 @@ public class Network {
         out.println("6 - Energy Lost since the beginning of the day ");
         out.println(" ");
 
+        for(Path p : listPathToNoProd){
+            int numProd = p.getListNumberCities().get(0);
+            int numNoProd = p.getListNumberCities().get(p.getListNumberCities().size()-1);
+            out.println("No Production city : "+numNoProd+", Producer : "+ numProd);
+        }
+        out.println(" ");
+
         // Initialisation des énergies
         double energyProduced = 0;
         double energyConsummed = 0;
