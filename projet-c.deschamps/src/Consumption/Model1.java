@@ -110,7 +110,7 @@ public class Model1 extends Device{
             if(ConsDelay.get(i)==0){
                 prod[i] = prod[i] + ConsDelay.get(i);
             } else {
-                prod[i] = prod[i] + ConsDelay.get(i) + Noise;
+                prod[i] = prod[i] + Math.max(ConsDelay.get(i) + Noise,0);
             }
         }
     }
