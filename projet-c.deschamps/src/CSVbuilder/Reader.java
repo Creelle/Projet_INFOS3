@@ -84,6 +84,7 @@ public class Reader {
      * cityend
      * 
      * link;1;2;10
+     * link;2;1;10
      * 
 	 * </pre>
  	 * 
