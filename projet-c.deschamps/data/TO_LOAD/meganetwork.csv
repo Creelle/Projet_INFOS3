@@ -150,6 +150,7 @@ homeend
 
 powerplantstart
 hydroelectric;100000;149
+solar;2500000;150000;400000
 powerplantend
 
 
