@@ -63,7 +63,15 @@ public class Path {
         System.out.println(", Loss of Power = "+Math.round(lossPath*10.0)/10.0);
     }
     
-    //Méthode de transport de l'énergie le long d'un chemin
+    /**
+     * Méthode de transport de l'énergie le long d'un chemin
+     * 
+     * @param cityProd      ville Productrice d'où part l'énergie
+     * @param cityReciever  ville réceptrice de l'énergie
+     * @param listTableProd liste des tableaux de production de toutes les villes du
+     *                      réseau
+     * @param maxConsOfDay  consommation max de la ville réceptrice sur la journée
+     */
     public void injectPower(City cityProd, City cityReciever, ArrayList<double[]> listTableProd, double maxConsOfDay){
         double[] prodCityProd = listTableProd.get(cityProd.getNumber()-1);
         double[] prodCityReciever = listTableProd.get(cityReciever.getNumber()-1);
